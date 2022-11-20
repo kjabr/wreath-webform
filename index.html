@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <base target="_top">
+      <meta charset="UTF-8">
+      <title>Wreath Webform</title>
+      <link rel="shortcut icon" href="#">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  </head>
+
+  <style>
+      body {
+        max-width: 100%;
+        background-color: #F7F6EF;
+      }
+
+      .container {
+        padding: 0 0 0 32px;
+        max-width: 90%;
+      }
+
+      .tab {
+        overflow: hidden;
+        display: flex;
+        position: sticky;
+        top: 0;
+        width: 50%;
+        padding: 0 2em 0 1em;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        z-index: 100;
+
+      }
+
+      /* Style the buttons inside the tab */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 28px;
+        transition: 0.3s;
+        font-size: 17px;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+
+        animation: fadeEffect 1s;
+      }
+
+      .name_email_section {
+        overflow: hidden;
+        display: flex;
+        justify-content: start;
+        gap: 14px;
+      }
+
+      .btn1, .btn2, .btn3 {
+        background-color: #4CAF50;
+        align-items: center;
+        background-clip: padding-box;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 16px;
+        justify-content: center;
+        line-height: 1.25;
+        padding: 5px;
+        position: relative;
+        margin-left: 5px;
+      }
+
+      .btn2 {
+        background-color: #008CBA;
+      }
+
+      .btn1:hover, .btn2:hover, .btn3:hover {
+        background-color: #00ace6;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+      }
+
+      .btn1:active, .btn2:active, .btn3:active {
+        background-color: #0086b3;
+        box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+      }
+
+      .btn3 {
+        z-index: 1;
+      }
+
+      .spacing1 {
+        padding: 0 0 16px 0;
+      }
+
+      .all_data_table{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 8px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      .all_data_table tbody {
+        width: 100%;
+      }
+
+      .all_data_table tr:nth-child(2n+1) {
+        background-color: azure;
+      }
+
+      .all_data_table tr:hover {background-color: #ddd;}
+
+      .all_data_table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #75c0e0;
+        color: white;
+      }
+
+      .all_data_table tr {
+        text-align: center;
+      }
+
+      .all_data_table td {
+        position: relative;
+      }
+
+      .table_cell_note:hover {
+        cursor: pointer;
+      }
+
+      .comment_div{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0px;
+        height: 0px;
+        border: 15px solid;
+        border-width: 15px 0 0 15px;
+        border-color: orange transparent transparent transparent;
+      }
+
+      .cust_info{
+        display: flex;
+        flex-flow: column;
+        width: 20em;
+        gap: 7px;
+        padding: 0.5em 3em 0.5em 2em;
+        margin-left: 3em;
+        background: #ADD8E6;
+        border-radius: 5px;
+      }
+
+      .cust_info_item {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cust_info_item label {
+        White-space: nowrap;
+      }
+
+      #cust_note {
+        width: 17em;
+        border-style: solid;
+        border-color: transparent transparent transparent orange;
+      }
+
+      .section_titles {
+        display: flex;
+        flex-flow: column;
+        padding: 0 0 0 0;
+      }
+
+      @keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+      }
+
+      .data_section{
+        display: flex;
+        flex-direction: column;
+      }
+
+      .add_item{
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: start;
+        gap: 13px;
+        padding: 0.5em 1em 1em 0em;
+      }
+
+      .add_item_column {
+        display: flex;
+        flex-flow: column;
+        border-radius: 5px;
+        padding: 1em 1em 1em 1em;
+        background: #FF8C00;
+        width: 35em;
+      }
+
+      .wreath_line {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        gap: 13px;
+
+       }
+
+       .wreath_info {
+         width: 30em;
+         padding: 1em 0 0 0;
+       }
+
+      .single_entry{
+        display: flex;
+        flex-flow: column;
+        padding: 1px 0 0 0;
+      }
+      .header1 {
+        padding: 1em 0 0 0;
+      }
+
+      .add_item_svg:hover {
+        color: #FF8C00;
+      }
+
+      .single_entry_bottom {
+        overflow: hidden;
+        display: flex;
+        position: sticky;
+        bottom: 0;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+        padding: 0 2em 0 1em;
+        background: #f1f1f160;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+
+      }
+
+      .popup {
+        max-width: 100%;
+        max-height: 100%;
+        position: fixed;
+        z-index: 1101;
+        left: 50%;
+        top: 50%;
+        border-radius: 8px;
+        margin: auto;
+        transform: translate(-50%, -50%);
+        transition: opacity 400ms ease-in;
+        background: #F7F6EF;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .popup_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1100;
+
+        opacity: 0.4;
+        background-color: rgba(0,0,0,0.5);
+      }
+
+      .popup_content {
+        margin: 10px;
+
+      }
+
+      .popup_button {
+        position: absolute;
+        top: -16px;
+        right: -16px;
+        background-color: teal;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #fff;
+        padding: 3px;
+      }
+
+      .clickable_span{
+        color: blue;
+      }
+
+      .clickable_span:hover {
+        cursor: pointer;
+
+      }
+
+      .show_info_link {
+        display: none;
+      }
+
+      .order_divs {
+        display: none;
+        margin: 1em 0 1em 0;
+        padding: 1em 1em 1em 1em;
+        background-color: lightblue;
+        border-radius: 5px;
+
+      }
+
+      .loader {
+        display: none;
+        position: fixed;
+        z-index: 1101;
+        left: 50%;
+        top: 50%;
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid blue;
+        border-bottom: 16px solid blue;
+        border-radius: 50%;
+	      margin: auto;
+        width: 70px;
+        height: 70px;
+        transform: translate(-50%, -50%);
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @media (max-width: 800px)  {
+
+        .tab, .single_entry_bottom {
+          width: 80%;
+        }
+        .wreath_info, .cust_info {
+          width: 80%;
+        }
+
+        .wreath_line{
+          flex-flow: row wrap;
+        }
+
+        .cust_info {
+          padding: 0.5em 0em 0.5em 2em;
+        }
+
+        .wreath_info{
+          display: none;
+        }
+
+        .order_divs {
+          display: flex;
+        }
+
+        .show_info_link {
+          display: inline-block;
+        }
+
+        .all_data_table {
+          display: none;
+        }
+
+        #cust_note {
+          width: 13em;
+        }
+
+      }
+
+
+  </style>
+  <body>
+    <div class="" id="container" onclick="container_click()">
+      <center><h1 id="webform_title"></h1></center>
+      <div class="spacing1">
+        <div class="name_email_section">
+          <span>
+            <label for="scoutname">Scout Name: </label>
+              <select name="scoutname" id="scoutname" onchange="toggle_name(this)"></select>
+          </span>
+          <span id="display_other_name" style="display: none;">
+            <label for="other_name">Enter Name: </label>
+              <input id="other_name" type="text" name="other_name">
+          </span>
+        </div>
+        <br>
+        <label for="email_address">Your Email Address: </label>
+          <input id="email_address" type="email" name="email_address" placeholder="required">
+          <span class="clickable_span" onclick="show_email_info()">[info]</span>
+      </div>
+
+      <div class="tab">
+        <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Enter Order</button>
+    <!--     <button class="tablinks" onclick="openTab(event, 'multi_order_section')">Multi Order</button> -->
+        <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
+        <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
+      </div>
+
+      <div id="single_entry_section" class="tabcontent">
+        <p id="single_entry_info"></p>
+        <div class="section_titles">
+          <span>Customer contact info</span>
+        </div>
+        <div class="cust_info">
+          <div class="cust_info_item">
+            <label for="cust_name">Name: </label>
+            <input id="cust_name" type="text" name="cust_name" placeholder="required">
+          </div>
+
+          <div class="cust_info_item">
+            <label for="cust_addr">Address: </label>
+            <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
+          </div>
+
+          <div class="cust_info_item">
+            <label for="cust_phone">Phone if known: </label>
+            <input id="cust_phone" type="text" name="cust_phone" style="width: 10em;" placeholder="optional">
+          </div>
+
+          <div class="cust_info_item">
+            <label for="cust_email">Email address if known: </label>
+            <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional">
+          </div>
+
+          <div class="cust_info_item">
+            <label for="cust_note">Add note to order? </label>
+            <input id="cust_note" type="text" name="cust_note" placeholder="optional">
+          </div>
+
+        </div>
+
+        <div class="single_entry">
+            <span class="header1">Enter customer order:</span>
+          <div class="single_entry">
+            <div id="wreath_section" class="wreath_section"></div>
+          </div>
+          <div class="single_entry_bottom">
+            <div class="single_entry_buttons">
+              <button type="button" id="save_all" class="btn1" onclick="save_data()" name="Submit_data">Submit</button>
+              <button type="button" id="clear_all" class="btn2" onclick="clear_data()" name="clear_data">Clear All</button>
+            </div>
+            <div class="avoidwrap">
+              <strong>Total: </strong> <span id="single_entry_total">$0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+<!--
+      <div id="multi_order_section" class="tabcontent">
+        <p id="multi_order_info"></p>
+      </div>
+-->
+
+      <div id="my_orders_section" class="tabcontent">
+        <p id="my_orders_info"></p>
+        <div class="render_orders_row">
+          <span id="cached_timestamp"></span>
+          <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh from server</button>
+        </div>
+        <table id="all_data_table" class="all_data_table">
+            <tbody id="tbody_data_table" >
+            </tbody>
+        </table>
+        <div id="all_data_div" class="all_data_div">
+
+        </div>
+
+        <p id="all_data_info"></p>
+      </div>
+
+      <div id="info_section" class="tabcontent">
+        <p id="info_info"></p>
+      </div>
+
+      <div id="popup" class="popup" style="display: none;">
+        <button class="popup_button" onclick="toggle_modal()">Close</button>
+        <div id="popup_content" class="popup_content">
+        </div>
+      </div>
+      <div id="popup_overlay" class="popup_overlay" style="display: none;" onclick="toggle_modal()"></div>
+      <div class="loader" id="loader"></div>
+    </div>
+  </body>
+
+  <script>
+    var API_KEY = 'AIzaSyBvmiDU5GtNFrqfFw4WgjyUg3_ef8TNmak';
+    var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+    var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+    var form_data;
+    var production, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id;
+    var local_catalog = [];
+    var wreath_items = [];
+
+    var wreath_list = '';
+    var item_count = 2;
+    var order_total = 0;
+    var single_order = [];
+    single_order[0] = [];
+    var multi_order = [];
+
+    var order = {};
+    var local_orders = [];
+
+
+    var curr_tab;
+
+    var plus_circle = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+      </svg>
+    `;
+
+    var x_circle = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
+      `;
+
+    var add_single_wreath = `
+      <div class="add_item">
+       <div id="add_item_MMM" class="add_item_svg" onclick="add_wreath_item(this)"> ${plus_circle} </div>
+       <div class="add_item_column">
+          <div class="wreath_line">
+            <div class="avoidwrap">
+             <label for="wreath_name">Item:</label>
+              <select id="wreath_item_MMM" name="wreath_item_MMM" onchange="wreath_item_change(this)">
+                wreath_list
+              </select>
+            </div>
+
+            <div class="avoidwrap">
+              <label for="wreath_amt">Quantity:</label>
+              <select id="wreath_amt_MMM" name="wreath_amt_MMM" onchange="wreath_amount_change(this)">
+                <option value="0" selected>0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </div>
+            <div id="wreath_price_MMM" class="avoidwrap">Cost: nn</div>
+            <div id="wreath_total_MMM" class="avoidwrap">Total: $0</div>
+          </div>
+        <div id="wreath_info_MMM" class="wreath_info">descr</div>
+        <div id="wreath_info_small_MMM" class="wreath_info_small_MMM">
+          <span id="info_click_MMM" class="clickable_span show_info_link" onclick="show_info(this)">[Info]</span>
+          <span id="photo_click_MMM" class="clickable_span" onclick="show_photo(this)">[Photo]</span>
+        </div>
+      </div>
+
+    `;
+
+    function handleClientLoad() {
+      var queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      if (urlParams.get("id1") == undefined){
+        document.getElementById("container").style.display = "none";
+      }
+      gapi.load('client', initClient);
+    }
+
+    function initClient() {
+      var queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+      }).then(function () {
+        if ((urlParams.get("id1"))){
+          id=urlParams.get("id1");
+          init_web_app();
+        }
+      }, function(error) {
+        console.log(JSON.stringify(error, null, 2));
+      });
+    }
+
+    function init_web_app(){
+      var queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: urlParams.get("id1"),
+        range: "'Webform Setup'!A2:J2",
+      }).then(function(response){
+        var range3 = response.result;
+        //console.log(range3);
+        populate_variables(range3.values);
+        build_page(range3.values);
+        get_catalog();
+        //send_backend(range3.values);
+
+      }, function(response) {
+        console.log('Error: ' + response.result.error.message);
+      });
+    }
+
+    function get_catalog(){
+      var queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: urlParams.get("id1"),
+        range: "'Local'!A2:F",
+      }).then(function(response){
+        var range4 = response.result;
+        //console.log(range4.values);
+        local_catalog = range4.values;
+      }).then(function(){
+        local_catalog.forEach((item, i) => {
+          item[0] == "yes" ? (wreath_list += '<option value="'+ i + '">' + item[1] + '</option>',
+                wreath_items.push([item[1], item[3], item[2], item[4]]))
+              : null;
+        });
+        document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
+          add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
+          .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
+        init_input_fields();
+        //console.log(wreath_items);
+      }, function(response) {
+        console.log('Error: ' + response.result.error.message);
+      });
+    }
+
+    function add_wreath_item(elem){
+      var MMM = elem.id.split("_")[2];
+
+      document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
+        add_single_wreath.replace(/MMM/g, item_count++).replace(/wreath_list/g, wreath_list)
+        .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
+
+      document.getElementById("add_item_"+MMM).style.visibility = 'hidden';
+      window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })
+    }
+
+    function populate_variables(setup_data){
+      var popup_elem = document.getElementById("popup_content");
+
+      production = setup_data[0][0] || "";
+      title = setup_data[0][1] || "";
+      scoutname = setup_data[0][2] || "";
+      description = setup_data[0][3] || "";
+      email_instructions = setup_data[0][4] || "";
+      info_panel = setup_data[0][5] || "";
+      multi_cust_inst = setup_data[0][6] || "";
+      my_orders_panel = setup_data[0][7] || "";
+      gas_link = setup_data[0][8] || "";
+      tracking_sheet = setup_data[0][9] || "";
+
+      production == "no" ? (popup_elem.innerHTML = "The wreath sale is over!", toggle_modal()) : null;
+
+      JSON.parse(localStorage.getItem('cached_orders')) ? local_orders = JSON.parse(localStorage.getItem('cached_orders')) : local_orders = [];
+
+    }
+
+    function build_page(setup_data){
+      document.getElementById("loader").style.display = "none";
+      document.getElementById('webform_title').innerHTML = title;
+      populate_scoutnames();
+      document.getElementById('single_entry_info').innerHTML = description;
+      //document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
+      document.getElementById('my_orders_info').innerHTML = my_orders_panel;
+      document.getElementById('info_info').innerHTML = info_panel;
+      document.getElementById('email_address').setAttribute('title', email_instructions);
+
+      document.getElementById("enter_order_button").click();
+
+    }
+
+    function send_backend(){
+      var timestamp = new Date();
+      var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
+      fetch(gas_link,
+      {
+        redirect: "follow",
+        method: 'POST',
+        headers: {
+          'Accept': 'text/plain',
+          'Content-Type': 'text/plain',
+          },
+        body: JSON.stringify(order)
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          return response.json();
+        } else {
+          throw Error(response.statusText);
+        }
+      }).then((response) => {
+        var popup_elem = document.getElementById("popup_content");
+        popup_elem.innerHTML = "Success! Your order was sent.";
+        document.getElementById("loader").style.display = "none";
+        toggle_modal();
+        clear_data();
+      }).catch((error) =>{
+        var popup_elem = document.getElementById("popup_content");
+        document.getElementById("loader").style.display = "none";
+        popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
+      });
+    }
+
+    function openTab(event, tab_name){
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tab_name).style.display = "block";
+      event.currentTarget.className += " active";
+      curr_tab = tab_name;
+      tab_name == "my_orders_section" ? render_orders('cached') : null;
+    }
+
+    function container_click(){
+      var other_name_elem = document.getElementById('display_other_name');
+      var scoutname_elem = document.getElementById('scoutname');
+
+      scoutname_elem.value == "Other" && other_name_elem.value != "" && curr_tab == "my_orders_section" ?
+        show_orders() : null;
+    }
+
+    function populate_scoutnames(){
+      var scoutname_elem = document.getElementById('scoutname');
+      scoutname_elem.innerHTML = "";
+      scoutname_elem[scoutname_elem.length] = new Option("", "");
+      scoutname = scoutname.replace(/, /g, ',') + ",Other";
+      scoutname.split(',').forEach((item, i) => {
+        scoutname_elem[scoutname_elem.length] = new Option(item, item);
+      });
+
+
+    }
+
+    function toggle_name(elem){
+      var other_name_elem = document.getElementById('display_other_name');
+      var scoutname_elem = document.getElementById('scoutname');
+      var tbody_data_table = document.getElementById("tbody_data_table");
+      var all_data_div = document.getElementById("all_data_div");
+
+      scoutname_elem.value == "Other" ? other_name_elem.style.display = "" :
+          (other_name_elem.style.display = "none", document.getElementById("other_name").value="");
+      scoutname_elem.value != "Other" && curr_tab == "my_orders_section" ? render_orders("cached") : null;
+      scoutname_elem.value == "Other" && curr_tab == "my_orders_section" ?
+          (tbody_data_table.innerHTML = "", all_data_div.innerHTML = "") : null;
+    }
+
+    function wreath_amount_change(elem){
+      var wreath_index = document.getElementById("wreath_item_"+elem.id.split("_")[2]).value;
+      var MMM = elem.id.split("_")[2];
+      document.getElementById("wreath_total_" + MMM).innerHTML = "Total: $" +
+        Number(document.getElementById("wreath_amt_" + MMM).value) * Number(local_catalog[wreath_index][3].split("$")[1]);
+
+      Number(document.getElementById("wreath_amt_" + MMM).value) > 0 ?
+      (single_order[Number(MMM)] = [wreath_index, document.getElementById("wreath_amt_" + MMM).value,
+          local_catalog[wreath_index][3].split("$")[1], local_catalog[wreath_index][1]]) : null;
+
+      Number(document.getElementById("wreath_amt_" + MMM).value) == 0 ?
+        single_order[Number(MMM)] = [] : null;
+
+      single_order_total();
+    }
+
+    function wreath_item_change(elem){
+      var wreath_index = document.getElementById("wreath_item_"+elem.id.split("_")[2]).value;
+      var MMM = elem.id.split("_")[2];
+      document.getElementById("wreath_amt_" + elem.id.split("_")[2]).value = 0;
+      document.getElementById("wreath_price_"+MMM).innerHTML = local_catalog[wreath_index][3];
+      document.getElementById("wreath_total_" + MMM).innerHTML = "Total: $0";
+      document.getElementById("wreath_info_" + MMM).innerHTML = local_catalog[wreath_index][2];
+      single_order[Number(MMM)] = [];
+      single_order_total();
+    }
+
+    function single_order_total(){
+      order_total = 0;
+      single_order.forEach((item, i) => {
+        order_total += Number(item[1]) * Number(item[2]) || null;
+      });
+      document.getElementById("single_entry_total").innerHTML = "$" + order_total;
+    }
+
+    function save_data(){
+      var popup_elem = document.getElementById("popup_content");
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var cust_name = document.getElementById("cust_name").value;
+      var cust_email = document.getElementById("cust_email").value;
+      var cust_phone = document.getElementById("cust_phone").value;
+      var cust_addr = document.getElementById("cust_addr").value;
+      var email_address = document.getElementById("email_address").value;
+      var cust_note = document.getElementById("cust_note").value;
+      var error_msg = "";
+
+      var timestamp = new Date();
+      var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
+      scoutname == "" ? error_msg += "The scout name cannot be blank!<br>" : null;
+      scoutname == "Other" && other_name == "" ? error_msg += "The name field cannot be blank!<br>" : null;
+      email_address == "" ? error_msg += "Your email address cannot be left blank! <br>" : null;
+
+      if (email_address !="") {
+        var emailsArray = email_address.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (emailsArray == null || emailsArray.length == 0) {
+          error_msg += "Your email address is not valid! <br>";
+        }
+      }
+      cust_name == "" ? error_msg += "The customer name cannot be blank!<br>" : null;
+      error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
+
+      if (error_msg == "") {
+        var cust_contact = cust_name;
+        cust_addr == "" ? null : cust_contact += ", " + cust_addr;
+        cust_email == "" ? null : cust_contact += ". Email: " + cust_email;
+        cust_phone == "" ? null : cust_contact += ". Phone: " + cust_phone;
+
+        var log_order = [];
+
+//remove empty slots (gaps) from the single_order array
+        for (let i=0; i<single_order.length; i++){
+          single_order[i] == null || single_order[i] == [] ? single_order[i] = [] : null;
+        }
+
+        single_order.forEach((item, i) => {
+          if (item.length > 0) {
+            Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[1])) || (log_order[Number(item[0])] = Number(item[1])) : null;
+          }
+        });
+
+        var name = "";
+        scoutname == "Other" ? name = other_name : name = scoutname;
+
+        log_order.unshift("$"+order_total);
+        log_order.unshift(cust_note);
+        log_order.unshift(cust_contact);
+        log_order.unshift(name);
+        log_order.unshift(curr_timestamp);
+
+        order["scoutname"] = scoutname;
+        order["other_name"] = other_name;
+        order['name'] = name;
+        order["cust_name"] = cust_name;
+        order["cust_email"] = cust_email;
+        order["cust_phone"] = cust_phone;
+        order["cust_addr"] = cust_addr;
+        order['cust_contact'] = cust_contact;
+        order["email_address"] = email_address;
+        order["order_total"] = "$" + order_total;
+        order["single_order"] = single_order;
+        order["log_order"] = log_order;
+        order["id"] = id;
+        order["curr_timestamp"] = curr_timestamp;
+        order["cust_note"] = cust_note;
+
+        /*
+        single_order.forEach((item, i) => {
+          item.length > 0 ? local_orders.push(single_order) : null;
+        });
+        */
+        local_orders.push(log_order);
+        localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+        //localStorage.setItem('cached_timestamp', JSON.stringify(curr_timestamp));
+        document.getElementById("loader").style.display = "block";
+        send_backend();
+      }
+    }
+
+    function clear_data(){
+      document.getElementById("wreath_section").innerHTML =
+        add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
+          .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]);
+      init_input_fields();
+      single_order = [];
+      single_order[0] = [];
+      single_order_total();
+    }
+
+    function toggle_modal(){
+      var modal = document.getElementById("popup");
+      var overlay = document.getElementById("popup_overlay");
+
+      modal.style.display = modal.style.display == 'none' ? '' : 'none';
+      overlay.style.display = overlay.style.display == 'none' ? '' : 'none';
+
+    }
+
+    function init_input_fields(){
+      document.querySelectorAll('input').forEach( input => {
+        input.value = "";
+      });
+
+    }
+
+    function show_info(elem){
+      var popup_elem = document.getElementById("popup_content");
+      var MMM = elem.id.split("_")[2];
+      var wreath_index = document.getElementById("wreath_item_"+MMM).value;
+
+      popup_elem.innerHTML = local_catalog[wreath_index][2];
+      toggle_modal();
+    }
+
+    function show_photo(elem){
+      var popup_elem = document.getElementById("popup_content");
+      var MMM = elem.id.split("_")[2];
+      var wreath_index = document.getElementById("wreath_item_"+MMM).value;
+      var wreath_image_link = local_catalog[wreath_index][4];
+      var width = document.body.clientWidth;
+
+      //console.log(local_catalog);
+
+      width > 800 ? width = Math.round(width / 4) : width = Math.round(width * 0.7);
+
+      //width = Math.round(width / 4);
+
+      var url_split = wreath_image_link.split(/=[ws]/);
+
+      var wreath_image_html = "<img id='' src='" + url_split[0] + "=w" + width + "-no?authuser=0 alt=' ' />";
+      popup_elem.innerHTML = wreath_image_html;
+      toggle_modal();
+
+    }
+
+    function show_email_info(){
+      var popup_elem = document.getElementById("popup_content");
+      popup_elem.innerHTML = email_instructions;
+      toggle_modal();
+    }
+
+    function fetch_orders(){
+      var timestamp = new Date();
+      var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: tracking_sheet,
+        range: "'Webform'!A:P",
+      }).then(function(response){
+        var range5 = response.result;
+        local_orders = range5.values;
+        //console.log(local_orders);
+      }).then(function(){
+        localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+        localStorage.setItem('cached_timestamp', curr_timestamp);
+        show_orders();
+      }, function(response) {
+        console.log('Error: ' + response.result.error.message);
+      });
+    }
+
+    function render_orders(order_source){
+      var popup_elem = document.getElementById("popup_content");
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var name = "";
+      scoutname == "Other" ? name = other_name : name = scoutname;
+
+      name == "" ? (popup_elem.innerHTML = "Select a name above to get data!", toggle_modal()) : null;
+
+      if (order_source == "cached"){
+        if (localStorage.getItem('cached_orders')) {
+          show_orders();
+        }
+        else {
+          fetch_orders();
+        }
+      }
+      else {
+        fetch_orders();
+      }
+
+    }
+
+    function show_orders(){
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var cached_timestamp = document.getElementById('cached_timestamp');
+      var all_data_info = document.getElementById("all_data_info");
+      var all_data_div = document.getElementById("all_data_div");
+      var name = "";
+      scoutname == "Other" ? name = other_name : name = scoutname;
+      var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
+      //wreath_orders.length == 0 ? render_orders("server") : null;
+      var table_head = "";
+      var row_note = "";
+      var table_line = "", table_row = "", order_divs_line = "";
+
+      local_orders = JSON.parse(localStorage.getItem('cached_orders'));
+
+      var table_header = `
+          <tr>hhhh</tr>
+        `;
+      var table_inner = `
+        <tr>tttt</tr>
+      `;
+
+      var order_divs = `<div class=''>dddd</div>`;
+
+      wreath_orders.forEach((item, i) => {
+        for (let i=0; i<wreath_orders[0].length; i++){
+          item[i] == null || item[i] == "" ? item[i] = "0" : null;
+        }
+      });
+
+      wreath_orders[0].forEach((item, i) => {
+        if (i == 1 || i == 3) return;
+        table_head += "<th>" + item + "</th>";
+      });
+
+//fill each gap in the array (empty slots) with a zero
+
+
+      document.getElementById("tbody_data_table").innerHTML = table_header.replace(/hhhh/g, table_head);
+
+      wreath_orders.forEach((item, i) => {
+       if (item[1] == name) {
+         table_line = "";
+         row_note = "";
+         item[3] != "0" ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
+         order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "Customer: "
+            + item[2] + "<br>" + row_note;
+         item.forEach((item, i) => {
+           i == 3 && item != "0" ? row_note = item : null;
+           if (i == 1 || i == 3) return;
+          //row_note == "" && i == 2 ? table_line += "<td>" + item + "</td>"
+            //  : table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "</td>";
+          row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
+              : table_line += "<td>" + item + "</td>";
+           i > 3 && item > "0" ? order_divs_line += "Wreath item: " + wreath_orders[0][i] + " / " + "Quantity: " + item + "<br>" : null;
+         });
+         table_row += table_inner.replace(/tttt/g, table_line);
+         order_divs_line += "</div>";
+       }
+       row_note = "";
+     });
+
+      if (table_row == "" && name != "") {
+        all_data_info.innerHTML = "**** No order data for " + name;
+        document.getElementById("tbody_data_table").innerHTML = "";
+      }
+      else {
+        all_data_info.innerHTML = "";
+      }
+
+      name == "" ? document.getElementById("tbody_data_table").innerHTML = "" : null;
+      all_data_div.innerHTML = order_divs.replace(/dddd/g, order_divs_line);
+
+      document.getElementById("tbody_data_table").insertAdjacentHTML('beforeend', table_row);
+      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Fetched from server: " + localStorage.getItem('cached_timestamp')
+            : null;
+
+    }
+
+  </script>
+  <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
+</html>
