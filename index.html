@@ -161,9 +161,9 @@
       .cust_info{
         display: flex;
         flex-flow: column;
-        width: 20em;
+        width: 25em;
         gap: 7px;
-        padding: 0.5em 3em 0.5em 2em;
+        padding: 0.5em 1em 0.5em 1em;
         margin-left: 3em;
         background: #ADD8E6;
         border-radius: 5px;
@@ -178,12 +178,6 @@
 
       .cust_info_item label {
         White-space: nowrap;
-      }
-
-      #cust_note {
-        width: 17em;
-        border-style: solid;
-        border-color: transparent transparent transparent orange;
       }
 
       .section_titles {
@@ -349,6 +343,14 @@
         100% { transform: rotate(360deg); }
       }
 
+      #cust_addr, #cust_note, #cust_email {
+        flex-grow: 2;
+      }
+
+      .btn4 {
+        margin-right: -10px;
+      }
+
       @media (max-width: 800px)  {
 
         .container {
@@ -356,6 +358,11 @@
           max-width: 100%;
 
         }
+
+        #cust_addr, #cust_note, #cust_email {
+        flex-grow: 0.75;
+      }
+
         .wreath_info, .cust_info {
           width: 80%;
         }
@@ -471,6 +478,7 @@
           <div class="cust_info_item">
             <label for="cust_addr">Address: </label>
             <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
+            <button type="button" id="geo_loc" class="btn4" onclick="geo_loc()" name="geo_loc">GPS</button>
           </div>
 
           <div class="cust_info_item">
@@ -1118,6 +1126,31 @@
       localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Fetched from server: " + localStorage.getItem('cached_timestamp')
             : null;
 
+    }
+
+    function geo_loc(){
+      var input_elem = document.getElementById("cust_addr");
+      var popup_elem = document.getElementById("popup_content");
+
+      if(!navigator.geolocation) {
+        //status.textContent = 'Geolocation is not supported by your browser';
+        console.log("not supported by browser");
+      }
+      else {
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
+
+      function success(position){
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        input_elem.value = latitude.toFixed(5) + ", " + longitude.toFixed(5);
+
+      }
+
+      function error(){
+        popup_elem.innerHTML = "Geolocation is not supported by your browser!";
+        toggle_modal();
+      }
     }
 
   </script>
