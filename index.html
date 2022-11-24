@@ -153,8 +153,8 @@
         right: 0;
         width: 0px;
         height: 0px;
-        border: 15px solid;
-        border-width: 15px 0 0 15px;
+        border: 10px solid;
+        border-width: 10px 0 0 10px;
         border-color: orange transparent transparent transparent;
       }
 
@@ -381,6 +381,7 @@
 
         .order_divs {
           display: flex;
+          flex-direction: column;
         }
 
         .show_info_link {
@@ -874,6 +875,14 @@
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
+      if (cust_addr.split("GPS: ")[1]) {
+        var coord = cust_addr.split("GPS: ")[1];
+        var lat = coord.split(", ")[0];
+        var long = coord.split(", ")[1];
+        var map_link = "<a href='#link' target='_blank'>GPS: #text</a>";
+        cust_addr = map_link.replace(/#link/g, "http://maps.google.com/maps?q="+lat+","+long).replace(/#text/g, lat+", "+long);
+      }
+
       scoutname == "" ? error_msg += "The scout name cannot be blank!<br>" : null;
       scoutname == "Other" && other_name == "" ? error_msg += "The name field cannot be blank!<br>" : null;
       email_address == "" ? error_msg += "Your email address cannot be left blank! <br>" : null;
@@ -1094,6 +1103,7 @@
          table_line = "";
          row_note = "";
          item[3] != "0" ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
+         //order_divs_line is for smaller screens
          order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "Customer: "
             + item[2] + "<br>" + row_note;
          item.forEach((item, i) => {
@@ -1143,7 +1153,7 @@
       function success(position){
         const latitude  = position.coords.latitude;
         const longitude = position.coords.longitude;
-        input_elem.value = latitude.toFixed(5) + ", " + longitude.toFixed(5);
+        input_elem.value = "GPS: " + latitude.toFixed(5) + ", " + longitude.toFixed(5);
 
       }
 
