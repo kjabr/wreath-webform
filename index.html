@@ -12,11 +12,16 @@
       body {
         max-width: 100%;
         background-color: #F7F6EF;
+        font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
       .container {
         padding: 0 0 0 32px;
         max-width: 90%;
+      }
+
+      #webform_title{
+        font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
       .tab {
@@ -43,6 +48,7 @@
         padding: 14px 28px;
         transition: 0.3s;
         font-size: 17px;
+        font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
       /* Change background color of buttons on hover */
@@ -118,6 +124,7 @@
 
       .tab_info {
         max-width: 40em;
+        font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
       .all_data_table{
@@ -1244,7 +1251,7 @@
      });
 
       if (local_orders_total == 0 && name != "") {
-        all_data_info1.innerHTML = "**** No order data for " + name;
+        all_data_info1.innerHTML = "**** No local order data for " + name;
         document.getElementById("tbody_data_table").innerHTML = "";
         all_data_div1.innerHTML = "";
         local_orders_div.style.display = "none";
