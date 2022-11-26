@@ -24,7 +24,7 @@
         display: flex;
         position: sticky;
         top: 0;
-        width: 50%;
+        width: 80%;
         padding: 0 2em 0 1em;
         border: 1px solid #ccc;
         background-color: #f1f1f1;
@@ -104,10 +104,20 @@
 
       .btn3 {
         z-index: 1;
+        font-size: 10px;
+      }
+
+      #totals {
+        margin-top: 5px;
+        margin-bottom: 3px;
       }
 
       .spacing1 {
         padding: 0 0 16px 0;
+      }
+
+      .tab_info {
+        max-width: 40em;
       }
 
       .all_data_table{
@@ -143,8 +153,16 @@
         position: relative;
       }
 
+      .table_item_left {
+        text-align: left;
+      } 
+
       .table_cell_note:hover {
         cursor: pointer;
+      }
+
+      .local_orders_info, .gift_shipper_info {
+        display: none;
       }
 
       .comment_div{
@@ -313,12 +331,12 @@
       }
 
       .order_divs {
-        display: none;
-        margin: 1em 0 1em 0;
-        padding: 1em 1em 1em 1em;
-        background-color: lightblue;
-        border-radius: 5px;
 
+
+      }
+
+      .all_data_div {
+        display: none;
       }
 
       .loader {
@@ -381,7 +399,21 @@
 
         .order_divs {
           display: flex;
+          margin: 1em 0 1em 0;
+          padding: 1em 1em 1em 1em;
+          background-color: lightblue;
+          border-radius: 5px;
           flex-direction: column;
+          font-size: 12px;
+          width: 80vw;
+        }
+
+        .order_divs:nth-child(2n+1){
+          background-color: lightcyan;
+        }
+
+        .all_data_div {
+          display: inline-block;
         }
 
         .show_info_link {
@@ -390,6 +422,13 @@
 
         .all_data_table {
           display: none;
+        }
+
+        .local_orders_info, .gift_shipper_info {
+          display: flex;
+          margin-top: 5px;
+          margin-bottom: 0px;
+          font-weight: bold;
         }
 
         #cust_note {
@@ -466,7 +505,7 @@
       </div>
 
       <div id="single_entry_section" class="tabcontent">
-        <p id="single_entry_info"></p>
+        <p id="single_entry_info" class="tab_info"></p>
         <div class="section_titles">
           <span>Customer contact info</span>
         </div>
@@ -523,24 +562,41 @@
 -->
 
       <div id="my_orders_section" class="tabcontent">
-        <p id="my_orders_info"></p>
-        <div class="render_orders_row">
-          <span id="cached_timestamp"></span>
-          <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh from server</button>
-        </div>
-        <table id="all_data_table" class="all_data_table">
-            <tbody id="tbody_data_table" >
-            </tbody>
-        </table>
-        <div id="all_data_div" class="all_data_div">
+        <p id="my_orders_info" class="tab_info"></p>
+        <div id="my_orders">
+          <p id="totals"></p>
+          <div class="render_orders_row">
+            <span id="cached_timestamp"></span>
+            <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
+          </div>
+          <p id="all_data_info1"></p>
+          <div id="local_orders">
+            <table id="all_data_table" class="all_data_table">
+              <caption>Local Orders</caption>
+                <tbody id="tbody_data_table" >
+                </tbody>
+            </table>
+            <p class="local_orders_info">Local orders:</p>
+            <div id="all_data_div1" class="all_data_div">
+            </div>
+          </div>
 
+          <p id="all_data_info2"></p>
+          <div id="gift_shipper_orders">
+            <table id="gift_shipper_table" class="all_data_table">
+              <caption><br>Gift Shipper Orders</caption>
+              <tbody id="tbody_gift_shipper"></tbody>
+            </table>
+            <hr>
+            <p class="gift_shipper_info">Gift Shipper Orders:</p>
+            <div id="all_data_div2" class="all_data_div">
+            </div>
+          </div>
         </div>
-
-        <p id="all_data_info"></p>
       </div>
 
       <div id="info_section" class="tabcontent">
-        <p id="info_info"></p>
+        <p id="info_info" class="tab_info"></p>
       </div>
 
       <div id="popup" class="popup" style="display: none;">
@@ -571,6 +627,7 @@
 
     var order = {};
     var local_orders = [];
+    var gift_shipper_orders = [];
 
 
     var curr_tab;
@@ -793,7 +850,7 @@
     }
 
     function container_click(){
-      var other_name_elem = document.getElementById('display_other_name');
+      var other_name_elem = document.getElementById('other_name');
       var scoutname_elem = document.getElementById('scoutname');
 
       scoutname_elem.value == "Other" && other_name_elem.value != "" && curr_tab == "my_orders_section" ?
@@ -816,13 +873,16 @@
       var other_name_elem = document.getElementById('display_other_name');
       var scoutname_elem = document.getElementById('scoutname');
       var tbody_data_table = document.getElementById("tbody_data_table");
-      var all_data_div = document.getElementById("all_data_div");
+      var all_data_div1 = document.getElementById("all_data_div1");
+      var all_data_div2 = document.getElementById("all_data_div2");
+      var my_orders = document.getElementById("my_orders");
 
       scoutname_elem.value == "Other" ? other_name_elem.style.display = "" :
           (other_name_elem.style.display = "none", document.getElementById("other_name").value="");
-      scoutname_elem.value != "Other" && curr_tab == "my_orders_section" ? render_orders("cached") : null;
-      scoutname_elem.value == "Other" && curr_tab == "my_orders_section" ?
-          (tbody_data_table.innerHTML = "", all_data_div.innerHTML = "") : null;
+      curr_tab == "my_orders_section" ? render_orders("cached") : null;
+    //  scoutname_elem.value == "Other" && curr_tab == "my_orders_section" ?
+    //      (tbody_data_table.innerHTML = "", tbody_gift_shipper.innerHTML="", all_data_div1.innerHTML = "", 
+    //        all_data_div2.innerHTML ="", my_orders.style.display = "none") : null;
     }
 
     function wreath_amount_change(elem){
@@ -974,6 +1034,7 @@
 
     function init_input_fields(){
       document.querySelectorAll('input').forEach( input => {
+        if(input.id == "email_address") return;
         input.value = "";
       });
 
@@ -1028,6 +1089,22 @@
       }).then(function(){
         localStorage.setItem('cached_orders', JSON.stringify(local_orders));
         localStorage.setItem('cached_timestamp', curr_timestamp);
+        fetch_gift_shipper();
+      }, function(response) {
+        console.log('Error: ' + response.result.error.message);
+      });
+    }
+
+    function fetch_gift_shipper(){
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: tracking_sheet,
+        range: "'Gift Shipper PayPal'!A:P",
+      }).then(function(response){
+        var range6 = response.result;
+        gift_shipper_orders = range6.values;
+        console.log(gift_shipper_orders);
+      }).then(function(){
+        localStorage.setItem('cached_gift_shipper', JSON.stringify(gift_shipper_orders));
         show_orders();
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
@@ -1038,10 +1115,22 @@
       var popup_elem = document.getElementById("popup_content");
       var scoutname = document.getElementById('scoutname').value;
       var other_name = document.getElementById("other_name").value;
+      var my_orders = document.getElementById("my_orders");
       var name = "";
       scoutname == "Other" ? name = other_name : name = scoutname;
 
-      name == "" ? (popup_elem.innerHTML = "Select a name above to get data!", toggle_modal()) : null;
+      if (scoutname == "") {
+        popup_elem.innerHTML = "Select a name above to get data!";
+        my_orders.style.display = "none";
+        toggle_modal();
+        return;
+      }
+      else if (scoutname == "Other" && other_name == "") {
+        popup_elem.innerHTML = "Enter any name above and then click anywhere in the document to see orders";
+        my_orders.style.display = "none";
+        toggle_modal();
+        return;
+      }
 
       if (order_source == "cached"){
         if (localStorage.getItem('cached_orders')) {
@@ -1061,17 +1150,30 @@
       var scoutname = document.getElementById('scoutname').value;
       var other_name = document.getElementById("other_name").value;
       var cached_timestamp = document.getElementById('cached_timestamp');
-      var all_data_info = document.getElementById("all_data_info");
-      var all_data_div = document.getElementById("all_data_div");
+      var all_data_info1 = document.getElementById("all_data_info1");
+      var all_data_info2 = document.getElementById("all_data_info2");
+      var all_data_div1 = document.getElementById("all_data_div1");
+      var all_data_div2 = document.getElementById("all_data_div2"); 
+      var all_data_table = document.getElementById("all_data_table");
+      var totals = document.getElementById("totals");
+      var my_orders = document.getElementById("my_orders");
+      var gift_shipper_table = document.getElementById("gift_shipper_table");
+      var local_orders_div = document.getElementById("local_orders");
+      var gift_shipper_orders_div = document.getElementById("gift_shipper_orders");
       var name = "";
       scoutname == "Other" ? name = other_name : name = scoutname;
       var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
+      var gift_shipper_orders = JSON.parse(localStorage.getItem('cached_gift_shipper')) || [];
       //wreath_orders.length == 0 ? render_orders("server") : null;
       var table_head = "";
       var row_note = "";
       var table_line = "", table_row = "", order_divs_line = "";
+      var gift_shipper_total = 0;
+      var local_orders_total = 0;
+      var all_totals = 0;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
+      my_orders.style.display = "";
 
       var table_header = `
           <tr>hhhh</tr>
@@ -1081,6 +1183,10 @@
       `;
 
       var order_divs = `<div class=''>dddd</div>`;
+      all_data_div1.innerHTML = "";
+      all_data_div2.innerHTML = "";
+
+      //fill each gap in the array (empty slots) with a zero
 
       wreath_orders.forEach((item, i) => {
         for (let i=0; i<wreath_orders[0].length; i++){
@@ -1093,26 +1199,33 @@
         table_head += "<th>" + item + "</th>";
       });
 
-//fill each gap in the array (empty slots) with a zero
-
-
       document.getElementById("tbody_data_table").innerHTML = table_header.replace(/hhhh/g, table_head);
 
       wreath_orders.forEach((item, i) => {
+       //console.log(item);
        if (item[1] == name) {
+         local_orders_total += Number(item[4].split("$")[1]);
          table_line = "";
          row_note = "";
          item[3] != "0" ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
          //order_divs_line is for smaller screens
          order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "Customer: "
-            + item[2] + "<br>" + row_note;
+            + item[2] + "<br>" + "Total: " + item[4] + "<br>" + row_note;
          item.forEach((item, i) => {
            i == 3 && item != "0" ? row_note = item : null;
            if (i == 1 || i == 3) return;
-          //row_note == "" && i == 2 ? table_line += "<td>" + item + "</td>"
-            //  : table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "</td>";
-          row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
-              : table_line += "<td>" + item + "</td>";
+            if (row_note != "" && i == 2){
+              table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"; 
+            }
+            else if (i == 0 || i == 2){
+              table_line += "<td class='table_item_left'>" + item + "</td>"; 
+            }
+            else {
+              table_line += "<td>" + item + "</td>";
+            }
+
+         // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
+         //     : table_line += "<td>" + item + "</td>";
            i > 3 && item > "0" ? order_divs_line += "Wreath item: " + wreath_orders[0][i] + " / " + "Quantity: " + item + "<br>" : null;
          });
          table_row += table_inner.replace(/tttt/g, table_line);
@@ -1121,20 +1234,83 @@
        row_note = "";
      });
 
-      if (table_row == "" && name != "") {
-        all_data_info.innerHTML = "**** No order data for " + name;
+      if (local_orders_total == 0 && name != "") {
+        all_data_info1.innerHTML = "**** No order data for " + name;
         document.getElementById("tbody_data_table").innerHTML = "";
+        all_data_div1.innerHTML = "";
+        local_orders_div.style.display = "none";
       }
       else {
-        all_data_info.innerHTML = "";
+        all_data_info1.innerHTML = "";
+        local_orders_div.style.display = "";
       }
 
       name == "" ? document.getElementById("tbody_data_table").innerHTML = "" : null;
-      all_data_div.innerHTML = order_divs.replace(/dddd/g, order_divs_line);
+      all_data_div1.insertAdjacentHTML('beforeend', order_divs.replace(/dddd/g, order_divs_line));
 
       document.getElementById("tbody_data_table").insertAdjacentHTML('beforeend', table_row);
-      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Fetched from server: " + localStorage.getItem('cached_timestamp')
+      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last fetched from server: " + localStorage.getItem('cached_timestamp')
             : null;
+
+      //Handle Gift Shipper table
+      table_line = "", table_row = "", order_divs_line = "", table_head = "", div_text = "";
+      
+      if (gift_shipper_orders){
+        var table_column_names = ["Timestamp", "Buyer", "Recipient", "Wreath", "qty", "Cost", "Msg"];
+        table_column_names.forEach((item, i) => {
+          table_head += "<th>" + item + "</th>";
+        });
+      }
+      if (name == "") {
+        document.getElementById("tbody_gift_shipper").innerHTML = ""; 
+        return;
+      }
+      else {
+        document.getElementById("tbody_gift_shipper").innerHTML = table_header.replace(/hhhh/g, table_head);
+      }
+      
+      gift_shipper_orders.slice(1).forEach((item, i) => {
+        var order_timestamp = item[0];
+        var scout_credit = item[1];
+        var buyer = item[2];
+        var recipient = item[5] + ": " + item[6] + ", " + item[7] + ", " + item[8] + item[9];
+        var wreath_item = item[10];
+        var qty = item[11];
+        var price = item[13];
+        var msg = item[14];
+        var div_text = "";
+        var td_map = [order_timestamp, buyer, recipient, wreath_item, qty, price, msg];
+        name == scout_credit ? gift_shipper_total += Number(qty) * Number(price.split("$")[1]) : null;
+        if (item[1] == name) {
+          td_map.forEach((item, i) => {
+            i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
+              table_line += "<td class='table_item_left'>" + item + "</td>"; 
+          });
+          div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
+              + recipient + "<br>" + "Wreath item: " + wreath_item + " / " + "Quantity: " + qty + "<br>" + "Price: " + price + "<br>"
+              + "Gift Msg: " + msg;
+          
+            document.getElementById("tbody_gift_shipper").insertAdjacentHTML('beforeend', table_inner.replace(/tttt/g, table_line));
+            all_data_div2.insertAdjacentHTML('beforeend', div_text);
+        }
+        table_line = "";
+        div_text = "";
+      });
+
+      if (gift_shipper_total == 0 && name != "") {
+        all_data_info2.innerHTML = "**** No Gift Shipper order data for " + name;
+        document.getElementById("tbody_gift_shipper").innerHTML = "";
+        all_data_div2.innerHTML = "";
+        gift_shipper_orders_div.style.display = "none";
+      }
+      else {
+        all_data_info2.innerHTML = "";
+        gift_shipper_orders_div.style.display = "";
+      }
+
+      totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Order Totals: " + "$" + 
+        (local_orders_total + gift_shipper_total) + " (Local: $" + local_orders_total + ", Gift Shipper: $" + 
+        gift_shipper_total + ")";
 
     }
 
