@@ -38,6 +38,11 @@
 
       }
 
+      .tab_spaces {
+        display: inline-block;
+        margin-left: 40px;
+      }
+
       /* Style the buttons inside the tab */
       .tab button {
         background-color: inherit;
@@ -81,7 +86,7 @@
         background-clip: padding-box;
         border: 1px solid transparent;
         border-radius: 8px;
-        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         box-sizing: border-box;
         color: #fff;
         cursor: pointer;
@@ -276,7 +281,7 @@
         justify-content: space-between;
         align-items: center;
         width: 50%;
-        padding: 0 2em 0 1em;
+        padding: 0.5em 2em 0.5em 1em;
         background: #f1f1f160;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -452,7 +457,7 @@
 
         .single_entry_bottom {
           width: 100%;
-          padding: 0 0 0 0;
+          padding: 0.25em 0 0.25em 0;
 	        margin-bottom: 2em;
 
         }
@@ -1265,7 +1270,8 @@
       all_data_div1.insertAdjacentHTML('beforeend', order_divs.replace(/dddd/g, order_divs_line));
 
       document.getElementById("tbody_data_table").insertAdjacentHTML('beforeend', table_row);
-      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last fetched from server: " + localStorage.getItem('cached_timestamp')
+      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last refresh from server: " + 
+        localStorage.getItem('cached_timestamp')
             : null;
 
       //Handle Gift Shipper table
