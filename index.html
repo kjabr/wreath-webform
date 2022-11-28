@@ -444,6 +444,8 @@
           flex-flow: row;
           align-items: center;
           width: 100%;
+          gap: 8px;
+          margin-top: -8px;
         }
 
         .order_divs:nth-child(2n+1){
@@ -529,6 +531,9 @@
           
         }
 
+        .email_label {
+        }
+
 
 
       }
@@ -551,7 +556,7 @@
         </div>
         <br>
         <div class="email_div">
-          <label for="email_address">Your Email Address: </label>
+          <label for="email_address" class="email_label">Your Email: </label>
           <input id="email_address" type="email" name="email_address" placeholder="required">
           <span class="clickable_span" onclick="show_email_info()">[info]</span>
         </div>
