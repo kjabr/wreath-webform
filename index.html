@@ -740,7 +740,6 @@
         range: "'Webform Setup'!A2:J2",
       }).then(function(response){
         var range3 = response.result;
-        //console.log(range3);
         populate_variables(range3.values);
         build_page(range3.values);
         get_catalog();
@@ -759,7 +758,6 @@
         range: "'Local'!A2:F",
       }).then(function(response){
         var range4 = response.result;
-        //console.log(range4.values);
         local_catalog = range4.values;
       }).then(function(){
         local_catalog.forEach((item, i) => {
@@ -771,7 +769,6 @@
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
         init_input_fields();
-        //console.log(wreath_items);
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
       });
@@ -812,7 +809,6 @@
       }
 
      //announcement == "no" ? (popup_elem.innerHTML = "The wreath sale is over!", toggle_modal()) : null;
-     //console.log(hashCode(announcement));
       JSON.parse(localStorage.getItem('cached_orders')) ? local_orders = JSON.parse(localStorage.getItem('cached_orders')) : local_orders = [];
 
     }
@@ -988,7 +984,7 @@
           error_msg += "Your email address is not valid! <br>";
         }
       }
-      
+
       cust_name == "" ? error_msg += "The customer name cannot be blank!<br>" : null;
       error_msg == "" && order_total == 0 ? error_msg = "The total cannot be zero!" : null;
 
@@ -1094,8 +1090,6 @@
       var wreath_image_link = local_catalog[wreath_index][4];
       var width = document.body.clientWidth;
 
-      //console.log(local_catalog);
-
       width > 800 ? width = Math.round(width / 4) : width = Math.round(width * 0.7);
 
       //width = Math.round(width / 4);
@@ -1123,7 +1117,6 @@
       }).then(function(response){
         var range5 = response.result;
         local_orders = range5.values;
-        //console.log(local_orders);
       }).then(function(){
         localStorage.setItem('cached_orders', JSON.stringify(local_orders));
         localStorage.setItem('cached_timestamp', curr_timestamp);
@@ -1239,7 +1232,6 @@
       document.getElementById("tbody_data_table").innerHTML = table_header.replace(/hhhh/g, table_head);
 
       wreath_orders.forEach((item, i) => {
-       //console.log(item);
        if (item[1] == name) {
          local_orders_total += Number(item[4].split("$")[1]);
          table_line = "";
