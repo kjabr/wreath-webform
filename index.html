@@ -380,6 +380,13 @@
         margin-right: -10px;
       }
 
+      .avoidwrap {
+        display: flex;
+        flex-flow: row;
+        gap: 10px;
+        align-content: center;
+      }
+
       @media (max-width: 800px)  {
 
         .container {
@@ -513,7 +520,7 @@
         }
 
         .avoidwrap {
-          display: block;
+          display: inline-block;
         }
 
 
@@ -719,9 +726,10 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
               </select>
-            </div>
+            
             <div id="wreath_price_MMM" class="avoidwrap">nn</div>
             <div id="wreath_total_MMM" class="avoidwrap">Total: $0</div>
+            </div>
           </div>
         <div id="wreath_info_MMM" class="wreath_info">descr</div>
         <div id="wreath_info_small_MMM" class="wreath_info_small">
