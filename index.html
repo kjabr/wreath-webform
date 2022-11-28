@@ -988,10 +988,8 @@
           error_msg += "Your email address is not valid! <br>";
         }
       }
+      
       cust_name == "" ? error_msg += "The customer name cannot be blank!<br>" : null;
-
-      console.log(order_total);
-
       error_msg == "" && order_total == 0 ? error_msg = "The total cannot be zero!" : null;
 
       error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
