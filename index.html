@@ -388,20 +388,21 @@
 
         }
 
+        .cust_info_item {
+          width: 99%;
+        }
+
         #cust_addr, #cust_note, #cust_email {
-        flex-grow: 0.75;
+          width: auto;
+          max-width: 80%;
       }
 
-        .wreath_info, .cust_info {
-          width: 80%;
+        .wreath_info {
+          width: 100%;
         }
 
         .wreath_line{
           flex-flow: row wrap;
-        }
-
-        .cust_info {
-          padding: 0.5em 0em 0.5em 2em;
         }
 
         .wreath_info{
@@ -424,7 +425,14 @@
         }
 
         #email_address {
-          max-width: 10em;
+          width: auto;
+        }
+
+        .email_div {
+          display: flex;
+          flex-flow: row;
+          align-items: center;
+          width: 100%;
         }
 
         .order_divs:nth-child(2n+1){
@@ -451,7 +459,7 @@
         }
 
         #cust_note {
-          width: 13em;
+          width: 80%;
         }
 
         .tab {
@@ -467,12 +475,13 @@
         }
 
         .cust_info{
-          width: 100%;
+          width: calc(100% - 10px);
           gap: 2px;
-          padding: 0.5em 0 0.5em 0.5em;
+          padding: 0.5em 0.5em 0.5em 0.5em;
           margin-left: 0px;
           background: #ADD8E6;
           border-radius: 5px;
+          font-size: 14px;
         }
 
         .add_item{
@@ -482,6 +491,7 @@
 
         .add_item_column {
           padding: 0.5em 0.5em 0.5em 0.5em;
+          font-size: 14px;
         }
 
         .add_item_svg {
@@ -502,6 +512,8 @@
           font-size: 15px;
         }
 
+
+
       }
 
 
@@ -521,9 +533,11 @@
           </span>
         </div>
         <br>
-        <label for="email_address">Your Email Address: </label>
+        <div class="email_div">
+          <label for="email_address">Your Email Address: </label>
           <input id="email_address" type="email" name="email_address" placeholder="required">
           <span class="clickable_span" onclick="show_email_info()">[info]</span>
+        </div>
       </div>
 
       <div class="tab">
