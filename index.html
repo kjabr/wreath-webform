@@ -989,6 +989,11 @@
         }
       }
       cust_name == "" ? error_msg += "The customer name cannot be blank!<br>" : null;
+
+      console.log(order_total);
+
+      error_msg == "" && order_total == 0 ? error_msg = "The total cannot be zero!" : null;
+
       error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
 
       if (error_msg == "") {
@@ -1069,7 +1074,7 @@
 
     function init_input_fields(){
       document.querySelectorAll('input').forEach( input => {
-        if(input.id == "email_address") return;
+        if(input.id == "email_address" || input.id == "other_name") return;
         input.value = "";
       });
 
