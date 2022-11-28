@@ -86,7 +86,7 @@
         background-clip: padding-box;
         border: 1px solid transparent;
         border-radius: 8px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
         box-sizing: border-box;
         color: #fff;
         cursor: pointer;
@@ -635,7 +635,7 @@
     var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
     var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
     var form_data;
-    var production, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id;
+    var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -790,8 +790,11 @@
 
     function populate_variables(setup_data){
       var popup_elem = document.getElementById("popup_content");
+      var cached_announcement = "";
+      
+      localStorage.getItem('cached_announcement') ? cached_announcement = localStorage.getItem('cached_announcement') : null;
 
-      production = setup_data[0][0] || "";
+      announcement = setup_data[0][0] || "";
       title = setup_data[0][1] || "";
       scoutname = setup_data[0][2] || "";
       description = setup_data[0][3] || "";
@@ -801,11 +804,22 @@
       my_orders_panel = setup_data[0][7] || "";
       gas_link = setup_data[0][8] || "";
       tracking_sheet = setup_data[0][9] || "";
+      
+      if (announcement != "" && hashCode(announcement) != cached_announcement){
+        popup_elem.innerHTML = "<strong>Announcement!</strong><br><br>" + announcement;
+        localStorage.setItem('cached_announcement', hashCode(announcement));
+        toggle_modal();
+      }
 
-      production == "no" ? (popup_elem.innerHTML = "The wreath sale is over!", toggle_modal()) : null;
-
+     //announcement == "no" ? (popup_elem.innerHTML = "The wreath sale is over!", toggle_modal()) : null;
+     //console.log(hashCode(announcement));
       JSON.parse(localStorage.getItem('cached_orders')) ? local_orders = JSON.parse(localStorage.getItem('cached_orders')) : local_orders = [];
 
+    }
+
+    function hashCode(str) {
+      return str.split('').reduce((prevHash, currVal) =>
+        (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
     }
 
     function build_page(setup_data){
