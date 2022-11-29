@@ -1295,7 +1295,7 @@
 
          // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
          //     : table_line += "<td>" + item + "</td>";
-           i > 3 && item > "0" ? order_divs_line += "Wreath item: " + wreath_orders[0][i] + " / " + "Quantity: " + item + "<br>" : null;
+           i > 3 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
          });
          table_row += table_inner.replace(/tttt/g, table_line);
          order_divs_line += "</div>";
@@ -1357,7 +1357,7 @@
               table_line += "<td class='table_item_left'>" + item + "</td>"; 
           });
           div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
-              + recipient + "<br>" + "Wreath item: " + wreath_item + " / " + "Quantity: " + qty + "<br>" + "Price: " + price + "<br>"
+              + recipient + "<br>" + "Item: " + wreath_item + " / " + "Qty: " + qty + "<br>" + "Price: " + price + "<br>"
               + "Gift Msg: " + msg;
           
             document.getElementById("tbody_gift_shipper").insertAdjacentHTML('beforeend', table_inner.replace(/tttt/g, table_line));
