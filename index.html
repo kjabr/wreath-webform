@@ -531,11 +531,6 @@
           
         }
 
-        .email_label {
-        }
-
-
-
       }
 
 
@@ -1283,8 +1278,8 @@
          row_note = "";
          item[3] != "0" ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
          //order_divs_line is for smaller screens
-         order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "Customer: "
-            + item[2] + "<br>" + "Total: " + item[4] + "<br>" + row_note;
+         order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "<div>Customer: "
+            + item[2] + "</div><br>" + "Total: " + item[4] + "<br>" + row_note;
          item.forEach((item, i) => {
            i == 3 && item != "0" ? row_note = item : null;
            if (i == 1 || i == 3) return;
