@@ -674,7 +674,7 @@
     var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
     var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
     var form_data;
-    var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id;
+    var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, url_name;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -765,6 +765,7 @@
       }).then(function () {
         if ((urlParams.get("id1"))){
           id=urlParams.get("id1").split("/")[0];
+          url_name=urlParams.get("id1").split("/")[1].split("?")[1];
           init_web_app();
         }
       }, function(error) {
