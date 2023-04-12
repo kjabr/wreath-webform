@@ -674,7 +674,8 @@
     var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
     var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
     var form_data;
-    var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, url_name;
+    var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
+      url_params, url_name, url_email;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -764,8 +765,12 @@
         scope: SCOPES
       }).then(function () {
         if ((urlParams.get("id1"))){
+          url_params = urlParams.get("email");
           id=urlParams.get("id1").split("/")[0];
-          url_name=urlParams.get("id1").split("/")[1].split("=")[1];
+          url_name = urlParams.get("scoutname") || "";
+          url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
+            .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
+          url_email = urlParams.get("email") || "";
           init_web_app();
         }
       }, function(error) {
@@ -931,6 +936,9 @@
 
     function populate_scoutnames(){
       var scoutname_elem = document.getElementById('scoutname');
+      var scout_email = document.getElementById('email_address');
+      var other_name = document.getElementById('other_name');
+      var other_name_elem = document.getElementById("display_other_name");
       scoutname_elem.innerHTML = "";
       scoutname_elem[scoutname_elem.length] = new Option("", "");
       scoutname = scoutname.replace(/, /g, ',') + ",Other";
@@ -938,7 +946,17 @@
         scoutname_elem[scoutname_elem.length] = new Option(item, item);
       });
 
-
+      url_email != "" ? scout_email.value = url_email : null;
+      if (url_name != "") {
+        if (scoutname.includes(url_name)) {
+          scoutname_elem.value = url_name;
+        }
+        else {
+          scoutname_elem.value = "Other";
+          other_name_elem.style.display = "";
+          other_name.value = url_name;
+        }
+      }
     }
 
     function toggle_name(elem){
