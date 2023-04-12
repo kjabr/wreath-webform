@@ -764,7 +764,7 @@
         scope: SCOPES
       }).then(function () {
         if ((urlParams.get("id1"))){
-          id=urlParams.get("id1");
+          id=urlParams.get("id1").split("/")[0];
           init_web_app();
         }
       }, function(error) {
