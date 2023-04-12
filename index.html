@@ -765,7 +765,7 @@
       }).then(function () {
         if ((urlParams.get("id1"))){
           id=urlParams.get("id1").split("/")[0];
-          url_name=urlParams.get("id1").split("/")[1].split("?")[1];
+          url_name=urlParams.get("id1").split("/")[1].split("=")[1];
           init_web_app();
         }
       }, function(error) {
