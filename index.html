@@ -776,7 +776,7 @@
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: urlParams.get("id1"),
+        spreadsheetId: urlParams.get("id1").split("/")[0],
         range: "'Webform Setup'!A2:J2",
       }).then(function(response){
         var range3 = response.result;
@@ -794,7 +794,7 @@
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: urlParams.get("id1"),
+        spreadsheetId: urlParams.get("id1").split("/")[0],
         range: "'Local'!A2:F",
       }).then(function(response){
         var range4 = response.result;
