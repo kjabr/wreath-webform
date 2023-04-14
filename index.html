@@ -632,7 +632,7 @@
           <p id="all_data_info1"></p>
           <div id="local_orders">
             <table id="all_data_table" class="all_data_table">
-              <caption><h3>Local Orders</h3></caption>
+              <caption><h3>Local Orders - <a id="local_csv">CSV</a></h3></caption>
                 <tbody id="tbody_data_table" >
                 </tbody>
             </table>
@@ -644,7 +644,7 @@
           <p id="all_data_info2"></p>
           <div id="gift_shipper_orders">
             <table id="gift_shipper_table" class="all_data_table">
-              <caption><br><h3>Gift Shipper Orders</h3></caption>
+              <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">CSV</a></h3></caption>
               <tbody id="tbody_gift_shipper"></tbody>
             </table>
             <hr>
@@ -689,6 +689,9 @@
     var order = {};
     var local_orders = [];
     var gift_shipper_orders = [];
+
+    var csvStr_local = "";
+    var csvStr_ship = "";
 
 
     var curr_tab;
@@ -1244,6 +1247,8 @@
       var all_data_div1 = document.getElementById("all_data_div1");
       var all_data_div2 = document.getElementById("all_data_div2"); 
       var all_data_table = document.getElementById("all_data_table");
+      var local_csv_elem = document.getElementById("local_csv");
+      var shipper_csv_elem = document.getElementById("shipper_csv");
       var totals = document.getElementById("totals");
       var my_orders = document.getElementById("my_orders");
       var gift_shipper_table = document.getElementById("gift_shipper_table");
@@ -1280,11 +1285,12 @@
       wreath_orders.forEach((item, i) => {
         for (let i=0; i<wreath_orders[0].length; i++){
           item[i] == null || item[i] == "" ? item[i] = "0" : null;
+          item[3] == "0" ? item[3] = "-" : null;
         }
       });
 
       wreath_orders[0].forEach((item, i) => {
-        if (i == 1 || i == 3) return;
+        if (i == 1 || i == 3) return; //don't show scoutname or note in the table
         table_head += "<th>" + item + "</th>";
       });
 
@@ -1295,7 +1301,7 @@
          local_orders_total += Number(item[4].split("$")[1]);
          table_line = "";
          row_note = "";
-         item[3] != "0" ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
+         item[3] != "-"  ? row_note = "Order Note: " + item[3] + "<br>" : row_note = "";
          //order_divs_line is for smaller screens
          order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "<div>Customer: "
             + item[2] + "</div><br>" + "Total: " + item[4] + "<br>" + row_note;
@@ -1320,6 +1326,14 @@
          order_divs_line += "</div>";
        }
        row_note = "";
+     });
+
+    //build the CSV data
+     csvStr_local = "";
+     wreath_orders.forEach((item, i) => {
+      if (item[1] == "Name" || item[1] == name) {
+        csvStr_local += '"' + item.map(item1 => item1.replace(/<.*?[>]/g,'')).join('","') + '"\n';
+      }
      });
 
       if (local_orders_total == 0 && name != "") {
@@ -1386,6 +1400,15 @@
         div_text = "";
       });
 
+    //build the CSV data
+      csvStr_ship = "";
+      gift_shipper_orders.forEach((item, i) => {
+      if (item[1] == "Scout/Org" || item[1] == name) {
+        csvStr_ship += '"' + item.map(item1 => item1.replace('#','num')).map(item1 => item1.replace(/[\r\n]+/g,' ')).join('","') + '"\n';
+      }
+     });
+
+
       if (gift_shipper_total == 0 && name != "") {
         all_data_info2.innerHTML = "**** No Gift Shipper order data for " + name;
         document.getElementById("tbody_gift_shipper").innerHTML = "";
@@ -1400,6 +1423,14 @@
       totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Order Totals: " + "$" + 
         (local_orders_total + gift_shipper_total) + " (Local: $" + local_orders_total + ", Gift Shipper: $" + 
         gift_shipper_total + ")";
+      
+      local_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
+      local_csv_elem.target = "_blank";
+      local_csv_elem.download = name+"_local_orders.csv";
+      shipper_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_ship);
+      shipper_csv_elem.target = "_blank";
+      shipper_csv_elem.download = name+"_gift_shipper_orders.csv";
+
 
     }
 
