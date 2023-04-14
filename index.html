@@ -387,6 +387,10 @@
         align-content: center;
       }
 
+      .totals_class {
+        border-top: 1px dashed;
+      }
+
       @media (max-width: 800px)  {
 
         .container {
@@ -1265,6 +1269,7 @@
       var gift_shipper_total = 0;
       var local_orders_total = 0;
       var all_totals = 0;
+      var item_total = {};
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -1317,6 +1322,10 @@
             else {
               table_line += "<td>" + item + "</td>";
             }
+          
+          if (i >= 5) {
+            item_total[i] ? item_total[i] += Number(item) : item_total[i] = Number(item);
+          }
 
          // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
          //     : table_line += "<td>" + item + "</td>";
@@ -1327,6 +1336,14 @@
        }
        row_note = "";
      });
+
+     table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
+        + local_orders_total + "</strong></td>";
+     for (const property in item_total) {
+      table_line += "<td class='totals_class'> <strong>" + item_total[property] + "</strong> </td>";
+     }
+     table_row += table_inner.replace(/tttt/g, table_line);
+
 
     //build the CSV data
      csvStr_local = "";
