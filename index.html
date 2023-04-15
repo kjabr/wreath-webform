@@ -1052,9 +1052,16 @@
       email_address == "" ? error_msg += "Your email address cannot be left blank! <br>" : null;
 
       if (email_address !="") {
-        var emailsArray = email_address.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-        if (emailsArray == null || emailsArray.length == 0) {
-          error_msg += "Your email address is not valid! <br>";
+        var emailsArray1 = email_address.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (emailsArray1 == null || emailsArray1.length == 0) {
+          error_msg += "Your email address is not valid. Please fix before submitting! <br>";
+        }
+      }
+
+      if (cust_email !="") {
+        var emailsArray2 = cust_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        if (emailsArray2 == null || emailsArray2.length == 0) {
+          error_msg += "Customer email address is not valid. Please fix before submitting! <br>";
         }
       }
 
