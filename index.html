@@ -587,7 +587,7 @@
 
           <div class="cust_info_item">
             <label for="cust_phone">Phone if known: </label>
-            <input id="cust_phone" type="text" name="cust_phone" style="width: 10em;" placeholder="optional">
+            <input id="cust_phone" type="text" name="cust_phone" style="width: 10em;" onInput="this.value = phoneFormat(this.value)" placeholder="optional">
           </div>
 
           <div class="cust_info_item">
@@ -1466,6 +1466,15 @@
       toggle_modal();
     }
 
+    function phoneFormat(input) {//returns (###) ###-####
+        input = input.replace(/\D/g,'');
+        var size = input.length;
+        if (size>0) {input="("+input}
+        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
+        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
+        return input;
+      }
+
     function geo_loc(){
       var input_elem = document.getElementById("cust_addr");
       var popup_elem = document.getElementById("popup_content");
@@ -1489,6 +1498,7 @@
         popup_elem.innerHTML = "Geolocation is not supported by your browser!";
         toggle_modal();
       }
+
     }
 
   </script>
