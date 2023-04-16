@@ -943,9 +943,15 @@
     function container_click(){
       var other_name_elem = document.getElementById('other_name');
       var scoutname_elem = document.getElementById('scoutname');
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
 
       scoutname_elem.value == "Other" && other_name_elem.value != "" && curr_tab == "my_orders_section" ?
         show_orders() : null;
+
+      scoutname == "Other" && other_name != "" ? (other_name = other_name.replace(/[\.\_\-]/g, " ")
+          .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+          document.getElementById("other_name").value = other_name): null;
     }
 
     function populate_scoutnames(){
@@ -1046,6 +1052,10 @@
         var map_link = "<a href='#link' target='_blank'>GPS: #text</a>";
         cust_addr = map_link.replace(/#link/g, "http://maps.google.com/maps?q="+lat+","+long).replace(/#text/g, lat+", "+long);
       }
+
+      scoutname == "Other" && other_name != "" ? (other_name = other_name.replace(/[\.\_\-]/g, " ")
+          .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+          document.getElementById("other_name").value = other_name): null;
 
       scoutname == "" ? error_msg += "The scout name cannot be blank!<br>" : null;
       scoutname == "Other" && other_name == "" ? error_msg += "The name field cannot be blank!<br>" : null;
