@@ -776,7 +776,7 @@
           var scout_email = document.getElementById('email_address');
           var other_name = document.getElementById('other_name');
           url_params = urlParams.get("email");
-          id=urlParams.get("id1").split("/")[0];
+          id=urlParams.get("id1").replace("/", "");
           url_name = urlParams.get("scoutname") || "";
           url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
             .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
