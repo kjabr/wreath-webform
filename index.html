@@ -679,7 +679,7 @@
     var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
-      url_params, url_name, url_email;
+      url_params, url_name, url_email, tracking_sheet;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -1126,6 +1126,7 @@
         order["id"] = id;
         order["curr_timestamp"] = curr_timestamp;
         order["cust_note"] = cust_note;
+        order["tracking_sheet"] = tracking_sheet;
 
         /*
         single_order.forEach((item, i) => {
