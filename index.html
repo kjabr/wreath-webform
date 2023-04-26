@@ -959,17 +959,20 @@
       var scout_email = document.getElementById('email_address');
       var other_name = document.getElementById('other_name');
       var other_name_elem = document.getElementById("display_other_name");
+      var name_match = "";
       scoutname_elem.innerHTML = "";
       scoutname_elem[scoutname_elem.length] = new Option("", "");
       scoutname = scoutname.replace(/, /g, ',') + ",Other";
       scoutname.split(',').forEach((item, i) => {
         scoutname_elem[scoutname_elem.length] = new Option(item, item);
+        item.includes(url_name) && url_name != "" ? name_match = item : null;
       });
 
       url_email != "" ? scout_email.value = url_email : null;
       if (url_name != "") {
-        if (scoutname.includes(url_name)) {
-          scoutname_elem.value = url_name;
+        //if (scoutname.includes(url_name)) {
+        if(name_match != ""){
+          scoutname_elem.value = name_match;
         }
         else {
           scoutname_elem.value = "Other";
