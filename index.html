@@ -1379,7 +1379,17 @@
      csvStr_local = "";
      wreath_orders.forEach((item, i) => {
       if (item[1] == "Name" || item[1] == name) {
-        csvStr_local += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'')).join('","') + '"\n';
+        if (i==0) {item.splice(3,0,"Customer Email");}
+        if (i!=0) {
+          if (item[2].includes('Email:')){
+            item.splice(3,0,item[2].match(/(?<=Email:\s).*(?=\.)/g)[0]);
+            item[2] = item[2].replace(/Email:\s(.*)\./g, "");
+          }
+          else {
+            item.splice(3,0,"");
+          }
+        }
+        csvStr_local += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
       }
      });
 
