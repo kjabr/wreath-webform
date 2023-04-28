@@ -782,8 +782,17 @@
             .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
           url_email = urlParams.get("email") || "";
 
+          if (url_email != "") {
+            var emailsArray3 = url_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+            if (emailsArray3 == null || emailsArray3.length == 0) {
+              url_email = "";
+            }
+            else {
+              scout_email.disabled = true;
+            }
+          }
+
           urlParams.get("scoutname") ? (scoutname_elem.disabled = true, other_name.disabled = true) : null;
-          urlParams.get("email") ? scout_email.disabled = true: null;
 
           init_web_app();
         }
