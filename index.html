@@ -1382,8 +1382,8 @@
         if (i==0) {item.splice(3,0,"Customer Email");}
         if (i!=0) {
           if (item[2].includes('Email:')){
-            item.splice(3,0,item[2].match(/(?<=Email:\s).*(?=\.)/g)[0]);
-            item[2] = item[2].replace(/Email:\s(.*)\./g, "");
+            item.splice(3,0,item[2].match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)/g)[0]);
+            item[2] = item[2].replace(/Email:\s([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)(\.\s)?/g, "");
           }
           else {
             item.splice(3,0,"");
