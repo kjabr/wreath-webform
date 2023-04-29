@@ -191,7 +191,7 @@
       .cust_info{
         display: flex;
         flex-flow: column;
-        width: 25em;
+        width: 27em;
         gap: 7px;
         padding: 0.5em 1em 0.5em 1em;
         margin-left: 3em;
@@ -598,6 +598,7 @@
           <div class="cust_info_item">
             <label for="cust_note">Add note to order? </label>
             <input id="cust_note" type="text" name="cust_note" placeholder="optional">
+            <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
           </div>
 
         </div>
@@ -1516,6 +1517,10 @@
         if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
         return input;
       }
+    
+    function paid_button(){
+      document.getElementById("cust_note").value = "Paid in full";
+    }
 
     function geo_loc(){
       var input_elem = document.getElementById("cust_addr");
