@@ -259,6 +259,10 @@
          padding: 1em 0 0 0;
        }
 
+       .wreath_donation_amt{
+          display: none;
+        }
+
       .single_entry{
         display: flex;
         flex-flow: column;
@@ -728,28 +732,33 @@
             </div>
 
             <div class="avoidwrap">
-              <label for="wreath_amt">Quantity:</label>
-              <select id="wreath_amt_MMM" name="wreath_amt_MMM" onchange="wreath_amount_change(this)">
-                <option value="0" selected>0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-              </select>
-            
-            <div id="wreath_price_MMM" class="avoidwrap">nn</div>
-            <div id="wreath_total_MMM" class="avoidwrap">Total: $0</div>
+              <label for="wreath_donation_MMM" id="wreath_donation_label_MMM" style="display:none;">How much?: </label>
+              <input id="wreath_donation_input_MMM" type="text" name="wreath_donation_MMM" style="width: 4em; display:none;" 
+                onInput="this.value = donation_amt(this.value)" onblur="donation_amt_blur(this)" placeholder="$">
+              <span id="wreath_item_span_MMM" class="avoidwrap">
+                <label for="wreath_amt">Quantity:</label>
+                <select id="wreath_amt_MMM" name="wreath_amt_MMM" onchange="wreath_amount_change(this)">
+                  <option value="0" selected>0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
+              
+                <div id="wreath_price_MMM" class="avoidwrap">nn</div>
+                <div id="wreath_total_MMM" class="avoidwrap">Total: $0</div>
+              </span>
             </div>
           </div>
         <div id="wreath_info_MMM" class="wreath_info">descr</div>
         <div id="wreath_info_small_MMM" class="wreath_info_small">
           <span id="info_click_MMM" class="clickable_span show_info_link" onclick="show_info(this)">[Info]</span>
-          <span id="photo_click_MMM" class="clickable_span" onclick="show_photo(this)">[Photo]</span>
+          <span id="photo_click_MMM" style="" class="clickable_span" onclick="show_photo(this)">[Photo]</span>
         </div>
       </div>
 
@@ -829,6 +838,8 @@
       }).then(function(response){
         var range4 = response.result;
         local_catalog = range4.values;
+        //append a donation item to the catalog
+        local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
       }).then(function(){
         local_catalog.forEach((item, i) => {
           item[0] == "yes" ? (wreath_list += '<option value="'+ i + '">' + item[1] + '</option>',
@@ -1026,11 +1037,26 @@
 
     function wreath_item_change(elem){
       var wreath_index = document.getElementById("wreath_item_"+elem.id.split("_")[2]).value;
+      //console.log(local_catalog[wreath_index][1]);
       var MMM = elem.id.split("_")[2];
       document.getElementById("wreath_amt_" + elem.id.split("_")[2]).value = 0;
       document.getElementById("wreath_price_"+MMM).innerHTML = local_catalog[wreath_index][3];
       document.getElementById("wreath_total_" + MMM).innerHTML = "Total: $0";
       document.getElementById("wreath_info_" + MMM).innerHTML = local_catalog[wreath_index][2];
+
+      if (local_catalog[wreath_index][1] == "Donation"){
+        document.getElementById("wreath_item_span_" + MMM).style.display = "none";
+        document.getElementById("photo_click_" + MMM).style.display = "none";
+        document.getElementById("wreath_donation_label_" + MMM).style.display = "";
+        document.getElementById("wreath_donation_input_" + MMM).style.display = "";
+      }
+      else {
+        document.getElementById("wreath_item_span_" + MMM).style.display = "";
+        document.getElementById("photo_click_" + MMM).style.display = "";
+        document.getElementById("wreath_donation_label_" + MMM).style.display = "none";
+        document.getElementById("wreath_donation_input_" + MMM).style.display = "none";
+      }
+
       single_order[Number(MMM)] = [];
       single_order_total();
     }
@@ -1108,7 +1134,12 @@
 
         single_order.forEach((item, i) => {
           if (item.length > 0) {
-            Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[1])) || (log_order[Number(item[0])] = Number(item[1])) : null;
+            if (item[3] == "Donation") {
+              Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[2])) || (log_order[Number(item[0])] = Number(item[2])) : null;
+            }
+            else {
+              Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[1])) || (log_order[Number(item[0])] = Number(item[1])) : null;
+            }
           }
         });
 
@@ -1217,7 +1248,7 @@
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
       gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: tracking_sheet,
-        range: "'Webform'!A:P",
+        range: "'Webform'!A:Q",
       }).then(function(response){
         var range5 = response.result;
         local_orders = range5.values;
@@ -1309,6 +1340,7 @@
       var local_orders_total = 0;
       var all_totals = 0;
       var item_total = {};
+      var count = 0;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -1362,14 +1394,21 @@
             else {
               table_line += "<td>" + item + "</td>";
             }
-          
+          //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
+            item = item.replace(/\$/g, '');
             item_total[i] ? item_total[i] += Number(item) : item_total[i] = Number(item);
           }
 
          // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
          //     : table_line += "<td>" + item + "</td>";
-           i > 3 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
+         if (wreath_orders[0][i] != "Donation"){
+          i > 3 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
+         }
+         else {
+          i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Amount: $" + item + "<br>" : null;
+         }
+           //i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Qty: " + item + "<br>" : null;
          });
          table_row += table_inner.replace(/tttt/g, table_line);
          order_divs_line += "</div>";
@@ -1380,7 +1419,15 @@
      table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
         + local_orders_total + "</strong></td>";
      for (const property in item_total) {
-      table_line += "<td class='totals_class'> <strong>" + item_total[property] + "</strong> </td>";
+      count++;
+      if (count == Object.keys(item_total).length) {
+        table_line += "<td class='totals_class'> <strong>$" + item_total[property] + "</strong> </td>";
+
+      }
+      else {
+        table_line += "<td class='totals_class'> <strong>" + item_total[property] + "</strong> </td>";
+
+      }
      }
      table_row += table_inner.replace(/tttt/g, table_line);
 
@@ -1510,13 +1557,27 @@
     }
 
     function phoneFormat(input) {//returns (###) ###-####
-        input = input.replace(/\D/g,'');
-        var size = input.length;
-        if (size>0) {input="("+input}
-        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
-        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
-        return input;
-      }
+      input = input.replace(/\D/g,'');
+      var size = input.length;
+      if (size>0) {input="("+input}
+      if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
+      if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
+      return input;
+    }
+
+    function donation_amt(input) {//returns $nn
+      input = input.replace(/\D/g,'');
+      var size = input.length;
+      if (size>0) {input="$"+input};
+      return input;
+    }
+
+    function donation_amt_blur(elem){
+      var wreath_index = document.getElementById("wreath_item_"+elem.id.split("_")[3]).value;
+      var MMM = elem.id.split("_")[3];
+      single_order[Number(MMM)] = [wreath_index, "1", elem.value.split("$")[1], local_catalog[wreath_index][1]];
+      single_order_total();
+    }
     
     function paid_button(){
       document.getElementById("cust_note").value = "Paid in full";
