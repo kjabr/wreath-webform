@@ -1127,7 +1127,7 @@
 
         var log_order = [];
 
-//remove empty slots (gaps) from the single_order array
+        //remove empty slots (gaps) from the single_order array
         for (let i=0; i<single_order.length; i++){
           single_order[i] == null || single_order[i] == [] ? single_order[i] = [] : null;
         }
@@ -1135,7 +1135,14 @@
         single_order.forEach((item, i) => {
           if (item.length > 0) {
             if (item[3] == "Donation") {
-              Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[2])) || (log_order[Number(item[0])] = Number(item[2])) : null;
+              //take off the dolllar sign if any exists or set to zero
+              log_order[Number(item[0])] ? log_order[Number(item[0])] = Number(log_order[Number(item[0])].replace(/\$/gi, "")) 
+                : log_order[Number(item[0])] = 0;
+              //add up multiple in the same order
+              Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[2])) 
+                || (log_order[Number(item[0])] = Number(item[2])) : null;
+              //append dollar sign
+              log_order[Number(item[0])] = "$" + log_order[Number(item[0])];
             }
             else {
               Number(item[1]) > 0 ? (log_order[Number(item[0])] += Number(item[1])) || (log_order[Number(item[0])] = Number(item[1])) : null;
@@ -1144,6 +1151,10 @@
         });
 
         var name = "";
+        log_order.forEach((item, i) => {
+          log_order[i] =log_order[i].toString();
+        });
+
         scoutname == "Other" ? name = other_name : name = scoutname;
 
         log_order.unshift("$"+order_total);
@@ -1396,7 +1407,7 @@
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
-            item = item.replace(/\$/g, '');
+            item = item.toString().replace(/\$/g, '');
             item_total[i] ? item_total[i] += Number(item) : item_total[i] = Number(item);
           }
 
