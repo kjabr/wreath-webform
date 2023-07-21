@@ -42,7 +42,7 @@
         background-size: 25px;
         min-width: 3.5em;
         height: 2em;
-        padding: 4px;
+        padding: 2px;
         border-radius: 5px;
         padding: 1px;
         padding-left: 3px;
@@ -436,6 +436,7 @@
         flex-flow: row;
         gap: 10px;
         align-content: center;
+        align-items: center;
       }
 
       .totals_class {
@@ -560,7 +561,6 @@
 
         .add_item_column {
           padding: 0.5em 0.5em 0.5em 0.5em;
-          font-size: 16px;
           max-width: 90%;
         }
 
@@ -585,7 +585,7 @@
         .avoidwrap {
           display: flex;
           flex-flow: row;
-          
+          align-items: center;
         }
 
         .wreath_item_select{
@@ -1109,12 +1109,16 @@
         document.getElementById("photo_click_" + MMM).style.display = "none";
         document.getElementById("wreath_donation_label_" + MMM).style.display = "";
         document.getElementById("wreath_donation_input_" + MMM).style.display = "";
+        document.getElementById("wreath_item_" + MMM).style.minWidth = "6em";
+        document.getElementById("wreath_item_" + MMM).style.width = "10em";
       }
       else {
         document.getElementById("wreath_item_span_" + MMM).style.display = "";
         document.getElementById("photo_click_" + MMM).style.display = "";
         document.getElementById("wreath_donation_label_" + MMM).style.display = "none";
         document.getElementById("wreath_donation_input_" + MMM).style.display = "none";
+        document.getElementById("wreath_item_" + MMM).style.minWidth = "15.5em";
+        //document.getElementById("wreath_item_" + MMM).style.width = "10em";
       }
 
       single_order[Number(MMM)] = [];
