@@ -888,6 +888,7 @@
         range: "'Webform Setup'!A2:J2",
       }).then(function(response){
         var range3 = response.result;
+        window.scrollTo(0, 10);
         populate_variables(range3.values);
         build_page(range3.values);
         get_catalog();
@@ -918,7 +919,6 @@
         document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
-          window.scrollTo(0, 10);
         init_input_fields();
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
