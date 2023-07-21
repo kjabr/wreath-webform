@@ -833,6 +833,13 @@
 
     `;
 
+    window.addEventListener("load",function() {
+      setTimeout(function(){
+          // Hide the address bar:
+          window.scrollTo(0, 1);
+      }, 0);
+    });
+
     function handleClientLoad() {
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -888,7 +895,6 @@
         range: "'Webform Setup'!A2:J2",
       }).then(function(response){
         var range3 = response.result;
-        window.scrollTo(0, 10);
         populate_variables(range3.values);
         build_page(range3.values);
         get_catalog();
