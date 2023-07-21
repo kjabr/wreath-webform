@@ -909,7 +909,7 @@
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
         init_input_fields();
-        window.scrollTo({ left: 0, bottom: document.body.scrollHeight, behavior: "smooth" });
+        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
       });
