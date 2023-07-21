@@ -57,6 +57,8 @@
       .scout_name_select{
         min-width: 13em;
         margin-bottom: 10px;
+        background-color: lightgrey;
+        border: transparent;
       }
 
       .container {
@@ -913,7 +915,7 @@
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
         init_input_fields();
-        window.scrollTo(0, 1);
+        window.scrollTo(0, 10);
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
       });
