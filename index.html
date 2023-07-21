@@ -448,7 +448,7 @@
       @media (max-width: 800px)  {
 
         body {
-          padding-bottom: 60px;
+          padding-bottom: 160px;
         }
 
         .container {
@@ -918,6 +918,10 @@
         document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
+        setTimeout(function(){
+        // This hides the address bar:
+          window.scrollTo(0, 1);
+        }, 0);
         init_input_fields();
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
