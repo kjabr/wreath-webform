@@ -15,6 +15,12 @@
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
+      input[type=text] {
+        border-radius: 3px;
+        border: none;
+        height: 18px;
+      }
+
       .container {
         max-width: 95%;
         margin: auto;
@@ -382,6 +388,8 @@
 
       .btn4 {
         margin-right: -10px;
+        border-radius: 4px;
+        border-width: 1px;
       }
 
       .avoidwrap {
@@ -497,7 +505,8 @@
 
         .cust_info{
           width: calc(100% - 10px);
-          gap: 2px;
+          column-gap: 2px;
+          row-gap: 5px;
           padding: 0.5em 0.5em 0.5em 0.5em;
           margin-left: 0px;
           background: #ADD8E6;
@@ -537,6 +546,15 @@
           display: flex;
           flex-flow: row;
           
+        }
+
+        .wreath_item_select{
+          width: 80%;
+          min-width: 15em;
+        }
+
+        .btn4 {
+          margin-right: -8px;
         }
 
       }
@@ -726,15 +744,16 @@
           <div class="wreath_line">
             <div class="avoidwrap">
              <label for="wreath_name">Item:</label>
-              <select id="wreath_item_MMM" name="wreath_item_MMM" onchange="wreath_item_change(this)">
+              <select id="wreath_item_MMM" class="wreath_item_select" name="wreath_item_MMM" onchange="wreath_item_change(this)">
                 wreath_list
               </select>
+              <label for="wreath_donation_MMM" id="wreath_donation_label_MMM" style="display:none;">Amount: </label>
+              <input id="wreath_donation_input_MMM" type="text" name="wreath_donation_MMM" style="width: 3em; display:none;" 
+                onInput="this.value = donation_amt(this.value)" onblur="donation_amt_blur(this)" placeholder="$">
             </div>
 
             <div class="avoidwrap">
-              <label for="wreath_donation_MMM" id="wreath_donation_label_MMM" style="display:none;">How much?: </label>
-              <input id="wreath_donation_input_MMM" type="text" name="wreath_donation_MMM" style="width: 4em; display:none;" 
-                onInput="this.value = donation_amt(this.value)" onblur="donation_amt_blur(this)" placeholder="$">
+
               <span id="wreath_item_span_MMM" class="avoidwrap">
                 <label for="wreath_amt">Quantity:</label>
                 <select id="wreath_amt_MMM" name="wreath_amt_MMM" onchange="wreath_amount_change(this)">
