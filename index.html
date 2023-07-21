@@ -833,13 +833,6 @@
 
     `;
 
-    window.addEventListener("load",function() {
-      setTimeout(function(){
-          // Hide the address bar:
-          window.scrollTo(0, 60);
-      }, 0);
-    });
-
     function handleClientLoad() {
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
