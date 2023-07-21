@@ -174,7 +174,7 @@
       .tab_info {
         max-width: 60em;
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .all_data_table{
@@ -534,6 +534,10 @@
         .tab {
           width: 100%;
           padding: 0 0 0 0;
+        }
+
+        .tab_info {
+          font-size: 15px;
         }
 
         .single_entry_bottom {
@@ -909,7 +913,7 @@
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
         init_input_fields();
-        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+        window.scrollTo(0, 1);
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
       });
