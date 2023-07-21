@@ -921,11 +921,8 @@
         setTimeout(function(){
         // This hides the address bar:
           window.scrollTo(0, 25);
-        }, 50);
-        setTimeout(function(){
-        // This hides the address bar:
-          window.scrollTo(0, -25);
-        }, 300);
+        }, 100);
+
         init_input_fields();
       }, function(response) {
         console.log('Error: ' + response.result.error.message);
