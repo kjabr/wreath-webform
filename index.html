@@ -214,10 +214,12 @@
 
       .all_data_table td {
         position: relative;
+        text-align: center;
+
       }
 
       .table_item_left {
-        text-align: center;
+        text-align: left !important;
       } 
 
       .table_cell_note:hover {
@@ -1596,7 +1598,7 @@
         if (item[1] == name) {
           td_map.forEach((item, i) => {
             i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
-              table_line += "<td class='table_item_left'>" + item + "</td>"; 
+              table_line += "<td class=''>" + item + "</td>"; 
           });
           div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
               + recipient + "<br>" + "Item: " + wreath_item + " / " + "Qty: " + qty + "<br>" + "Price: " + price + "<br>"
