@@ -74,6 +74,11 @@
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
+      .cust_payment>label {
+        margin-right: -6px;
+        gap: 7px;
+      }
+
       .tab {
         overflow: hidden;
         display: flex;
@@ -676,7 +681,20 @@
           <div class="cust_info_item">
             <label for="cust_note">Add note to order? </label>
             <input id="cust_note" type="text" name="cust_note" placeholder="optional">
+            <!-- 
             <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
+            -->
+          </div>
+          <div class="cust_payment">
+            <span>Payment:  </span>
+            <label for="cust_cash">Cash</label>
+            <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash">
+            <label for="cust_check">Check</label>
+            <input type="checkbox" id="cust_check" name="cust_check" value="cust_check">
+            <label for="cust_venmo">Venmo</label>
+            <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo">
+            <label for="cust_unpaid">Unpaid</label>
+            <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid">
           </div>
 
         </div>
@@ -1164,6 +1182,11 @@
       var email_address = document.getElementById("email_address").value;
       var cust_note = document.getElementById("cust_note").value;
       var error_msg = "";
+      var cust_cash =  document.getElementById("cust_cash").checked;
+      var cust_check =  document.getElementById("cust_check").checked;
+      var cust_venmo =  document.getElementById("cust_venmo").checked;
+      var cust_unpaid =  document.getElementById("cust_unpaid").checked;
+      var cust_payment = "";
 
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
@@ -1208,6 +1231,11 @@
         cust_addr == "" ? null : cust_contact += ", " + cust_addr;
         cust_email == "" ? null : cust_contact += ". Email: " + cust_email;
         cust_phone == "" ? null : cust_contact += ". Phone: " + cust_phone;
+        cust_cash ? cust_payment += " Cash" : null;
+        cust_check ? cust_payment += " Check" : null;
+        cust_venmo ? cust_payment += " Venmo" : null;
+        cust_unpaid ? cust_payment += " Unpaid" : null;
+        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact += "<br>Paid:" + cust_payment : cust_contact += ".";
 
         var log_order = [];
 
@@ -1297,10 +1325,17 @@
     }
 
     function init_input_fields(){
+      document.getElementById("cust_cash").checked = false;
+      document.getElementById("cust_check").checked = false;
+      document.getElementById("cust_venmo").checked = false;
+      document.getElementById("cust_unpaid").checked = false;
+
       document.querySelectorAll('input').forEach( input => {
         if(input.id == "email_address" || input.id == "other_name") return;
         input.value = "";
       });
+
+
 
     }
 
