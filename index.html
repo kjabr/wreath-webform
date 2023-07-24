@@ -1235,7 +1235,7 @@
         cust_check ? cust_payment += " Check" : null;
         cust_venmo ? cust_payment += " Venmo" : null;
         cust_unpaid ? cust_payment += " Unpaid" : null;
-        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact += " <br>**Paid:" + cust_payment : cust_contact += ".";
+        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact += " <br>**Payment:" + cust_payment : cust_contact += ".";
 
         var log_order = [];
 
