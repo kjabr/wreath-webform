@@ -692,13 +692,13 @@
           <div class="cust_payment">
             <span>Payment:  </span>
             <label for="cust_cash">Cash</label>
-            <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash">
+            <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
             <label for="cust_check">Check</label>
-            <input type="checkbox" id="cust_check" name="cust_check" value="cust_check">
+            <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
             <label for="cust_venmo">Venmo</label>
-            <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo">
+            <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
             <label for="cust_unpaid">Unpaid</label>
-            <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid">
+            <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
           </div>
 
         </div>
@@ -1173,6 +1173,23 @@
         order_total += Number(item[1]) * Number(item[2]) || null;
       });
       document.getElementById("single_entry_total").innerHTML = "$" + order_total;
+    }
+
+    function toggle_checkbox(elem){
+      var cust_cash =  document.getElementById("cust_cash");
+      var cust_check =  document.getElementById("cust_check");
+      var cust_venmo =  document.getElementById("cust_venmo");
+      var cust_unpaid =  document.getElementById("cust_unpaid");
+
+      if (elem == cust_unpaid && cust_unpaid.checked){
+        cust_cash.checked = false;
+        cust_check.checked = false;
+        cust_venmo.checked = false;
+      }
+
+      if (cust_cash.checked || cust_check.checked || cust_venmo.checked){
+        cust_unpaid.checked = false;
+      }
     }
 
     function save_data(){
