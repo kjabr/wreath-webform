@@ -940,6 +940,9 @@
 	    } 
 
       function extract_values(r, type){
+        var sheet_interesting_values;
+        var row_in_string = "";
+
         r.sheets.forEach((item, i) => {
             sheet_interesting_values = [];
             //console.log(item.properties.title);
@@ -958,9 +961,10 @@
                 //sheet_interesting_values[i2][i3] = item3.effectiveValue.stringValue;
               });
               //console.log(row_values);
-              if (row_values.length > 0 ) {
-                sheet_interesting_values.push(row_values);
+              row_in_string = JSON.stringify(row_values).replace(/[\[\]\,\"]/g,''); //convert last row array to string
 
+              if (row_in_string.length > 0 ) {
+                sheet_interesting_values.push(row_values);
               }
             });
             if (type=="order_data"){
