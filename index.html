@@ -939,44 +939,44 @@
 	      return data;
 	    } 
 
-      function extract_values(r, type){
-        var sheet_interesting_values;
-        var row_in_string = "";
+    function extract_values(r, type){
+      var sheet_interesting_values;
+      var row_in_string = "";
 
-        r.sheets.forEach((item, i) => {
-            sheet_interesting_values = [];
-            //console.log(item.properties.title);
-            item.data[0].rowData.forEach((item2, i2) => {
-              var row_values = [];
+      r.sheets.forEach((item, i) => {
+          sheet_interesting_values = [];
+          //console.log(item.properties.title);
+          item.data[0].rowData.forEach((item2, i2) => {
+            var row_values = [];
 
-              item2.values.forEach((item3, i3) => {
-                if (item3.formattedValue) {
-                  row_values.push(item3.formattedValue);
-                }
-                else {
-                  row_values.push("");
-                }
-                
-                //console.log(item3.effectiveValue.stringValue);
-                //sheet_interesting_values[i2][i3] = item3.effectiveValue.stringValue;
-              });
-              //console.log(row_values);
-              row_in_string = JSON.stringify(row_values).replace(/[\[\]\,\"]/g,''); //convert last row array to string
-
-              if (row_in_string.length > 0 ) {
-                sheet_interesting_values.push(row_values);
+            item2.values.forEach((item3, i3) => {
+              if (item3.formattedValue) {
+                row_values.push(item3.formattedValue);
               }
+              else {
+                row_values.push("");
+              }
+              
+              //console.log(item3.effectiveValue.stringValue);
+              //sheet_interesting_values[i2][i3] = item3.effectiveValue.stringValue;
             });
-            if (type=="order_data"){
-            order_data_values[item.properties.title] = sheet_interesting_values;
-            }
-            else {
-              sheet_values[item.properties.title] = sheet_interesting_values;
+            //console.log(row_values);
+            row_in_string = JSON.stringify(row_values).replace(/[\[\]\,\"]/g,''); //convert last row array to string
 
+            if (row_in_string.length > 0 ) {
+              sheet_interesting_values.push(row_values);
             }
+          });
+          if (type=="order_data"){
+          order_data_values[item.properties.title] = sheet_interesting_values;
+          }
+          else {
+            sheet_values[item.properties.title] = sheet_interesting_values;
 
-          }); 
-      }
+          }
+
+        }); 
+    }
 
     function get_catalog(local_catalog_data){
 
