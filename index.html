@@ -1476,6 +1476,7 @@
       var other_name = document.getElementById("other_name").value;
       var my_orders = document.getElementById("my_orders");
       var name = "";
+      var today_date = new Date();
       scoutname == "Other" ? name = other_name : name = scoutname;
 
       if (scoutname == "") {
@@ -1492,7 +1493,7 @@
       }
 
       if (order_source == "cached"){
-        if (localStorage.getItem('cached_orders')) {
+        if (localStorage.getItem('cached_orders') && (Date.parse(today_date) - Date.parse(localStorage.getItem('cached_timestamp')) < 86400000)) {
           show_orders();
         }
         else {
