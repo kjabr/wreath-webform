@@ -1751,6 +1751,10 @@
       toggle_modal();
     }
 
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+      } 
+
     function phoneFormat(input) {//returns (###) ###-####
       input = input.replace(/\D/g,'');
       var size = input.length;
