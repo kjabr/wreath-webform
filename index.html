@@ -1733,7 +1733,7 @@
 
       totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Order Totals: " + "$" + 
         (local_orders_total + gift_shipper_total) + " (Local: $" + local_orders_total + ", Gift Shipper: $" + 
-        gift_shipper_total + ")";
+        round(gift_shipper_total, 2) + ")";
       
       local_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
       local_csv_elem.target = "_blank";
