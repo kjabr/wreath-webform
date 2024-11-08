@@ -1081,7 +1081,13 @@
         }
       }).then((response) => {
         var popup_elem = document.getElementById("popup_content");
-        popup_elem.innerHTML = "Success! Your order was sent.";
+        if (response.statusText == "SUCCESS") {
+          popup_elem.innerHTML = "Success! Your order was sent.";
+
+        }
+        else {
+          popup_elem.innerHTML = "Error: " + response.statusText;
+        }
         document.getElementById("loader").style.display = "none";
         toggle_modal();
         clear_data();
