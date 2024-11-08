@@ -1063,7 +1063,7 @@
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
-      fetch('https://jsonplaceholder.typicode.com/invalid-endpoint',
+      fetch(gas_link,
       {
         redirect: "follow",
         method: 'POST',
