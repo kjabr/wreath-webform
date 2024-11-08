@@ -1081,14 +1081,13 @@
         }
       }).then((response) => {
         var popup_elem = document.getElementById("popup_content");
-       // if (response.statusText == "SUCCESS") {
+        if (response.statusText == "SUCCESS") {
           popup_elem.innerHTML = "Success! Your order was sent.";
-          console.log(response.status);
-
-       // }
-       //  else {
-       //   popup_elem.innerHTML = "Error: " + response.statusText;
-       // }
+          //console.log(response.status);
+        }
+         else {
+          popup_elem.innerHTML = "Submitted but with error: " + response.status;
+        }
         document.getElementById("loader").style.display = "none";
         toggle_modal();
         clear_data();
