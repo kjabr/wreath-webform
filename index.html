@@ -1081,7 +1081,7 @@
         }
       }).then((response) => {
         var popup_elem = document.getElementById("popup_content");
-        if (response.statusText == "SUCCESS") {
+        if (response.status == "SUCCESS") {
           popup_elem.innerHTML = "Success! Your order was sent.";
           //console.log(response.status);
         }
