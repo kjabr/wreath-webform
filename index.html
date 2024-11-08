@@ -1077,6 +1077,7 @@
         if (response.status >= 200 && response.status <= 299) {
           return response.json();
         } else {
+
           throw Error(response.statusText);
         }
       }).then((response) => {
@@ -1095,6 +1096,7 @@
         var popup_elem = document.getElementById("popup_content");
         document.getElementById("loader").style.display = "none";
         popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
+        toggle_modal();
       });
     }
 
