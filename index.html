@@ -1063,7 +1063,7 @@
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
-      fetch(gas_link,
+      fetch('http://invalid.url',
       {
         redirect: "follow",
         method: 'POST',
