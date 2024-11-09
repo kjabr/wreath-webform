@@ -878,6 +878,8 @@
 
     `;
 
+    document.getElementById("container").style.display="none";
+
     document.addEventListener('DOMContentLoaded', function() {
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -1048,8 +1050,11 @@
 
     function build_page(setup_data){
       if (webform_toggle == "yes") {
-        document.getElementById("container").style.display="none";
         return;
+        }
+        else {
+          document.getElementById("container").style.display="";
+
         }
       document.getElementById("loader").style.display = "none";
       document.getElementById('webform_title').innerHTML = title;
