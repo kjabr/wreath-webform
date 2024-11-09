@@ -797,7 +797,7 @@
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
-      url_params, url_name, url_email, tracking_sheet;
+      url_params, url_name, url_email, tracking_sheet, webform_toggle;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -979,7 +979,7 @@
     }
 
     function get_catalog(local_catalog_data){
-
+      if (webform_toggle == "yes") {return;}
         local_catalog = [...local_catalog_data];
         //append a donation item to the catalog
         local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
@@ -1028,6 +1028,7 @@
       my_orders_panel = setup_data[0][7] || "";
       gas_link = setup_data[0][8] || "";
       tracking_sheet = setup_data[0][9] || "";
+      webform_toggle = setup_data[0][10] || "";
       
       if (announcement != "" && hashCode(announcement) != cached_announcement){
         popup_elem.innerHTML = "<strong>Announcement!</strong><br><br>" + announcement;
@@ -1046,6 +1047,7 @@
     }
 
     function build_page(setup_data){
+      if (webform_toggle == "yes") {return;}
       document.getElementById("loader").style.display = "none";
       document.getElementById('webform_title').innerHTML = title;
       populate_scoutnames();
