@@ -1047,7 +1047,10 @@
     }
 
     function build_page(setup_data){
-      if (webform_toggle == "yes") {return;}
+      if (webform_toggle == "yes") {
+        document.getElementById("container").style.display="none";
+        return;
+        }
       document.getElementById("loader").style.display = "none";
       document.getElementById('webform_title').innerHTML = title;
       populate_scoutnames();
