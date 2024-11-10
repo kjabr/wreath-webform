@@ -782,18 +782,19 @@
   </body>
 
   <script>
-      var setup_sheet_name = "Giftshipper Setup";
-      var store_sheet_name = "Giftshipper Catalog";
-      var orgs_sheet_name = "Orgs";
-      var local_sheet_name = "Webform Catalog";
-      var webform_sheet_name = "Webform Setup";
-      var giftshipper_sheet_name = "Gift Shipper PayPal";
-      var webform_orders_sheet_name = "Webform";
-      var sheet_names_setup = [local_sheet_name, webform_sheet_name];
-      var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name];
-      var sheet_ranges = "A1:Q500";
-      var sheet_values = {};
-      var order_data_values = {};
+    var setup_sheet_name = "Giftshipper Setup";
+    var store_sheet_name = "Giftshipper Catalog";
+    var orgs_sheet_name = "Orgs";
+    var local_sheet_name = "Webform Catalog";
+    var webform_sheet_name = "Webform Setup";
+    var giftshipper_sheet_name = "Gift Shipper PayPal";
+    var webform_orders_sheet_name = "Webform";
+    var sheet_names_setup = [local_sheet_name, webform_sheet_name];
+    var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name];
+    var sheet_ranges = "A1:Q500";
+    var sheet_values = {};
+    var order_data_values = {};
+    var webform_off_override = "no";
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
@@ -909,6 +910,10 @@
           }
 
           urlParams.get("scoutname") ? (scoutname_elem.disabled = true, other_name.disabled = true) : null;
+        }
+
+        if (urlParams.get("off")) {
+          webform_off_override = urlParams.get("off") || "no";
         }
 
       var range_of_sheets = "";
@@ -1031,6 +1036,10 @@
       gas_link = setup_data[0][8] || "";
       tracking_sheet = setup_data[0][9] || "";
       webform_toggle = setup_data[0][10] || "";
+
+      if (webform_toggle == "yes" && webform_off_override == "yes"){
+        webform_toggle = "no";
+      }
       
       if (announcement != "" && hashCode(announcement) != cached_announcement){
         popup_elem.innerHTML = "<strong>Announcement!</strong><br><br>" + announcement;
