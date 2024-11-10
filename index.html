@@ -794,7 +794,7 @@
     var sheet_ranges = "A1:Q500";
     var sheet_values = {};
     var order_data_values = {};
-    var webform_off_override = "no";
+    var webform_off_override = "yes";
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
@@ -913,7 +913,7 @@
         }
 
         if (urlParams.get("off")) {
-          webform_off_override = urlParams.get("off") || "no";
+          webform_off_override = urlParams.get("off") || "yes"; //when urlParam off = no then override the off setting
         }
 
       var range_of_sheets = "";
@@ -1037,7 +1037,7 @@
       tracking_sheet = setup_data[0][9] || "";
       webform_toggle = setup_data[0][10] || "";
 
-      if (webform_toggle == "yes" && webform_off_override == "yes"){
+      if (webform_toggle == "yes" && webform_off_override == "no"){
         webform_toggle = "no";
       }
       
