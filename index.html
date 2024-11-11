@@ -779,6 +779,14 @@
       <div id="popup_overlay" class="popup_overlay" style="display: none;" onclick="toggle_modal()"></div>
       <div class="loader" id="loader"></div>
     </div>
+    <div class="container" id="container2" style="display: none;">
+      <div id="popup2" class="popup">
+        <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
+        <div id="popup_content" class="popup_content2"> 
+          The Webform is Off!
+        </div>
+      </div>
+    </div>
   </body>
 
   <script>
@@ -794,7 +802,7 @@
     var sheet_ranges = "A1:Q500";
     var sheet_values = {};
     var order_data_values = {};
-    var webform_off_override = "yes";
+    var url_param_off = "yes";
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
@@ -913,7 +921,7 @@
         }
 
         if (urlParams.get("off")) {
-          webform_off_override = urlParams.get("off") || "yes"; //when urlParam off = no then override the off setting
+          url_param_off = urlParams.get("off") || "yes"; //when urlParam off = no then override the off setting
         }
 
       var range_of_sheets = "";
@@ -1037,7 +1045,7 @@
       tracking_sheet = setup_data[0][9] || "";
       webform_toggle = setup_data[0][10] || "";
 
-      if (webform_toggle == "yes" && webform_off_override == "no"){
+      if (webform_toggle == "yes" && url_param_off == "no"){
         webform_toggle = "no";
       }
       
@@ -1059,6 +1067,7 @@
 
     function build_page(setup_data){
       if (webform_toggle == "yes") {
+          document.getElementById("container2").style.display=""
         return;
         }
         else {
