@@ -376,6 +376,21 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
 
+      .popup2 {
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        z-index: 1101;
+        left: 50%;
+        top: 50%;
+        border-radius: 8px;
+        margin: auto;
+        transform: translate(-50%, -50%);
+        transition: opacity 400ms ease-in;
+        background: #F7F6EF;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
       .popup_overlay {
         position: fixed;
         top: 0;
@@ -386,6 +401,18 @@
 
         opacity: 0.4;
         background-color: rgba(0,0,0,0.5);
+      }
+
+      .popup_overlay2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1100;
+
+        opacity: 0.4;
+        background-color: rgba(0, 0, 0, 0.2);
       }
 
       .popup_content {
@@ -465,6 +492,16 @@
 
       .totals_class {
         border-top: 1px dashed;
+      }
+
+      .single_entry_section_off{
+        width: 100vw;
+        height: 100vh;
+      }
+      .single_entry_off{
+        position: relative;
+        height: 40vh;
+        width: 70vw;
       }
 
       @media (max-width: 800px)  {
@@ -663,69 +700,81 @@
       </div>
 
       <div id="single_entry_section" class="tabcontent">
-        <p id="single_entry_info" class="tab_info"></p>
-        <div class="section_titles">
-          <span>Customer contact info:</span>
-        </div>
-        <div class="cust_info">
-          <div class="cust_info_item">
-            <label for="cust_name">Name: </label>
-            <input id="cust_name" type="text" name="cust_name" placeholder="required">
+        <div id="single_entry_content">
+          <p id="single_entry_info" class="tab_info"></p>
+          <div class="section_titles">
+            <span>Customer contact info:</span>
+          </div>
+          <div class="cust_info">
+            <div class="cust_info_item">
+              <label for="cust_name">Name: </label>
+              <input id="cust_name" type="text" name="cust_name" placeholder="required">
+            </div>
+
+            <div class="cust_info_item">
+              <label for="cust_addr">Address: </label>
+              <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
+              <button type="button" id="geo_loc" class="btn4" onclick="geo_loc()" name="geo_loc">GPS</button>
+            </div>
+
+            <div class="cust_info_item">
+              <label for="cust_phone">Phone if known: </label>
+              <input id="cust_phone" type="tel" name="cust_phone" style="width: 10em;" onInput="this.value = phoneFormat(this.value)" placeholder="optional">
+            </div>
+
+            <div class="cust_info_item">
+              <label for="cust_email">Email address to get a receipt: </label>
+              <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional">
+            </div>
+
+            <div class="cust_info_item">
+              <label for="cust_note">Add note to order? </label>
+              <input id="cust_note" type="text" name="cust_note" placeholder="optional">
+              <!-- 
+              <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
+              -->
+            </div>
+            <div class="cust_payment">
+              <span>Payment:  </span>
+              <label for="cust_cash">Cash</label>
+              <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
+              <label for="cust_check">Check</label>
+              <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
+              <label for="cust_venmo">Venmo</label>
+              <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
+              <label for="cust_unpaid">Unpaid</label>
+              <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
+            </div>
+
           </div>
 
-          <div class="cust_info_item">
-            <label for="cust_addr">Address: </label>
-            <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
-            <button type="button" id="geo_loc" class="btn4" onclick="geo_loc()" name="geo_loc">GPS</button>
-          </div>
-
-          <div class="cust_info_item">
-            <label for="cust_phone">Phone if known: </label>
-            <input id="cust_phone" type="tel" name="cust_phone" style="width: 10em;" onInput="this.value = phoneFormat(this.value)" placeholder="optional">
-          </div>
-
-          <div class="cust_info_item">
-            <label for="cust_email">Email address to get a receipt: </label>
-            <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional">
-          </div>
-
-          <div class="cust_info_item">
-            <label for="cust_note">Add note to order? </label>
-            <input id="cust_note" type="text" name="cust_note" placeholder="optional">
-            <!-- 
-            <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
-            -->
-          </div>
-          <div class="cust_payment">
-            <span>Payment:  </span>
-            <label for="cust_cash">Cash</label>
-            <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
-            <label for="cust_check">Check</label>
-            <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
-            <label for="cust_venmo">Venmo</label>
-            <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
-            <label for="cust_unpaid">Unpaid</label>
-            <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
-          </div>
-
-        </div>
-
-        <div class="single_entry">
-            <span class="header1">Enter customer order:</span>
           <div class="single_entry">
-            <div id="wreath_section" class="wreath_section"></div>
-          </div>
-          <div class="single_entry_bottom">
-            <div class="single_entry_buttons">
-              <button type="button" id="clear_all" class="btn2" onclick="clear_data()" name="clear_data">Clear All</button>
-              <button type="button" id="save_all" class="btn1" onclick="save_data()" name="Submit_data">Submit</button>
+              <span class="header1">Enter customer order:</span>
+            <div class="single_entry">
+              <div id="wreath_section" class="wreath_section"></div>
             </div>
-            <div class="avoidwrap">
-              <strong>Total: </strong> <span id="single_entry_total">$0</span>
+            <div class="single_entry_bottom">
+              <div class="single_entry_buttons">
+                <button type="button" id="clear_all" class="btn2" onclick="clear_data()" name="clear_data">Clear All</button>
+                <button type="button" id="save_all" class="btn1" onclick="save_data()" name="Submit_data">Submit</button>
+              </div>
+              <div class="avoidwrap">
+                <strong>Total: </strong> <span id="single_entry_total">$0</span>
+              </div>
             </div>
           </div>
         </div>
-
+        <div id="single_entry_section_off" class="" style="display: none;">
+          <div id="single_entry_off" class="single_entry_off">
+            <div id="popup2" class="popup2">
+              <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
+              <div id="popup_content2" class="popup_content"> 
+                <center>Webform Entry is Off</center>
+              </div>
+            </div>
+            <div id="popup_overlay2" class="popup_overlay2"></div>
+          </div>
+        </div>
       </div>
 <!--
       <div id="multi_order_section" class="tabcontent">
@@ -779,15 +828,7 @@
       <div id="popup_overlay" class="popup_overlay" style="display: none;" onclick="toggle_modal()"></div>
       <div class="loader" id="loader"></div>
     </div>
-    <div class="container" id="container2" style="display: none;">
-      <div id="popup2" class="popup">
-        <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
-        <div id="popup_content2" class="popup_content"> 
-          <center>The Webform is Off</center>
-        </div>
-      </div>
-      <div id="popup_overlay2" class="popup_overlay"></div>
-    </div>
+
   </body>
 
   <script>
@@ -888,7 +929,7 @@
 
     `;
 
-    document.getElementById("container").style.display="none";
+    document.getElementById("single_entry_content").style.display="none";
 
     document.addEventListener('DOMContentLoaded', function() {
       var queryString = window.location.search;
@@ -1068,11 +1109,10 @@
 
     function build_page(setup_data){
       if (webform_toggle == "yes") {
-          document.getElementById("container2").style.display=""
-        return;
+          document.getElementById("single_entry_section_off").style.display="";
         }
         else {
-          document.getElementById("container").style.display="";
+          document.getElementById("single_entry_content").style.display="";
 
         }
       document.getElementById("loader").style.display = "none";
