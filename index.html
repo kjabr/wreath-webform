@@ -1091,7 +1091,7 @@
         webform_toggle = "no";
       }
       
-      if (announcement != "" && hashCode(announcement) != cached_announcement){
+      if (announcement != "" && hashCode(announcement) != cached_announcement && webform_toggle != "yes"){
         popup_elem.innerHTML = "<strong>Announcement!</strong><br><br>" + announcement;
         localStorage.setItem('cached_announcement', hashCode(announcement));
         toggle_modal();
