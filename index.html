@@ -808,11 +808,13 @@
           <p id="all_data_info1"></p>
           <div id="local_orders">
             <table id="all_data_table" class="all_data_table">
-              <caption><h3>Local Orders - <a id="local_csv">CSV</a></h3></caption>
+              <caption><h3>Local Orders - <a id="local_csv">[CSV]</a></h3></caption>
                 <tbody id="tbody_data_table" >
                 </tbody>
             </table>
-            <p class="local_orders_info">Local orders:</p>
+            <p class="local_orders_info">Local orders - 
+              <a id="local_csv2"> [CSV]</a>
+            </p>
             <div id="all_data_div1" class="all_data_div">
             </div>
           </div>
@@ -820,11 +822,13 @@
           <p id="all_data_info2"></p>
           <div id="gift_shipper_orders">
             <table id="gift_shipper_table" class="all_data_table">
-              <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">CSV</a></h3></caption>
+              <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
               <tbody id="tbody_gift_shipper"></tbody>
             </table>
             <hr>
-            <p class="gift_shipper_info">Gift Shipper Orders:</p>
+            <p class="gift_shipper_info">Gift Shipper Orders:
+              <a id="shipper_csv2"> [CSV]</a>
+            </p>
             <div id="all_data_div2" class="all_data_div">
             </div>
           </div>
@@ -1609,6 +1613,8 @@
       var all_data_table = document.getElementById("all_data_table");
       var local_csv_elem = document.getElementById("local_csv");
       var shipper_csv_elem = document.getElementById("shipper_csv");
+      var local_csv_elem2 = document.getElementById("local_csv2");
+      var shipper_csv_elem2 = document.getElementById("shipper_csv2");
       var totals = document.getElementById("totals");
       var my_orders = document.getElementById("my_orders");
       var gift_shipper_table = document.getElementById("gift_shipper_table");
@@ -1873,6 +1879,13 @@
       shipper_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_ship);
       shipper_csv_elem.target = "_blank";
       shipper_csv_elem.download = name+"_gift_shipper_orders.csv";
+
+      local_csv_elem2.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
+      local_csv_elem2.target = "_blank";
+      local_csv_elem2.download = name+"_local_orders.csv";
+      shipper_csv_elem2.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_ship);
+      shipper_csv_elem2.target = "_blank";
+      shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
 
 
     }
