@@ -1852,26 +1852,26 @@
         round(gift_shipper_total, 2) + ")"; */
 
       	totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Grand Total: " + "$" + 
-        (local_orders_total + gift_shipper_total)
+        numberWithCommas((local_orders_total + gift_shipper_total))
           + "<ul class='order_totals_ul'>"
-          + "<li>" + "Gift Shipper: $" + round(gift_shipper_total, 2) + "</li>"
-          + "<li>" + "Local orders and Donations: $"  + local_orders_total + "</li>"
+          + "<li>" + "Gift Shipper: $" + numberWithCommas(round(gift_shipper_total, 2)) + "</li>"
+          + "<li>" + "Local orders and Donations: $"  + numberWithCommas(local_orders_total) + "</li>"
           + "<ul>"
-              + "<li>" + "Door to door orders: $" + (local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)) + "</li>"
-              + "<li>" + "Door Hanger: $" + door_hanger_total + "</li>"
+              + "<li>" + "Door to door orders: $" + numberWithCommas((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total))) + "</li>"
+              + "<li>" + "Door Hanger: $" + numberWithCommas(door_hanger_total) + "</li>"
             + "</ul>"
             + "<ul>"
-              + "<li>" + "Donations: $" + (scout_donations_total + online_donations_total) + "</li>"
+              + "<li>" + "Donations: $" + numberWithCommas((scout_donations_total + online_donations_total)) + "</li>"
               + "<ul>"
-                + "<li>" + "Scout collected: $" + scout_donations_total + "</li>"
-                + "<li>" + "Via PayPal: $" + online_donations_total + "</li>"
+                + "<li>" + "Scout collected: $" + numberWithCommas(scout_donations_total) + "</li>"
+                + "<li>" + "Via PayPal: $" + numberWithCommas(online_donations_total) + "</li>"
               + "</ul>"
             + "</ul>"
           + "</ul>"
-          + name.split(" ")[0] + " should have $" + ((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)) 
-            + scout_donations_total)
-            + " from customers to turn in " + " ($" + (local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total))
-              + " + $" + scout_donations_total + " in donations)";
+          + name.split(" ")[0] + " should have $" + numberWithCommas(((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)) 
+            + scout_donations_total))
+            + " from customers to turn in " + " ($" + numberWithCommas((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)))
+              + " + $" + numberWithCommas(scout_donations_total) + " in donations)";
       
       local_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
       local_csv_elem.target = "_blank";
@@ -1889,6 +1889,11 @@
 
 
     }
+
+    function numberWithCommas(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
 
     function note_popup(note_msg){
       var popup_elem = document.getElementById("popup_content");
