@@ -201,7 +201,12 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 12px;
         border-collapse: collapse;
-        width: 100%;
+        max-width: 100%;
+        min-width: 65%;
+      }
+
+      .all_data_table > caption {
+        position: relative;
       }
 
       .all_data_table > caption > h3 {
@@ -239,7 +244,15 @@
 
       .table_item_left {
         text-align: left !important;
+        max-width: 400px;
       } 
+
+      .table_timestamp {
+        text-align: left !important;
+        max-width: 200px;
+        min-width: 120px;
+
+      }
 
       .table_cell_note:hover {
         cursor: pointer;
@@ -512,6 +525,81 @@
       .order_totals_ul {
         margin-top: 0px;
         margin-bottom: 5px;
+      }
+
+      .column5
+      {
+        display: "";
+      } 
+      .column6
+      {
+        display: "";
+      } 
+      .column7
+      {
+        display: "";
+      } 
+      .column8
+      {
+        display: "";
+      } 
+      .column9
+      {
+        display: "";
+      } 
+      .column10
+      {
+        display: "";
+      } 
+      .column11
+      {
+        display: "";
+      } 
+      .column12
+      {
+        display: "";
+      } 
+      .column13
+      {
+        display: "";
+      } 
+      .column14
+      {
+        display: "";
+      } 
+      .column15
+      {
+        display: "";
+      } 
+      .column16
+      {
+        display: "";
+      } 
+      .column17
+      {
+        display: "";
+      } 
+      .column18
+      {
+        display: "";
+      } 
+      .column19
+      {
+        display: "";
+      } 
+      .column20
+      {
+        display: "";
+      } 
+
+      .column_toggle {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .all_data_info1{
+        position: relative;
       }
 
       @media (max-width: 800px)  {
@@ -805,16 +893,24 @@
             <span id="cached_timestamp"></span>
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
-          <p id="all_data_info1"></p>
-          <div id="local_orders">
+            <p id="all_data_info1" class="all_data_info1"></p>
+          <div id="local_orders" class="local_orders">
+
             <table id="all_data_table" class="all_data_table">
-              <caption><h3>Local Orders - <a id="local_csv">[CSV]</a></h3></caption>
+              <caption>
+                <h3>Local Orders - <a id="local_csv">[CSV]</a></h3>
+                <div class="column_toggle">
+                  <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
+                  <label for="column_toggle">Hide zero total columns</label>
+                </div>
+              </caption>
                 <tbody id="tbody_data_table" >
                 </tbody>
             </table>
             <p class="local_orders_info">Local orders - 
               <a id="local_csv2"> [CSV]</a>
             </p>
+
             <div id="all_data_div1" class="all_data_div">
             </div>
           </div>
@@ -967,6 +1063,8 @@
           url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
             .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
           url_email = urlParams.get("email") || "";
+
+          document.getElementById("column_toggle").checked = true;
 
           if (url_email != "") {
             var emailsArray3 = url_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -1253,12 +1351,15 @@
       var all_data_div2 = document.getElementById("all_data_div2");
       var my_orders = document.getElementById("my_orders");
 
+      reset_columns();
+
       scoutname_elem.value == "Other" ? other_name_elem.style.display = "" :
           (other_name_elem.style.display = "none", document.getElementById("other_name").value="");
       curr_tab == "my_orders_section" ? render_orders("cached") : null;
     //  scoutname_elem.value == "Other" && curr_tab == "my_orders_section" ?
     //      (tbody_data_table.innerHTML = "", tbody_gift_shipper.innerHTML="", all_data_div1.innerHTML = "", 
     //        all_data_div2.innerHTML ="", my_orders.style.display = "none") : null;
+
     }
 
     function wreath_amount_change(elem){
@@ -1621,6 +1722,7 @@
       var local_orders_div = document.getElementById("local_orders");
       var gift_shipper_orders_div = document.getElementById("gift_shipper_orders");
       var popup_elem = document.getElementById("popup_content");
+      var column_toggle_checkbox = document.getElementById("column_toggle");
       var name = "";
       scoutname == "Other" ? name = other_name : name = scoutname;
       var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
@@ -1663,7 +1765,7 @@
 
       wreath_orders[0].forEach((item, i) => {
         if (i == 1 || i == 3) return; //don't show scoutname or note in the table
-        table_head += "<th>" + item + "</th>";
+        table_head += "<th class='column" + i + "'>" + item + "</th>";
       });
 
       document.getElementById("tbody_data_table").innerHTML = table_header.replace(/hhhh/g, table_head);
@@ -1690,16 +1792,20 @@
 
          item.forEach((item, i) => {
            i == 3 && item != "0" ? row_note = item : null;
+           i == 0 ? item = item.replace(/,/, ",<br>") : null;
            if (i == 1 || i == 3) return;
             if (row_note != "" && i == 2){
               table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] 
                 + "' onclick='note_popup(" + JSON.stringify(row_note) + ")'>" + item + "<div class='comment_div'></div></td>"; 
             }
-            else if (i == 0 || i == 2){
+            else if (i == 2){
               table_line += "<td class='table_item_left'>" + item + "</td>"; 
             }
+            else if (i == 0){
+              table_line += "<td class='table_timestamp'>" + item + "</td>"; 
+            }
             else {
-              table_line += "<td>" + item + "</td>";
+              table_line += "<td class='column" + i + "'>" + item + "</td>";
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
@@ -1723,20 +1829,25 @@
        row_note = "";
      });
 
-     //console.log("Wreath Sale Donation: " + online_donations_total);
-     //console.log("Door Hanger Order: " + door_hanger_total);
-     //console.log("Scout Donations total: " + scout_donations_total);
-
      table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
         + local_orders_total + "</strong></td>";
      for (const property in item_total) {
       count++;
       if (count == Object.keys(item_total).length) {
-        table_line += "<td class='totals_class'> <strong>$" + item_total[property] + "</strong> </td>";
+        table_line += "<td class='totals_class column" + property + "'> <strong>$" + item_total[property] + "</strong> </td>";
+        if (column_toggle_checkbox.checked) {
+          item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.column'+property)
+          .style.display='none': null;
+        }
 
       }
       else {
-        table_line += "<td class='totals_class'> <strong>" + item_total[property] + "</strong> </td>";
+        table_line += "<td class='totals_class column" + property + "'> <strong>" + item_total[property] + "</strong> </td>";
+        if (column_toggle_checkbox.checked) {
+          item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.column'+property)
+          .style.display='none': null;
+        }
+
 
       }
      }
@@ -1888,6 +1999,35 @@
       shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
 
 
+    }
+
+    function checkbox_toggle(checkbox){
+      //var column_toggle_checkbox = document.getElementById("column_toggle");
+      if (checkbox.checked) {
+        render_orders("cached");
+      }
+      else {
+        reset_columns();
+      }
+    }
+    
+    function reset_columns(){
+      // Loop through all stylesheets in the document
+      for (let sheet of document.styleSheets) {
+        try {
+          // Loop through all CSS rules in the current stylesheet
+          for (let rule of sheet.cssRules || sheet.rules) {
+            // Check if the selector starts with ".column"
+            if (rule.selectorText && rule.selectorText.startsWith(".column")) {
+                // Modify the CSS property
+                rule.style.display = "";
+            }
+        }
+    } catch (e) {
+        // Some stylesheets (like cross-origin) might throw an error
+        console.warn("Could not access stylesheet:", e);
+    }
+}
     }
 
     function numberWithCommas(num) {
