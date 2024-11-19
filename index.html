@@ -527,6 +527,11 @@
         margin-bottom: 5px;
       }
 
+      .column4
+      {
+        display: "";
+      } 
+
       .column5
       {
         display: "";
@@ -592,10 +597,12 @@
         display: "";
       } 
 
+      /*
       td:hover
       {
         background-color: orange;
       } 
+      */
       
       .column_toggle {
         position: absolute;
@@ -1744,6 +1751,7 @@
       var scout_donations_total = 0;
       var online_donations_total = 0;
       var door_hanger_total = 0;
+      var td_count = 0;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -1796,6 +1804,7 @@
          }
 
          item.forEach((item, i) => {
+           td_count++;
            i == 3 && item != "0" ? row_note = item : null;
            i == 0 ? item = item.replace(/,/, ",<br>") : null;
            if (i == 1 || i == 3) return;
@@ -1809,8 +1818,11 @@
             else if (i == 0){
               table_line += "<td class='table_timestamp'>" + item + "</td>"; 
             }
+            /*else if (i == 4){
+              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
+            }*/
             else {
-              table_line += "<td class='column" + i + "'>" + item + "</td>";
+              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
@@ -2003,6 +2015,21 @@
       shipper_csv_elem2.target = "_blank";
       shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
 
+
+    }
+
+    function td_mouseover(elem){
+      var column_name = elem.id.split("_")[1];
+      [...document.styleSheets[0].cssRules].find(x=> x.selectorText=="."+column_name)
+          .style.background='#ddd';
+      elem.style.background="orange";
+    }
+
+    function td_mouseout(elem){
+      var column_name = elem.id.split("_")[1];
+      [...document.styleSheets[0].cssRules].find(x=> x.selectorText=="."+column_name)
+      .style.background='';
+      elem.style.background="";
 
     }
 
