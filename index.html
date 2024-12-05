@@ -1249,6 +1249,7 @@
 
         }
       document.getElementById("loader").style.display = "none";
+      document.getElementById("single_entry_buttons").style.visibility="";
       document.getElementById('webform_title').innerHTML = title;
       populate_scoutnames();
       document.getElementById('single_entry_info').innerHTML = description;
@@ -1292,6 +1293,7 @@
           popup_elem.innerHTML = "Submit Error!<br><br>" + response.status;
         }
         document.getElementById("loader").style.display = "none";
+        document.getElementById("single_entry_buttons").style.visibility="";
         toggle_modal();
         clear_data();
       }).catch((error) =>{
