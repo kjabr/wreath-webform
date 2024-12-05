@@ -1297,6 +1297,7 @@
       }).catch((error) =>{
         var popup_elem = document.getElementById("popup_content");
         document.getElementById("loader").style.display = "none";
+        document.getElementById("single_entry_buttons").style.visibility="";
         popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
         toggle_modal();
       });
@@ -1578,6 +1579,7 @@
         local_orders.push(log_order);
         localStorage.setItem('cached_orders', JSON.stringify(local_orders));
         //localStorage.setItem('cached_timestamp', JSON.stringify(curr_timestamp));
+        document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
         send_backend();
       }
