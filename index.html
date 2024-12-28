@@ -246,6 +246,29 @@
 
       }
 
+      .gift_shipper_table {
+        width: 100%;
+      }
+
+      .gift_shipper_table > tbody > tr > td {
+        padding: 3px;
+      }
+
+      .gift_shipper_table th {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      .gift_shipper_table > tbody > tr > td:nth-last-child(1) {
+        max-width: 320px;
+      }
+
+      .gift_shipper_table > tbody > tr > td:nth-child(3) {
+        max-width: 320px;
+        border-left: 1px dashed;
+        border-right: 1px dashed;      
+      }
+
       .table_item_left {
         text-align: left !important;
         max-width: 400px;
@@ -601,6 +624,45 @@
         display: "";
       } 
 
+      .column100
+      {
+        display: "";
+      }
+
+      .column101
+      {
+        display: "";
+      }
+      .column102
+      {
+        display: "";
+      }
+      .column103
+      {
+        display: "";
+      }
+      .column104
+      {
+        display: "";
+      }
+      .column105
+      {
+        display: "";
+      }
+      .column106
+      {
+        display: "";
+      }
+      .column107
+      {
+        display: "";
+      }
+      .column108
+      {
+        display: "";
+      }
+      
+
       /*
       td:hover
       {
@@ -933,7 +995,7 @@
 
           <p id="all_data_info2"></p>
           <div id="gift_shipper_orders">
-            <table id="gift_shipper_table" class="all_data_table">
+            <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
               <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
               <tbody id="tbody_gift_shipper"></tbody>
             </table>
@@ -1920,6 +1982,7 @@
 
       //Handle Gift Shipper table
       table_line = "", table_row = "", order_divs_line = "", table_head = "", div_text = "";
+      td_count = 0;
       
       if (gift_shipper_orders){
         var table_column_names = ["Timestamp", "Buyer", "Recipient", "Wreath", "qty", "Cost", "Msg"];
@@ -1948,9 +2011,15 @@
         var td_map = [order_timestamp, buyer, recipient, wreath_item, qty, price, msg];
         name == scout_credit ? gift_shipper_total += Number(qty) * Number(price.split("$")[1]) : null;
         if (item[1] == name) {
+          td_count++;
           td_map.forEach((item, i) => {
-            i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
-              table_line += "<td class=''>" + item + "</td>"; 
+//table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+
+            //i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
+            //table_line += "<td id='' class=''>" + item + "</td>"; 
+            table_line += "<td id='" + (td_count+1000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+            //table_line += "<td id='" + (td_count+1000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
+
           });
           div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
               + recipient + "<br>" + "Item: " + wreath_item + " / " + "Qty: " + qty + "<br>" + "Price: " + price + "<br>"
@@ -2028,8 +2097,11 @@
 
     function td_mouseover(elem){
       var column_name = elem.id.split("_")[1];
+      Number(elem.id.split("_")[0]) < 1000 ?
       [...document.styleSheets[0].cssRules].find(x=> x.selectorText=="."+column_name)
-          .style.background='#ddd';
+          .style.background='#ddd': null;
+      
+      //Number(elem.id.split("_")[0]) < 1000 ? elem.style.background="orange" : null;
       elem.style.background="orange";
     }
 
