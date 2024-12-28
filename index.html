@@ -2017,7 +2017,7 @@
 
             //i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
             //table_line += "<td id='' class=''>" + item + "</td>"; 
-            table_line += "<td id='" + (td_count+1000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+            table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
             //table_line += "<td id='" + (td_count+1000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
 
           });
@@ -2097,7 +2097,7 @@
 
     function td_mouseover(elem){
       var column_name = elem.id.split("_")[1];
-      Number(elem.id.split("_")[0]) < 1000 ?
+      Number(elem.id.split("_")[0]) < 3000 ?
       [...document.styleSheets[0].cssRules].find(x=> x.selectorText=="."+column_name)
           .style.background='#ddd': null;
       
