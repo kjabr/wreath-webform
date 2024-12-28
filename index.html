@@ -223,7 +223,19 @@
         background-color: azure;
       }
 
+      .all_data_table > tbody > tr > td:nth-child(2){
+        border-left: 1px dashed lightgray;
+        border-right: 1px dashed lightgray; 
+        padding-left: 10px;
+        padding-right: 5px;
+       }
+
+       .all_data_table > tbody > tr > td:nth-child(3){
+         padding-left: 5px;
+        }
+
       .all_data_table tr:hover {background-color: #ddd;}
+      .all_data_table td:hover {background-color: orange;}
 
       .all_data_table th {
         position: sticky;
@@ -269,6 +281,10 @@
         border-right: 1px dashed;      
       }
 
+      .gift_shipper_table > tbody > tr > td:hover {
+        background-color: orange;
+      }
+
       .table_item_left {
         text-align: left !important;
         max-width: 400px;
@@ -288,6 +304,77 @@
       .local_orders_info, .gift_shipper_info {
         display: none;
       }
+
+
+      .column4
+      {
+        display: "";
+      } 
+
+      .column5
+      {
+        display: "";
+      } 
+      .column6
+      {
+        display: "";
+      } 
+      .column7
+      {
+        display: "";
+      } 
+      .column8
+      {
+        display: "";
+      } 
+      .column9
+      {
+        display: "";
+      } 
+      .column10
+      {
+        display: "";
+      } 
+      .column11
+      {
+        display: "";
+      } 
+      .column12
+      {
+        display: "";
+      } 
+      .column13
+      {
+        display: "";
+      } 
+      .column14
+      {
+        display: "";
+      } 
+      .column15
+      {
+        display: "";
+      } 
+      .column16
+      {
+        display: "";
+      } 
+      .column17
+      {
+        display: "";
+      } 
+      .column18
+      {
+        display: "";
+      } 
+      .column19
+      {
+        display: "";
+      } 
+      .column20
+      {
+        display: "";
+      } 
 
       .comment_div{
         position: absolute;
@@ -553,122 +640,6 @@
         margin-top: 0px;
         margin-bottom: 5px;
       }
-
-      .column4
-      {
-        display: "";
-      } 
-
-      .column5
-      {
-        display: "";
-      } 
-      .column6
-      {
-        display: "";
-      } 
-      .column7
-      {
-        display: "";
-      } 
-      .column8
-      {
-        display: "";
-      } 
-      .column9
-      {
-        display: "";
-      } 
-      .column10
-      {
-        display: "";
-      } 
-      .column11
-      {
-        display: "";
-      } 
-      .column12
-      {
-        display: "";
-      } 
-      .column13
-      {
-        display: "";
-      } 
-      .column14
-      {
-        display: "";
-      } 
-      .column15
-      {
-        display: "";
-      } 
-      .column16
-      {
-        display: "";
-      } 
-      .column17
-      {
-        display: "";
-      } 
-      .column18
-      {
-        display: "";
-      } 
-      .column19
-      {
-        display: "";
-      } 
-      .column20
-      {
-        display: "";
-      } 
-
-      .column100
-      {
-        display: "";
-      }
-
-      .column101
-      {
-        display: "";
-      }
-      .column102
-      {
-        display: "";
-      }
-      .column103
-      {
-        display: "";
-      }
-      .column104
-      {
-        display: "";
-      }
-      .column105
-      {
-        display: "";
-      }
-      .column106
-      {
-        display: "";
-      }
-      .column107
-      {
-        display: "";
-      }
-      .column108
-      {
-        display: "";
-      }
-      
-
-      /*
-      td:hover
-      {
-        background-color: orange;
-      } 
-      */
       
       .column_toggle {
         position: absolute;
@@ -1892,7 +1863,8 @@
               table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }*/
             else {
-              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+              //table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
@@ -2017,8 +1989,8 @@
 
             //i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
             //table_line += "<td id='' class=''>" + item + "</td>"; 
-            table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
-            //table_line += "<td id='" + (td_count+1000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
+            //table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+            table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
 
           });
           div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
@@ -2094,7 +2066,7 @@
 
 
     }
-
+    /*
     function td_mouseover(elem){
       var column_name = elem.id.split("_")[1];
       Number(elem.id.split("_")[0]) < 3000 ?
@@ -2112,6 +2084,7 @@
       elem.style.background="";
 
     }
+    */
 
     function checkbox_toggle(checkbox){
       //var column_toggle_checkbox = document.getElementById("column_toggle");
