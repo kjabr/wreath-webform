@@ -1863,8 +1863,8 @@
               table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }*/
             else {
-              //table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
-              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
+              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+              //table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
@@ -2066,7 +2066,7 @@
 
 
     }
-    /*
+    
     function td_mouseover(elem){
       var column_name = elem.id.split("_")[1];
       Number(elem.id.split("_")[0]) < 3000 ?
@@ -2074,7 +2074,7 @@
           .style.background='#ddd': null;
       
       //Number(elem.id.split("_")[0]) < 1000 ? elem.style.background="orange" : null;
-      elem.style.background="orange";
+      //elem.style.background="orange";
     }
 
     function td_mouseout(elem){
@@ -2084,8 +2084,7 @@
       elem.style.background="";
 
     }
-    */
-
+  
     function checkbox_toggle(checkbox){
       //var column_toggle_checkbox = document.getElementById("column_toggle");
       if (checkbox.checked) {
