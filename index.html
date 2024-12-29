@@ -1314,7 +1314,6 @@
         } else {
 
           throw Error(response.statusText);
-          console.log("Error! Error!");
         }
       }).then((response) => {
         var popup_elem = document.getElementById("popup_content");
@@ -1334,6 +1333,8 @@
         document.getElementById("loader").style.display = "none";
         document.getElementById("single_entry_buttons").style.visibility="";
         popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
+        console.log("Error! Error!");
+
         toggle_modal();
       });
     }
