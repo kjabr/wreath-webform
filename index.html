@@ -1240,17 +1240,17 @@
       
       localStorage.getItem('cached_announcement') ? cached_announcement = localStorage.getItem('cached_announcement') : null;
 
-      announcement = setup_data[0][0] || "";
-      title = setup_data[0][1] || "";
-      scoutname = setup_data[0][2] || "";
-      description = setup_data[0][3] || "";
-      email_instructions = setup_data[0][4] || "";
-      info_panel = setup_data[0][5] || "";
-      multi_cust_inst = setup_data[0][6] || "";
-      my_orders_panel = setup_data[0][7] || "";
-      gas_link = setup_data[0][8] || "";
-      tracking_sheet = setup_data[0][9] || "";
-      webform_toggle = setup_data[0][10] || "";
+      webform_toggle = setup_data[0][0] || "";
+      announcement = setup_data[0][1] || "";
+      title = setup_data[0][2] || "";
+      scoutname = setup_data[0][3] || "";
+      description = setup_data[0][4] || "";
+      email_instructions = setup_data[0][5] || "";
+      info_panel = setup_data[0][6] || "";
+      multi_cust_inst = setup_data[0][7] || "";
+      my_orders_panel = setup_data[0][8] || "";
+      gas_link = setup_data[0][9] || "";
+      tracking_sheet = setup_data[0][10] || "";
 
       if (webform_toggle == "yes" && url_param_off == "no"){
         webform_toggle = "no";
@@ -1333,8 +1333,6 @@
         document.getElementById("loader").style.display = "none";
         document.getElementById("single_entry_buttons").style.visibility="";
         popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
-        console.log("Error! Error!");
-
         toggle_modal();
       });
     }
