@@ -1201,7 +1201,7 @@
     }
 
     function get_catalog(local_catalog_data){
-      if (webform_toggle == "yes") {return;}
+      if (webform_toggle == "no") {return;}
         local_catalog = [...local_catalog_data];
         //append a donation item to the catalog
         local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
@@ -1252,11 +1252,11 @@
       gas_link = setup_data[0][9] || "";
       tracking_sheet = setup_data[0][10] || "";
 
-      if (webform_toggle == "yes" && url_param_off == "no"){
-        webform_toggle = "no";
+      if (webform_toggle == "no" && url_param_off == "no"){
+        webform_toggle = "yes";
       }
       
-      if (announcement != "" && hashCode(announcement) != cached_announcement && webform_toggle != "yes"){
+      if (announcement != "" && hashCode(announcement) != cached_announcement && webform_toggle != "no"){
         popup_elem.innerHTML = "<strong>Announcement!</strong><br><br>" + announcement;
         localStorage.setItem('cached_announcement', hashCode(announcement));
         toggle_modal();
