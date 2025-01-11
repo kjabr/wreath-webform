@@ -15,6 +15,13 @@
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
+      #yourip {
+        text-align: center;
+        margin-top: -24px;
+        margin-bottom: 20px;
+        font-size: small;
+      }
+
       input[type=text]:not(.other_name) {
         border-radius: 3px;
         border: none;
@@ -824,6 +831,7 @@
   <body>
     <div class="container" id="container" onclick="container_click()">
       <center><h1 id="webform_title"></h1></center>
+      <div id="yourip"></div>
       <div class="spacing1">
         <div class="name_email_section">
           <span>
@@ -1134,6 +1142,10 @@
       var range_of_sheets = "";
       sheet_names_setup.forEach((item, i) => {
         range_of_sheets += "&ranges=" + item + "!" + sheet_ranges;
+      });
+
+      getip().then(ip => {
+        document.getElementById("yourip").innerText = "Your IP Address: " + ip;
       });
 
       fetch_spreadsheet(
@@ -2180,6 +2192,12 @@
         toggle_modal();
       }
 
+    }
+
+    function getip() {
+      return fetch("https://api64.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => data.ip);
     }
 
   </script>
