@@ -1144,10 +1144,6 @@
         range_of_sheets += "&ranges=" + item + "!" + sheet_ranges;
       });
 
-      getip().then(ip => {
-        document.getElementById("yourip").innerText = "Your IP: " + ip;
-      });
-
       fetch_spreadsheet(
           urlParams.get("id1").replace("/", ""),
           urlParams.get("id2").replace("/", ""),
@@ -1161,6 +1157,10 @@
           get_catalog(sheet_values[local_sheet_name].slice(1));
 
 	      });
+
+      getip().then(ip => {
+        document.getElementById("yourip").innerText = "Your IP: " + ip;
+      });
 
         
       }, false); 
