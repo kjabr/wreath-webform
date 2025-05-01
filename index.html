@@ -1038,6 +1038,8 @@
     var csvStr_local = "";
     var csvStr_ship = "";
 
+    var ip_addr = "";
+
 
     var curr_tab;
 
@@ -1161,6 +1163,7 @@
 
       getip().then(ip => {
         document.getElementById("yourip").innerText = "Your IP: " + ip;
+        ip_addr = ip;
       });
 
         
@@ -1618,6 +1621,7 @@
         order["cust_note"] = cust_note;
         order["tracking_sheet"] = tracking_sheet;
         order["hostname"] = window.location.hostname;
+        order["ip_addr"] = ip_addr;
 
         /*
         single_order.forEach((item, i) => {
