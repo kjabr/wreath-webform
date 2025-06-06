@@ -1558,7 +1558,7 @@
       if (error_msg == "") {
         var cust_contact1 = cust_name;
         var cust_contact2 = "";
-        cust_addr == "" ? null : cust_contact2 += cust_addr;
+        cust_addr == "" ? null : cust_contact2 += "DeliverTo:: " + cust_addr;
         cust_email == "" ? null : cust_contact1 += ". Email: " + cust_email;
         cust_phone == "" ? null : cust_contact1 += ". Phone: " + cust_phone;
         cust_cash ? cust_payment += " Cash" : null;
