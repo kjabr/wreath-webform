@@ -1556,15 +1556,16 @@
       error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
 
       if (error_msg == "") {
-        var cust_contact = cust_name;
-        cust_addr == "" ? null : cust_contact += ", " + cust_addr;
-        cust_email == "" ? null : cust_contact += ". Email: " + cust_email;
-        cust_phone == "" ? null : cust_contact += ". Phone: " + cust_phone;
+        var cust_contact1 = cust_name;
+        var cust_contact2 = "";
+        cust_addr == "" ? null : cust_contact2 += cust_addr;
+        cust_email == "" ? null : cust_contact1 += ". Email: " + cust_email;
+        cust_phone == "" ? null : cust_contact1 += ". Phone: " + cust_phone;
         cust_cash ? cust_payment += " Cash" : null;
         cust_check ? cust_payment += " Check" : null;
         cust_venmo ? cust_payment += " Venmo" : null;
         cust_unpaid ? cust_payment += " Unpaid" : null;
-        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact += " <br>**Payment:" + cust_payment : cust_contact += ".";
+        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact1 += " <br>**Payment:" + cust_payment : cust_contact1 += ".";
 
         var log_order = [];
 
@@ -1600,7 +1601,8 @@
 
         log_order.unshift("$"+order_total);
         log_order.unshift(cust_note);
-        log_order.unshift(cust_contact);
+        log_order.unshift(cust_contact2);
+        log_order.unshift(cust_contact1);
         log_order.unshift(name);
         log_order.unshift(curr_timestamp);
 
