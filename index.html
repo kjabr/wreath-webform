@@ -292,11 +292,14 @@
 
       .table_item_left {
         text-align: left !important;
-        max-width: 250px;
+        max-width: 400px;
       } 
 
       .table_timestamp {
         text-align: left !important;
+        max-width: 200px;
+        min-width: 120px;
+
       }
 
       .table_cell_note:hover {
@@ -308,20 +311,6 @@
       }
 
 
-      .column0{
-        display: "";
-      }
-      .column1{
-        display: none;
-        width: 50px;
-      }
-      .column2{
-        display: "";
-      }
-      .column3{
-        display: "";
-        max-width: 250px;
-      }
       .column4
       {
         display: "";
@@ -1844,13 +1833,11 @@
         for (let i=0; i<wreath_orders[0].length; i++){
           item[i] == null || item[i] == "" ? item[i] = "0" : null;
           item[3] == "0" ? item[3] = "-" : null;
-          item[4] == "0" ? item[4] = "-" : null;
-
         }
       });
-      
+
       wreath_orders[0].forEach((item, i) => {
-        //if (i == 1 || i == 3) return; //don't show scoutname or note in the table
+        if (i == 1 || i == 3) return; //don't show scoutname or note in the table
         table_head += "<th class='column" + i + "'>" + item + "</th>";
       });
 
@@ -1858,34 +1845,34 @@
 
       wreath_orders.forEach((item, i) => {
        if (item[1] == name) {
-         local_orders_total += Number(item[5].split("$")[1]);
+         local_orders_total += Number(item[4].split("$")[1]);
          table_line = "";
          row_note = "";
-         item[4] != "-"  ? row_note = "Order Note: " + item[4].replace(/[^a-zA-Z0-9@,\s\$\-\+\?\/\.\!]/g, "") + "<br>" : row_note = "";
+         item[3] != "-"  ? row_note = "Order Note: " + item[3].replace(/[^a-zA-Z0-9@,\s\$\-\+\?\/\.\!]/g, "") + "<br>" : row_note = "";
          //order_divs_line is for smaller screens
          order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "<div>Customer: "
-            + item[2] + "</div><br>" + (item[3] != "-" ? item[3] + "<br>" : "") + "Total: " + item[5] + "<br>" + row_note;
+            + item[2] + "</div><br>" + "Total: " + item[4] + "<br>" + row_note;
         
-         if (item[4] == "Wreath Sale Donation"){
-          online_donations_total += Number(item[5].split("$")[1]);
+         if (item[3] == "Wreath Sale Donation"){
+          online_donations_total += Number(item[4].split("$")[1]);
          }
-         else if (item[4] == "Door Hanger Order"){
-          door_hanger_total += Number(item[5].split("$")[1]);
+         else if (item[3] == "Door Hanger Order"){
+          door_hanger_total += Number(item[4].split("$")[1]);
          }
          else {
-          item[17] != "0" ? scout_donations_total += Number(item[17].split("$")[1]) : null;
+          item[16] != "0" ? scout_donations_total += Number(item[16].split("$")[1]) : null;
          }
 
          item.forEach((item, i) => {
            td_count++;
-           //i == 3 && item != "0" ? row_note = item : null;
+           i == 3 && item != "0" ? row_note = item : null;
            i == 0 ? item = item.replace(/,/, ",<br>") : null;
-           //if (i == 1 || i == 3) return;
-            /*if (row_note != "" && i == 2){
-              //table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] 
-              //  + "' onclick='note_popup(" + JSON.stringify(row_note) + ")'>" + item + "<div class='comment_div'></div></td>"; 
-            }*/
-            if (i == 2){
+           if (i == 1 || i == 3) return;
+            if (row_note != "" && i == 2){
+              table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] 
+                + "' onclick='note_popup(" + JSON.stringify(row_note) + ")'>" + item + "<div class='comment_div'></div></td>"; 
+            }
+            else if (i == 2){
               table_line += "<td class='table_item_left'>" + item + "</td>"; 
             }
             else if (i == 0){
@@ -1899,7 +1886,7 @@
               //table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }
           //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
-          if (i >= 6) {
+          if (i >= 5) {
             item = item.toString().replace(/\$/g, '');
             item_total[i] ? item_total[i] += Number(item) : item_total[i] = Number(item);
           }
@@ -1907,10 +1894,10 @@
          // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
          //     : table_line += "<td>" + item + "</td>";
          if (wreath_orders[0][i] != "Donation"){
-          i > 4 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
+          i > 3 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
          }
          else {
-          i > 4 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Amount: $" + item + "<br>" : null;
+          i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Amount: $" + item + "<br>" : null;
          }
            //i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Qty: " + item + "<br>" : null;
          });
@@ -1920,7 +1907,7 @@
        row_note = "";
      });
 
-     table_line = "<td></td><td></td><td class='totals_class'><strong>TOTALS</strong></td><td></td><td class='totals_class'><strong>$" 
+     table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
         + local_orders_total + "</strong></td>";
      for (const property in item_total) {
       count++;
@@ -1952,15 +1939,10 @@
         if (i==0) {item.splice(3,0,"Customer Email");}
         if (i!=0) {
           //split off cust email into its own column and remove it from the cust info column
-          if (item[2].includes('@') || item[2].includes('Email')){
+          if (item[2].includes('Email:')){
             var addr = item[2].match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)/g) || [""];
-            item.splice(3,0,addr[0]);  
-            if (item[2].includes('Email')) {
-              item[2] = item[2].replace(/Email:\s([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)(\.\s)?/g, "");
-            }          
-            else {
-              item[2] = item[2].replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)/g, "");
-            }
+            item.splice(3,0,addr[0]);            
+            item[2] = item[2].replace(/Email:\s([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)(\.\s)?/g, "");
           }
           else {
             item.splice(3,0,"");
@@ -2139,7 +2121,7 @@
           // Loop through all CSS rules in the current stylesheet
           for (let rule of sheet.cssRules || sheet.rules) {
             // Check if the selector starts with ".column"
-            if (rule.selectorText && rule.selectorText.startsWith(".column") && !rule.selectorText.match(".column1")) {
+            if (rule.selectorText && rule.selectorText.startsWith(".column")) {
                 // Modify the CSS property
                 rule.style.display = "";
             }
