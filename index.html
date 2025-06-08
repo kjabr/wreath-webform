@@ -1936,24 +1936,6 @@
      csvStr_local = "";
      wreath_orders.forEach((item, i) => {
       if (item[1] == "Name" || item[1] == name) {
-        if (i==0) {item.splice(3,0,"Customer Email");}
-        if (i!=0) {
-          //split off cust email into its own column and remove it from the cust info column
-          if (item[2].includes('Email:') || item[2].includes('@')){
-            var addr = item[2].match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)/g) || [""];
-            item.splice(3,0,addr[0]);           
-            if (item[2].includes('Email:')){
-              item[2] = item[2].replace(/Email:\s([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)(\.\s)?/g, "");
-            } 
-            else {
-              item[2] = item[2].replace(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9]+)/g, "");
-
-            }
-          }
-          else {
-            item.splice(3,0,"");
-          }
-        }
         csvStr_local += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
       }
      });
