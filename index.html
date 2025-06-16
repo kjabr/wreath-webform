@@ -55,6 +55,10 @@
         padding-left: 3px;
       }
 
+      hr {
+        border: 1px dotted blue;
+      }
+
       .indent {
         margin-left: 1em;
       }
@@ -377,6 +381,77 @@
         display: "";
       } 
       .column20
+      {
+        display: "";
+      } 
+
+
+      .doorhangercolumn4
+      {
+        display: "";
+      } 
+
+      .doorhangercolumn5
+      {
+        display: "";
+      } 
+      .doorhangercolumn6
+      {
+        display: "";
+      } 
+      .doorhangercolumn7
+      {
+        display: "";
+      } 
+      .doorhangercolumn8
+      {
+        display: "";
+      } 
+      .doorhangercolumn9
+      {
+        display: "";
+      } 
+      .doorhangercolumn10
+      {
+        display: "";
+      } 
+      .doorhangercolumn11
+      {
+        display: "";
+      } 
+      .doorhangercolumn12
+      {
+        display: "";
+      } 
+      .doorhangercolumn13
+      {
+        display: "";
+      } 
+      .doorhangercolumn14
+      {
+        display: "";
+      } 
+      .doorhangercolumn15
+      {
+        display: "";
+      } 
+      .doorhangercolumn16
+      {
+        display: "";
+      } 
+      .doorhangercolumn17
+      {
+        display: "";
+      } 
+      .doorhangercolumn18
+      {
+        display: "";
+      } 
+      .doorhangercolumn19
+      {
+        display: "";
+      } 
+      .doorhangercolumn20
       {
         display: "";
       } 
@@ -704,6 +779,17 @@
           width: 80vw;
         }
 
+        .doorhanger_order_divs {
+          display: flex;
+          margin: 1em 0 1em 0;
+          padding: 1em 1em 1em 1em;
+          background-color: lightblue;
+          border-radius: 5px;
+          flex-direction: column;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          width: 80vw;
+        }
+
         #my_orders_section {
           font-size: 14px;
         }
@@ -722,6 +808,10 @@
         }
 
         .order_divs:nth-child(2n+1){
+          background-color: lightcyan;
+        }
+
+        .doorhanger_order_divs:nth-child(2n+1){
           background-color: lightcyan;
         }
 
@@ -951,40 +1041,60 @@
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
             <p id="all_data_info1" class="all_data_info1"></p>
-          <div id="local_orders" class="local_orders">
+              <div id="local_orders" class="local_orders">
 
-            <table id="all_data_table" class="all_data_table">
-              <caption>
-                <h3>Local Orders - <a id="local_csv">[CSV]</a></h3>
-                <div class="column_toggle">
-                  <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
-                  <label for="column_toggle">Hide zero total columns</label>
+                <table id="all_data_table" class="all_data_table">
+                  <caption>
+                    <h3>Webform Orders - <a id="local_csv">[CSV]</a></h3>
+                    <div class="column_toggle">
+                      <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
+                      <label for="column_toggle">Hide zero total columns</label>
+                    </div>
+                  </caption>
+                    <tbody id="tbody_data_table" >
+                    </tbody>
+                </table>
+                <p class="local_orders_info">Webform orders - 
+                  <a id="local_csv2"> [CSV]</a>
+                </p>
+
+                <div id="all_data_div1" class="all_data_div">
                 </div>
-              </caption>
-                <tbody id="tbody_data_table" >
-                </tbody>
-            </table>
-            <p class="local_orders_info">Local orders - 
-              <a id="local_csv2"> [CSV]</a>
-            </p>
-
-            <div id="all_data_div1" class="all_data_div">
+              </div>
+              <br><br>
+            <p id="doorhanger_info" class="all_data_info1"></p>
+            <div id="doorhanger_orders" class="local_orders">
+              <table id="doorhanger_table" class="all_data_table">
+                <caption>
+                  <h3>Doorhanger Orders - <a id="doorhanger_csv">[CSV]</a></h3>
+                  <div class="column_toggle">
+                    <input type="checkbox" id="doorhangercolumn_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
+                    <label for="doorhangercolumn_toggle">Hide zero total columns</label>
+                  </div>
+                </caption>
+                  <tbody id="tbody_doorhanger_table" >
+                  </tbody>
+              </table>
+              <p class="local_orders_info">Doorhanger orders - 
+                <a id="doorhanger_csv2"> [CSV]</a>
+              </p>
+              <div id="doorhanger_div" class="all_data_div">
+              </div>
             </div>
-          </div>
-
-          <p id="all_data_info2"></p>
-          <div id="gift_shipper_orders">
-            <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
-              <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
-              <tbody id="tbody_gift_shipper"></tbody>
-            </table>
-            <hr>
-            <p class="gift_shipper_info">Gift Shipper Orders:
-              <a id="shipper_csv2"> [CSV]</a>
-            </p>
-            <div id="all_data_div2" class="all_data_div">
+            <br><br>
+            <p id="all_data_info2"></p>
+            <div id="gift_shipper_orders">
+              <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
+                <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
+                <tbody id="tbody_gift_shipper"></tbody>
+              </table>
+              <p class="gift_shipper_info">Gift Shipper Orders:
+                <a id="shipper_csv2"> [CSV]</a>
+              </p>
+              <div id="all_data_div2" class="all_data_div">
+              </div>
             </div>
-          </div>
+            <br><br>
         </div>
       </div>
 
@@ -1010,9 +1120,10 @@
     var local_sheet_name = "Local Catalog";
     var webform_sheet_name = "Webform Setup";
     var giftshipper_sheet_name = "Gift Shipper";
-    var webform_orders_sheet_name = "Local";
+    var webform_orders_sheet_name = "Webform";
+    var doorhanger_orders_sheet_name = "Doorhanger";
     var sheet_names_setup = [local_sheet_name, webform_sheet_name];
-    var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name];
+    var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name, doorhanger_orders_sheet_name];
     var sheet_ranges = "A1:Q600";
     var sheet_values = {};
     var order_data_values = {};
@@ -1033,9 +1144,11 @@
 
     var order = {};
     var local_orders = [];
+    var doorhanger_orders = [];
     var gift_shipper_orders = [];
 
     var csvStr_local = "";
+    var doorhanger_csvStr = "";
     var csvStr_ship = "";
 
     var ip_addr = "";
@@ -1418,7 +1531,7 @@
       var all_data_div2 = document.getElementById("all_data_div2");
       var my_orders = document.getElementById("my_orders");
 
-      reset_columns();
+      reset_columns(["column", "doorhangercolumn"]);
 
       scoutname_elem.value == "Other" ? other_name_elem.style.display = "" :
           (other_name_elem.style.display = "none", document.getElementById("other_name").value="");
@@ -1558,7 +1671,8 @@
       if (error_msg == "") {
         var cust_contact1 = cust_name;
         var cust_contact2 = "";
-        cust_addr == "" ? cust_contact2 += "Address not provided": cust_contact2 += "DeliverTo:: " + cust_addr;
+        cust_addr == "" ? cust_contact2 += " - Address: not provided": cust_contact2 += " - Address: " + cust_addr;
+        cust_contact1 += cust_contact2;
         cust_email == "" ? null : cust_contact1 += ". Email: " + cust_email;
         cust_phone == "" ? null : cust_contact1 += ". Phone: " + cust_phone;
         cust_cash ? cust_payment += " Cash" : null;
@@ -1601,7 +1715,7 @@
 
         log_order.unshift("$"+order_total);
         log_order.unshift(cust_note);
-        log_order.unshift(cust_contact2);
+        //log_order.unshift(cust_contact2);
         log_order.unshift(cust_contact1);
         log_order.unshift(name);
         log_order.unshift(curr_timestamp);
@@ -1728,7 +1842,9 @@
           
           //console.log(order_data_values);
           local_orders = order_data_values[webform_orders_sheet_name];
+          doorhanger_orders = order_data_values[doorhanger_orders_sheet_name];
           localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+          localStorage.setItem('doorhanger_orders', JSON.stringify(doorhanger_orders));
           localStorage.setItem('cached_timestamp', curr_timestamp);
           fetch_gift_shipper(order_data_values[giftshipper_sheet_name]);
 	      });
@@ -1788,6 +1904,14 @@
       var shipper_csv_elem = document.getElementById("shipper_csv");
       var local_csv_elem2 = document.getElementById("local_csv2");
       var shipper_csv_elem2 = document.getElementById("shipper_csv2");
+
+      var doorhanger_info = document.getElementById("doorhanger_info");
+      var doorhanger_table = document.getElementById("doorhanger_table");
+      var doorhanger_csv = document.getElementById("doorhanger_csv");
+      var doorhanger_csv2 = document.getElementById("doorhanger_csv2");
+      var doorhanger_div = document.getElementById("doorhanger_div");
+      var doorhanger_main_div = document.getElementById("doorhanger_orders");
+
       var totals = document.getElementById("totals");
       var my_orders = document.getElementById("my_orders");
       var gift_shipper_table = document.getElementById("gift_shipper_table");
@@ -1795,23 +1919,32 @@
       var gift_shipper_orders_div = document.getElementById("gift_shipper_orders");
       var popup_elem = document.getElementById("popup_content");
       var column_toggle_checkbox = document.getElementById("column_toggle");
+      var doorhangercolumn_toggle_checkbox = document.getElementById("doorhangercolumn_toggle");
+
       var name = "";
       scoutname == "Other" ? name = other_name : name = scoutname;
       var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
+      var doorhanger_local_orders = JSON.parse(localStorage.getItem('doorhanger_orders')) || [];
       var gift_shipper_orders = JSON.parse(localStorage.getItem('cached_gift_shipper')) || [];
       //wreath_orders.length == 0 ? render_orders("server") : null;
       var table_head = "";
+      var doorhanger_table_head = "";
       var row_note = "";
       var table_line = "", table_row = "", order_divs_line = "";
+      var doorhanger_table_line = "", doorhanger_table_row = "", doorhanger_order_divs_line = "";
       var gift_shipper_total = 0;
       var local_orders_total = 0;
+      var doorhanger_orders_total = 0;
       var all_totals = 0;
       var item_total = {};
+      var doorhanger_item_total = {};
       var count = 0;
+      var count2 = 0;
       var scout_donations_total = 0;
       var online_donations_total = 0;
       var door_hanger_total = 0;
       var td_count = 0;
+      var td_count2 = 0;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -1823,6 +1956,15 @@
         <tr>tttt</tr>
       `;
 
+      var doorhanger_table_header = `
+          <tr>hhhh</tr>
+        `;
+
+      var doorhanger_table_inner = `
+        <tr>tttt</tr>
+      `;
+
+      //Handle Webform orders
       var order_divs = `<div class=''>dddd</div>`;
       all_data_div1.innerHTML = "";
       all_data_div2.innerHTML = "";
@@ -1878,28 +2020,20 @@
             else if (i == 0){
               table_line += "<td class='table_timestamp'>" + item + "</td>"; 
             }
-            /*else if (i == 4){
-              table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
-            }*/
             else {
               table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
-              //table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "'>" + item + "</td>";
             }
-          //item[item.length - 1] = item[item.length - 1].replace(/$/gi, "");
           if (i >= 5) {
             item = item.toString().replace(/\$/g, '');
             item_total[i] ? item_total[i] += Number(item) : item_total[i] = Number(item);
           }
 
-         // row_note != "" && i == 2 ? table_line += "<td class='table_cell_note' title='" + row_note.split('<br>')[0] + "'>" + item + "<div class='comment_div'></div></td>"
-         //     : table_line += "<td>" + item + "</td>";
          if (wreath_orders[0][i] != "Donation"){
           i > 3 && item > "0" ? order_divs_line += "Item: " + wreath_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
          }
          else {
           i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Amount: $" + item + "<br>" : null;
          }
-           //i > 3 && item > "0" ? order_divs_line += "Item: " + "Donation" + " / " + "Qty: " + item + "<br>" : null;
          });
          table_row += table_inner.replace(/tttt/g, table_line);
          order_divs_line += "</div>";
@@ -1941,7 +2075,7 @@
      });
 
       if (local_orders_total == 0 && name != "") {
-        all_data_info1.innerHTML = "**** No local order data for " + name;
+        all_data_info1.innerHTML = "**** No webform order data for " + name;
         document.getElementById("tbody_data_table").innerHTML = "";
         all_data_div1.innerHTML = "";
         local_orders_div.style.display = "none";
@@ -1959,9 +2093,137 @@
         localStorage.getItem('cached_timestamp')
             : null;
 
-      //Handle Gift Shipper table
+      //Handle Doorhanger Orders
+
+      var doorhanger_order_divs = `<div class=''>dddd</div>`;
+      doorhanger_div.innerHTML = "";
+
+      //fill each gap in the array (empty slots) with a zero
+
+      doorhanger_local_orders.forEach((item, i) => {
+        for (let i=0; i<doorhanger_local_orders[0].length; i++){
+          item[i] == null || item[i] == "" ? item[i] = "0" : null;
+          item[3] == "0" ? item[3] = "-" : null;
+        }
+      });
+
+      doorhanger_local_orders[0].forEach((item, i) => {
+        if (i == 1 || i == 3) return; //don't show scoutname or note in the table
+        doorhanger_table_head += "<th class='doorhangercolumn" + i + "'>" + item + "</th>";
+      });
+
+      document.getElementById("tbody_doorhanger_table").innerHTML = doorhanger_table_header.replace(/hhhh/g, doorhanger_table_head);
+
+      doorhanger_local_orders.forEach((item, i) => {
+       if (item[1] == name) {
+         doorhanger_orders_total += Number(item[4].split("$")[1]);
+         doorhanger_table_line = "";
+         row_note = "";
+         item[3] != "-"  ? row_note = "Order Note: " + item[3].replace(/[^a-zA-Z0-9@,\s\$\-\+\?\/\.\!]/g, "") + "<br>" : row_note = "";
+         //doorhanger_order_divs_line is for smaller screens
+         doorhanger_order_divs_line += "<div class='doorhanger_order_divs'>" + "Timestamp: " + item[0] + "<br>" + "<div>Customer: "
+            + item[2] + "</div><br>" + "Total: " + item[4] + "<br>" + row_note;
+        
+         if (item[3] == "Wreath Sale Donation"){
+          online_donations_total += Number(item[4].split("$")[1]);
+         }
+         else if (item[3] == "Door Hanger Order"){
+          door_hanger_total += Number(item[4].split("$")[1]);
+         }
+         else {
+          item[16] != "0" ? scout_donations_total += Number(item[16].split("$")[1]) : null;
+         }
+
+         item.forEach((item, i) => {
+           td_count2++;
+           i == 3 && item != "0" ? row_note = item : null;
+           i == 0 ? item = item.replace(/,/, ",<br>") : null;
+           if (i == 1 || i == 3) return;
+            if (row_note == "Order Note: Wreath Sale Donation<br>" && i == 2){
+              doorhanger_table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] 
+                + "' onclick='note_popup(" + JSON.stringify(row_note) + ")'>" + item + "<div class='comment_div'></div></td>"; 
+            }
+            else if (i == 2){
+              doorhanger_table_line += "<td class='table_item_left'>" + item + "</td>"; 
+            }
+            else if (i == 0){
+              doorhanger_table_line += "<td class='table_timestamp'>" + item + "</td>"; 
+            }
+            else {
+              doorhanger_table_line += "<td id='" + td_count2 + "_doorhangercolumn" + i + "' class='doorhangercolumn" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
+            }
+          if (i >= 5) {
+            item = item.toString().replace(/\$/g, '');
+            doorhanger_item_total[i] ? doorhanger_item_total[i] += Number(item) : doorhanger_item_total[i] = Number(item);
+          }
+
+         if (doorhanger_local_orders[0][i] != "Donation"){
+          i > 3 && item > "0" ? doorhanger_order_divs_line += "Item: " + doorhanger_local_orders[0][i] + " / " + "Qty: " + item + "<br>" : null;
+         }
+         else {
+          i > 3 && item > "0" ? doorhanger_order_divs_line += "Item: " + "Donation" + " / " + "Amount: $" + item + "<br>" : null;
+         }
+         });
+         doorhanger_table_row += table_inner.replace(/tttt/g, doorhanger_table_line);
+         doorhanger_order_divs_line += "</div>";
+       }
+       row_note = "";
+     });
+
+     doorhanger_table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
+        + doorhanger_orders_total + "</strong></td>";
+     for (const property in doorhanger_item_total) {
+      count2++;
+      if (count2 == Object.keys(doorhanger_item_total).length) {
+        doorhanger_table_line += "<td class='totals_class doorhangercolumn" + property + "'> <strong>$" + doorhanger_item_total[property] + "</strong> </td>";
+        if (doorhangercolumn_toggle_checkbox.checked) {
+          doorhanger_item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.doorhangercolumn'+property)
+          .style.display='none': null;
+        }
+
+      }
+      else {
+        doorhanger_table_line += "<td class='totals_class doorhangercolumn" + property + "'> <strong>" + doorhanger_item_total[property] + "</strong> </td>";
+        if (doorhangercolumn_toggle_checkbox.checked) {
+          doorhanger_item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.doorhangercolumn'+property)
+          .style.display='none': null;
+        }
+
+
+      }
+     }
+     doorhanger_table_row += table_inner.replace(/tttt/g, doorhanger_table_line);
+
+
+    //build the CSV data
+     doorhanger_csvStr = "";
+     doorhanger_local_orders.forEach((item, i) => {
+      if (item[1] == "Name" || item[1] == name) {
+        doorhanger_csvStr += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
+      }
+     });
+
+      if (doorhanger_orders_total == 0 && name != "") {
+        doorhanger_info.innerHTML = "**** No doorhanger order data for " + name;
+        document.getElementById("tbody_doorhanger_table").innerHTML = "";
+        doorhanger_div.innerHTML = "";
+        doorhanger_main_div.style.display = "none";
+      }
+      else {
+        doorhanger_info.innerHTML = "";
+        doorhanger_main_div.style.display = "";
+      }
+
+      name == "" ? document.getElementById("tbody_doorhanger_table").innerHTML = "" : null;
+      doorhanger_div.insertAdjacentHTML('beforeend', doorhanger_order_divs.replace(/dddd/g, doorhanger_order_divs_line));
+
+      document.getElementById("tbody_doorhanger_table").insertAdjacentHTML('beforeend', doorhanger_table_row);
+
+
+      //Handle Gift Shipper Orders
       table_line = "", table_row = "", order_divs_line = "", table_head = "", div_text = "";
       td_count = 0;
+      td_count2 = 0;
       
       if (gift_shipper_orders){
         var table_column_names = ["Timestamp", "Buyer", "Recipient", "Wreath", "qty", "Cost", "Msg"];
@@ -1992,11 +2254,6 @@
         if (item[1] == name) {
           td_count++;
           td_map.forEach((item, i) => {
-//table_line += "<td id='" + td_count + "_column" + i + "' class='column" + i + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
-
-            //i == 4 || i == 5 ? table_line += "<td>" + item + "</td>" : 
-            //table_line += "<td id='' class=''>" + item + "</td>"; 
-            //table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "' onmouseover=td_mouseover(this) onmouseout=td_mouseout(this)>" + item + "</td>";
             table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
 
           });
@@ -2031,10 +2288,7 @@
         gift_shipper_orders_div.style.display = "";
       }
 
-      /*totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Order Totals: " + "$" + 
-        (local_orders_total + gift_shipper_total) + " (Local: $" + local_orders_total + ", Gift Shipper: $" + 
-        round(gift_shipper_total, 2) + ")"; */
-
+      /*
       	totals.innerHTML = "Below are the orders for <strong>" + name + "</strong><br>" + "Grand Total: " + "$" + 
         numberWithCommas((local_orders_total + gift_shipper_total))
           + "<ul class='order_totals_ul'>"
@@ -2055,11 +2309,37 @@
           + name.split(" ")[0] + " should have $" + numberWithCommas(((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)) 
             + scout_donations_total))
             + " from customers to turn in " + " ($" + numberWithCommas((local_orders_total - door_hanger_total - (scout_donations_total + online_donations_total)))
-              + " + $" + numberWithCommas(scout_donations_total) + " in donations)";
+              + " + $" + numberWithCommas(scout_donations_total) + " in donations)"; 
+        */
+
+        // <li>Local orders and Donations: $${numberWithCommas(local_orders_total)}</li>
+
+
+      totals.innerHTML = `
+        Orders for <strong>${name}</strong><br>
+        Grand Total: $${numberWithCommas(local_orders_total + gift_shipper_total)}
+        <ul class='order_totals_ul'>
+          <li>Webform: $${numberWithCommas(local_orders_total)}</li>
+          <li>Doorhanger: $${numberWithCommas(door_hanger_total)}</li>
+          <li>Donations: $${numberWithCommas(scout_donations_total + online_donations_total)}</li>
+            <ul>
+              <li>Scout collected: $${numberWithCommas(scout_donations_total)}</li>
+              <li>From Doorhanger: $${numberWithCommas(online_donations_total)}</li>
+            </ul>
+          <li>Gift Shipper: $${numberWithCommas(round(gift_shipper_total, 2))}</li>
+        </ul>
+        ${name.split(" ")[0]} should have <b>$${numberWithCommas(local_orders_total)}</b> from customers to turn in at the end of the wreath sale
+      `;
+
       
       local_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
       local_csv_elem.target = "_blank";
       local_csv_elem.download = name+"_local_orders.csv";
+
+      doorhanger_csv.href = 'data:text/csv;charset=utf-8,' + encodeURI(doorhanger_csvStr);
+      doorhanger_csv.target = "_blank";
+      doorhanger_csv.download = name+"_local_orders.csv";
+
       shipper_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_ship);
       shipper_csv_elem.target = "_blank";
       shipper_csv_elem.download = name+"_gift_shipper_orders.csv";
@@ -2067,6 +2347,11 @@
       local_csv_elem2.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
       local_csv_elem2.target = "_blank";
       local_csv_elem2.download = name+"_local_orders.csv";
+
+      doorhanger_csv2.href = 'data:text/csv;charset=utf-8,' + encodeURI(doorhanger_csvStr);
+      doorhanger_csv2.target = "_blank";
+      doorhanger_csv2.download = name+"_local_orders.csv";
+
       shipper_csv_elem2.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_ship);
       shipper_csv_elem2.target = "_blank";
       shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
@@ -2094,31 +2379,34 @@
   
     function checkbox_toggle(checkbox){
       //var column_toggle_checkbox = document.getElementById("column_toggle");
+      var column_id = checkbox.id.split("_")[0];
       if (checkbox.checked) {
         render_orders("cached");
       }
       else {
-        reset_columns();
+        reset_columns([column_id]);
       }
     }
     
-    function reset_columns(){
+    function reset_columns(column_id){
       // Loop through all stylesheets in the document
       for (let sheet of document.styleSheets) {
         try {
           // Loop through all CSS rules in the current stylesheet
           for (let rule of sheet.cssRules || sheet.rules) {
             // Check if the selector starts with ".column"
-            if (rule.selectorText && rule.selectorText.startsWith(".column")) {
-                // Modify the CSS property
-                rule.style.display = "";
-            }
+            column_id.forEach((column_item) => {
+              if (rule.selectorText && rule.selectorText.startsWith("." + column_item)) {
+                  // Modify the CSS property
+                  rule.style.display = "";
+              };
+            });
         }
-    } catch (e) {
+        } catch (e) {
         // Some stylesheets (like cross-origin) might throw an error
         console.warn("Could not access stylesheet:", e);
-    }
-}
+        }
+      }
     }
 
     function numberWithCommas(num) {
