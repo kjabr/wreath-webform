@@ -1051,8 +1051,9 @@
                       <label for="column_toggle">Hide zero total columns</label>
                     </div>
                   </caption>
-                    <tbody id="tbody_data_table" >
-                    </tbody>
+                  <thead id="thead_data_table"></thead>
+                  <tbody id="tbody_data_table"></tbody>
+                  <tfoot id="tfoot_data_table"></tfoot>
                 </table>
                 <p class="local_orders_info">Webform orders - 
                   <a id="local_csv2"> [CSV]</a>
@@ -1072,8 +1073,9 @@
                     <label for="doorhangercolumn_toggle">Hide zero total columns</label>
                   </div>
                 </caption>
-                  <tbody id="tbody_doorhanger_table" >
-                  </tbody>
+                <thead id="thead_doorhanger_table"></thead>
+                <tbody id="tbody_doorhanger_table"></tbody>
+                <tfoot id="tfoot_doorhanger_table"></tfoot>
               </table>
               <p class="local_orders_info">Doorhanger orders - 
                 <a id="doorhanger_csv2"> [CSV]</a>
@@ -1086,7 +1088,9 @@
             <div id="gift_shipper_orders">
               <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
                 <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
+                <thead id="thead_gift_shipper"></thead>
                 <tbody id="tbody_gift_shipper"></tbody>
+                <tfoot id="tfoot_gift_shipper"></tfoot>
               </table>
               <p class="gift_shipper_info">Gift Shipper Orders:
                 <a id="shipper_csv2"> [CSV]</a>
@@ -1905,6 +1909,20 @@
       var local_csv_elem2 = document.getElementById("local_csv2");
       var shipper_csv_elem2 = document.getElementById("shipper_csv2");
 
+      var all_data_tbody = document.getElementById("tbody_data_table");
+      var all_data_thead = document.getElementById("thead_data_table");
+      var all_data_tfoot = document.getElementById("tfoot_data_table");
+      var doorhanger_tbody = document.getElementById("tbody_doorhanger_table");
+      var doorhanger_thead = document.getElementById("thead_doorhanger_table");
+      var doorhanger_tfoot = document.getElementById("tfoot_doorhanger_table");
+      var giftshipper_thead = document.getElementById("thead_gift_shipper");
+      var giftshipper_tbody = document.getElementById("tbody_gift_shipper");
+      var giftshipper_tfoot = document.getElementById("tfoot_gift_shipper");
+
+      all_data_tbody.innerHTML = all_data_thead.innerHTML = all_data_tfoot.innerHTML = "";
+      doorhanger_tbody.innerHTML = doorhanger_thead.innerHTML = doorhanger_tfoot.innerHTML = "";
+      giftshipper_thead.innerHTML = giftshipper_tbody.innerHTML = giftshipper_tfoot.innerHTML = "";
+
       var doorhanger_info = document.getElementById("doorhanger_info");
       var doorhanger_table = document.getElementById("doorhanger_table");
       var doorhanger_csv = document.getElementById("doorhanger_csv");
@@ -1983,7 +2001,7 @@
         table_head += "<th class='column" + i + "'>" + item + "</th>";
       });
 
-      document.getElementById("tbody_data_table").innerHTML = table_header.replace(/hhhh/g, table_head);
+      all_data_thead.innerHTML = table_header.replace(/hhhh/g, table_head);
 
       wreath_orders.forEach((item, i) => {
        if (item[1] == name) {
@@ -2063,7 +2081,7 @@
 
       }
      }
-     table_row += table_inner.replace(/tttt/g, table_line);
+     all_data_tfoot.innerHTML = table_inner.replace(/tttt/g, table_line);
 
 
     //build the CSV data
@@ -2112,7 +2130,7 @@
         doorhanger_table_head += "<th class='doorhangercolumn" + i + "'>" + item + "</th>";
       });
 
-      document.getElementById("tbody_doorhanger_table").innerHTML = doorhanger_table_header.replace(/hhhh/g, doorhanger_table_head);
+      doorhanger_thead.innerHTML = doorhanger_table_header.replace(/hhhh/g, doorhanger_table_head);
 
       doorhanger_local_orders.forEach((item, i) => {
        if (item[1] == name) {
@@ -2236,7 +2254,7 @@
         return;
       }
       else {
-        document.getElementById("tbody_gift_shipper").innerHTML = table_header.replace(/hhhh/g, table_head);
+        giftshipper_thead.innerHTML = table_header.replace(/hhhh/g, table_head);
       }
       
       gift_shipper_orders.slice(1).forEach((item, i) => {
