@@ -706,6 +706,10 @@
         border-top: 1px dashed;
       }
 
+      tfoot tr {
+        background-color: powderblue !important;
+      }
+
       .single_entry_section_off{
         width: 100vw;
         height: 100vh;
@@ -2294,7 +2298,7 @@
         //giftshipper_table_inner
 
         giftshipper_tfoot.innerHTML = `<td></td><td></td><td></td><td class='totals_class'><strong>TOTAL</strong></td><td></td>
-          <td class='totals_class'><strong>$${round(gift_shipper_total, 2)}</strong></td>`;
+          <td class='totals_class'><strong>$${round(gift_shipper_total, 2)}</strong></td><td></td>`;
 
         table_line = "";
         div_text = "";
