@@ -1950,6 +1950,7 @@
       var row_note = "";
       var table_line = "", table_row = "", order_divs_line = "";
       var doorhanger_table_line = "", doorhanger_table_row = "", doorhanger_order_divs_line = "";
+      var giftshipper_total_row = "";
       var gift_shipper_total = 0;
       var local_orders_total = 0;
       var doorhanger_orders_total = 0;
@@ -1979,6 +1980,10 @@
         `;
 
       var doorhanger_table_inner = `
+        <tr>tttt</tr>
+      `;
+
+      var giftshipper_table_inner = `
         <tr>tttt</tr>
       `;
 
@@ -2210,7 +2215,7 @@
 
       }
      }
-     doorhanger_table_row += table_inner.replace(/tttt/g, doorhanger_table_line);
+     doorhanger_tfoot.innerHTML = table_inner.replace(/tttt/g, doorhanger_table_line);
 
 
     //build the CSV data
@@ -2282,6 +2287,15 @@
             document.getElementById("tbody_gift_shipper").insertAdjacentHTML('beforeend', table_inner.replace(/tttt/g, table_line));
             all_data_div2.insertAdjacentHTML('beforeend', div_text);
         }
+
+        //giftshipper_tfoot
+        //giftshipper_total_row
+        //gift_shipper_total
+        //giftshipper_table_inner
+
+        giftshipper_tfoot.innerHTML = `<td></td><td></td><td></td><td class='totals_class'><strong>TOTAL</strong></td><td></td>
+          <td class='totals_class'><strong>$${round(gift_shipper_total, 2)}</strong></td>`;
+
         table_line = "";
         div_text = "";
       });
@@ -2338,7 +2352,7 @@
         Grand Total: $${numberWithCommas(local_orders_total + gift_shipper_total + door_hanger_total)}
         <ul class='order_totals_ul'>
           <li>Webform: $${numberWithCommas(local_orders_total)}</li>
-          <li>Doorhanger: $${numberWithCommas(door_hanger_total)}</li>
+          <li>Doorhanger: $${numberWithCommas(doorhanger_orders_total)}</li>
           <li>Donations: $${numberWithCommas(scout_donations_total + online_donations_total)}</li>
             <ul>
               <li>Scout collected: $${numberWithCommas(scout_donations_total)}</li>
