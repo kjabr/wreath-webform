@@ -297,7 +297,13 @@
       .table_item_left {
         text-align: left !important;
         max-width: 400px;
+        max-width: 175px;
+        overflow-x: clip;
       } 
+
+      td:hover{
+       overflow-x:visible;
+      }
 
       .table_timestamp {
         text-align: left !important;
@@ -455,6 +461,15 @@
       {
         display: "";
       } 
+
+      .hidden_row {
+        display: none;
+      }
+
+      .disabled_arrow {
+        color: lightgray;
+        cursor: text !important;
+      }
 
       .comment_div{
         position: absolute;
@@ -727,8 +742,32 @@
       
       .column_toggle {
         position: absolute;
-        right: 0;
+        left: 0;
         top: 0;
+      }
+
+      .paging_div{
+        position: absolute;
+        right: 10px;
+        top: 0px;
+        display: flex;
+        flex-direction: row;
+        font-size: 20px;
+        gap: 13px;
+        z-index: 200;
+        user-select: none;
+      }
+
+      .paging_div div {
+        user-select: none;
+      }
+
+      table caption {
+        position: relative;
+      }
+
+      .table_paging_button {
+        cursor: pointer;
       }
 
       .all_data_info1{
@@ -1054,6 +1093,12 @@
                       <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
                       <label for="column_toggle">Hide zero total columns</label>
                     </div>
+                    <div class="paging_div" id="all_data_table__pager">
+                      <div id="all_data_table_back" onclick="table_paging('back', 'all_data_table')" class="table_paging_button">&laquo;</div>
+                      Page
+                      <div id="all_data_table_number">1</div>
+                      <div id="all_data_table_forward" onclick="table_paging('forward', 'all_data_table')" class="table_paging_button">&raquo;</div>
+                    </div>
                   </caption>
                   <thead id="thead_data_table"></thead>
                   <tbody id="tbody_data_table"></tbody>
@@ -1076,6 +1121,12 @@
                     <input type="checkbox" id="doorhangercolumn_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
                     <label for="doorhangercolumn_toggle">Hide zero total columns</label>
                   </div>
+                  <div class="paging_div" id="doorhanger_table__pager">
+                    <div id="doorhanger_table_back" onclick="table_paging('back', 'doorhanger_table')" class="table_paging_button">&laquo;</div>
+                    Page
+                    <div id="doorhanger_table_number">1</div>
+                    <div id="doorhanger_table_forward" onclick="table_paging('forward', 'doorhanger_table')" class="table_paging_button">&raquo;</div>
+                  </div>
                 </caption>
                 <thead id="thead_doorhanger_table"></thead>
                 <tbody id="tbody_doorhanger_table"></tbody>
@@ -1091,7 +1142,14 @@
             <p id="all_data_info2"></p>
             <div id="gift_shipper_orders">
               <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
-                <caption><br><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3></caption>
+                <caption><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3>
+                  <div class="paging_div" id="gift_shipper_table__pager">
+                    <div id="gift_shipper_table_back" onclick="table_paging('back', 'gift_shipper_table')" class="table_paging_button">&laquo;</div>
+                    Page
+                    <div id="gift_shipper_table_number">1</div>
+                    <div id="gift_shipper_table_forward" onclick="table_paging('forward', 'gift_shipper_table')" class="table_paging_button">&raquo;</div>
+                  </div>
+                </caption>
                 <thead id="thead_gift_shipper"></thead>
                 <tbody id="tbody_gift_shipper"></tbody>
                 <tfoot id="tfoot_gift_shipper"></tfoot>
@@ -1163,6 +1221,10 @@
 
 
     var curr_tab;
+
+    var table_len = {};
+    var table_index = {};
+    var table_page = {};
 
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -1968,6 +2030,12 @@
       var door_hanger_total = 0;
       var td_count = 0;
       var td_count2 = 0;
+      var scout_webform_count = {};
+      var scout_doorhanger_count = {};
+      var scout_giftshipper_count = {};
+      scout_webform_count[name] = 0;
+      scout_doorhanger_count[name] = 0;
+      scout_giftshipper_count[name] = 0;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -2014,6 +2082,7 @@
 
       wreath_orders.forEach((item, i) => {
        if (item[1] == name) {
+        scout_webform_count[name]++;
          local_orders_total += Number(item[4].split("$")[1]);
          table_line = "";
          row_note = "";
@@ -2067,9 +2136,7 @@
        }
        row_note = "";
      });
-
-     table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
-        + local_orders_total + "</strong></td>";
+     table_line = `<td>${scout_webform_count[name]} orders</td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$${local_orders_total} </strong></td>`;
      for (const property in item_total) {
       count++;
       if (count == Object.keys(item_total).length) {
@@ -2143,6 +2210,7 @@
 
       doorhanger_local_orders.forEach((item, i) => {
        if (item[1] == name) {
+        scout_doorhanger_count[name]++;
          doorhanger_orders_total += Number(item[4].split("$")[1]);
          doorhanger_table_line = "";
          row_note = "";
@@ -2197,8 +2265,7 @@
        row_note = "";
      });
 
-     doorhanger_table_line = "<td></td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$" 
-        + doorhanger_orders_total + "</strong></td>";
+     doorhanger_table_line = `<td>${scout_doorhanger_count[name]} orders</td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>${doorhanger_orders_total} </strong></td>`;
      for (const property in doorhanger_item_total) {
       count2++;
       if (count2 == Object.keys(doorhanger_item_total).length) {
@@ -2279,6 +2346,7 @@
         var td_map = [order_timestamp, buyer, recipient, wreath_item, qty, price, msg];
         name == scout_credit ? gift_shipper_total += Number(qty) * Number(price.split("$")[1]) : null;
         if (item[1] == name) {
+          scout_giftshipper_count[name]++;
           td_count++;
           td_map.forEach((item, i) => {
             table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
@@ -2297,7 +2365,7 @@
         //gift_shipper_total
         //giftshipper_table_inner
 
-        giftshipper_tfoot.innerHTML = `<td></td><td></td><td></td><td class='totals_class'><strong>TOTAL</strong></td><td></td>
+        giftshipper_tfoot.innerHTML = `<td>${scout_giftshipper_count[name]} orders</td><td></td><td></td><td class='totals_class'><strong>TOTAL</strong></td><td></td>
           <td class='totals_class'><strong>$${round(gift_shipper_total, 2)}</strong></td><td></td>`;
 
         table_line = "";
@@ -2392,7 +2460,7 @@
       shipper_csv_elem2.target = "_blank";
       shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
 
-
+      table_paging("init");
     }
     
     function td_mouseover(elem){
@@ -2444,6 +2512,90 @@
         }
       }
     }
+
+    function table_paging(selector, table_id){
+      var MyDataTab = document.getElementById("my_orders_section");
+      var listoftables = MyDataTab.querySelectorAll("table");
+      var MyPageCounter = "";
+      var page_len = 10;
+      if (selector == "init"){
+        listoftables.forEach((element) => {
+          var backbutton = document.getElementById(`${element.id}_back`) || null;
+          var forwardbutton = document.getElementById(`${element.id}_forward`) || null;
+          var page_number = document.getElementById(`${element.id}_number`) || null;
+          var pager = document.getElementById(`${element.id}__pager`) || null;
+          table_index[element.id] = 1;
+          var listofRows = element.querySelectorAll("tbody tr");
+          table_len[element.id] = listofRows.length;
+          page_number ? (page_number.innerText = "1", backbutton.classList.add("disabled_arrow")) : null;
+          if (listofRows.length > page_len){
+            pager ? pager.style.display = "" : null;
+            if (forwardbutton){
+              forwardbutton.classList.contains("disabled_arrow") ? forwardbutton.classList.remove("disabled_arrow") : null;
+            }
+            listofRows.forEach((tr_element, index) => {
+              if (!(index >= 0 && index < page_len)) {
+                tr_element.classList.add("hidden_row");
+              }
+              else {
+                tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;
+              }
+            });
+          }
+          else {
+            pager ? pager.style.display = "none" : null;
+          }
+        });
+      }
+      else if (selector == "forward"){
+          MyPageCounter = document.getElementById(`${table_id}_number`);
+          if (table_index[table_id] + page_len <= table_len[table_id]) {
+            table_index[table_id] = table_index[table_id] + page_len;
+            MyPageCounter.innerText = (Number(MyPageCounter.innerText) + 1).toString();
+            document.getElementById(`${table_id}_back`).classList.remove("disabled_arrow");
+            (table_index[table_id] + page_len <= table_len[table_id]) ? null : document.getElementById(`${table_id}_forward`).classList.add("disabled_arrow");
+          }
+          //table_index[table_id] + page_len - 1 <= table_len[table_id] ? (table_index[table_id] = table_index[table_id] + page_len, MyPageCounter = "2") : null;
+
+          var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
+          listofRows.forEach((tr_element, index) => {
+            if ((index+1 >= table_index[table_id] && index+1 < table_index[table_id]+page_len)){
+              tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;
+            }
+            else {
+              tr_element.classList.contains("hidden_row") ? null : tr_element.classList.add("hidden_row");
+
+            }
+          });
+          /*
+
+            if (!(index >= (table_index[table_id]+page_len) && index < (table_index[table_id]+page_len+page_len))) {
+              //tr_element.classList.add("hidden_row");
+            }
+            else {
+              //tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;
+            }
+          });*/
+        }
+        else if (selector == "back"){
+          MyPageCounter = document.getElementById(`${table_id}_number`);
+          if (table_index[table_id] > 1) {
+            table_index[table_id] = table_index[table_id] - page_len;
+            MyPageCounter.innerText = (Number(MyPageCounter.innerText) - 1).toString();
+            document.getElementById(`${table_id}_forward`).classList.remove("disabled_arrow");
+            MyPageCounter.innerText == "1" ? document.getElementById(`${table_id}_back`).classList.add("disabled_arrow") : null;
+          }
+          var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
+          listofRows.forEach((tr_element, index) => {
+            if ((index+1 >= table_index[table_id] && index+1 < table_index[table_id]+page_len)){
+             tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;  
+            }
+            else {
+              tr_element.classList.contains("hidden_row") ? null : tr_element.classList.add("hidden_row");
+            }
+          });
+        }
+  }
 
     function numberWithCommas(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
