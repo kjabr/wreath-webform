@@ -772,6 +772,11 @@
         font-size: 30px;
       }
 
+      .div_link{
+        color: blue;
+        cursor: pointer;
+      }
+
       .all_data_info1{
         position: relative;
       }
@@ -1099,6 +1104,7 @@
                       <div id="all_data_table_back" onclick="table_paging('back', 'all_data_table')" class="table_paging_button">&laquo;</div>
                       Page
                       <div id="all_data_table_number">1</div>
+                      <div id="all_data_table_all" class="div_link" onclick="table_paging('all', 'all_data_table')">[ALL]</div>
                       <div id="all_data_table_forward" onclick="table_paging('forward', 'all_data_table')" class="table_paging_button">&raquo;</div>
                     </div>
                   </caption>
@@ -1127,6 +1133,7 @@
                     <div id="doorhanger_table_back" onclick="table_paging('back', 'doorhanger_table')" class="table_paging_button">&laquo;</div>
                     Page
                     <div id="doorhanger_table_number">1</div>
+                    <div id="doorhanger_table_all" class="div_link" onclick="table_paging('all', 'doorhanger_table')">[ALL]</div>
                     <div id="doorhanger_table_forward" onclick="table_paging('forward', 'doorhanger_table')" class="table_paging_button">&raquo;</div>
                   </div>
                 </caption>
@@ -1149,6 +1156,7 @@
                     <div id="gift_shipper_table_back" onclick="table_paging('back', 'gift_shipper_table')" class="table_paging_button">&laquo;</div>
                     Page
                     <div id="gift_shipper_table_number">1</div>
+                    <div id="gift_shipper_table_all" class="div_link" onclick="table_paging('all', 'gift_shipper_table')">[ALL]</div>
                     <div id="gift_shipper_table_forward" onclick="table_paging('forward', 'gift_shipper_table')" class="table_paging_button">&raquo;</div>
                   </div>
                 </caption>
@@ -1227,6 +1235,7 @@
     var table_len = {};
     var table_index = {};
     var table_page = {};
+    var pager_html = {};
 
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -2526,6 +2535,7 @@
           var forwardbutton = document.getElementById(`${element.id}_forward`) || null;
           var page_number = document.getElementById(`${element.id}_number`) || null;
           var pager = document.getElementById(`${element.id}__pager`) || null;
+          pager_html[element.id] ? pager.innerHTML = pager_html[element.id] : null;
           table_index[element.id] = 1;
           var listofRows = element.querySelectorAll("tbody tr");
           table_len[element.id] = listofRows.length;
@@ -2597,7 +2607,19 @@
             }
           });
         }
-  }
+
+        else if (selector == "all"){
+          var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
+          var pager = document.getElementById(`${table_id}__pager`) || null;
+          var page_number = document.getElementById(`${table_id}_number`);
+          page_number.innerText = "1";
+          pager_html[table_id] = pager.innerHTML;
+          pager.innerHTML = "All Rows"
+          listofRows.forEach((tr_element, index) => {
+            tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;  
+          });
+        }
+      }
 
     function numberWithCommas(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
