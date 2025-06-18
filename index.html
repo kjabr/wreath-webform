@@ -2614,7 +2614,7 @@
           var page_number = document.getElementById(`${table_id}_number`);
           page_number.innerText = "1";
           pager_html[table_id] = pager.innerHTML;
-          pager.innerHTML = "All Rows"
+          pager.innerHTML = "All Rows";
           listofRows.forEach((tr_element, index) => {
             tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;  
           });
