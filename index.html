@@ -752,7 +752,7 @@
         top: -10px;
         display: flex;
         flex-direction: row;
-        font-size: 20px;
+        font-size: 16px;
         gap: 13px;
         z-index: 200;
         user-select: none;
@@ -763,13 +763,27 @@
         user-select: none;
       }
 
+      .paging_div2{
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        gap: 13px;
+        user-select: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .paging_div2 div {
+        user-select: none;
+      }
+
       table caption {
         position: relative;
       }
 
       .table_paging_button {
         cursor: pointer;
-        font-size: 30px;
+        font-size: 24px;
       }
 
       .div_link{
@@ -1110,7 +1124,7 @@
                   </caption>
                   <thead id="thead_data_table"></thead>
                   <tbody id="tbody_data_table"></tbody>
-                  <tfoot id="tfoot_data_table"></tfoot>
+                  <tfoot id="all_data_table_tfoot"></tfoot>
                 </table>
                 <p class="local_orders_info">Webform orders - 
                   <a id="local_csv2"> [CSV]</a>
@@ -1139,7 +1153,7 @@
                 </caption>
                 <thead id="thead_doorhanger_table"></thead>
                 <tbody id="tbody_doorhanger_table"></tbody>
-                <tfoot id="tfoot_doorhanger_table"></tfoot>
+                <tfoot id="doorhanger_table_tfoot"></tfoot>
               </table>
               <p class="local_orders_info">Doorhanger orders - 
                 <a id="doorhanger_csv2"> [CSV]</a>
@@ -1162,7 +1176,7 @@
                 </caption>
                 <thead id="thead_gift_shipper"></thead>
                 <tbody id="tbody_gift_shipper"></tbody>
-                <tfoot id="tfoot_gift_shipper"></tfoot>
+                <tfoot id="gift_shipper_table_tfoot"></tfoot>
               </table>
               <p class="gift_shipper_info">Gift Shipper Orders:
                 <a id="shipper_csv2"> [CSV]</a>
@@ -1988,13 +2002,13 @@
 
       var all_data_tbody = document.getElementById("tbody_data_table");
       var all_data_thead = document.getElementById("thead_data_table");
-      var all_data_tfoot = document.getElementById("tfoot_data_table");
+      var all_data_tfoot = document.getElementById("all_data_table_tfoot");
       var doorhanger_tbody = document.getElementById("tbody_doorhanger_table");
       var doorhanger_thead = document.getElementById("thead_doorhanger_table");
-      var doorhanger_tfoot = document.getElementById("tfoot_doorhanger_table");
+      var doorhanger_tfoot = document.getElementById("doorhanger_table_tfoot");
       var giftshipper_thead = document.getElementById("thead_gift_shipper");
       var giftshipper_tbody = document.getElementById("tbody_gift_shipper");
-      var giftshipper_tfoot = document.getElementById("tfoot_gift_shipper");
+      var giftshipper_tfoot = document.getElementById("gift_shipper_table_tfoot");
 
       all_data_tbody.innerHTML = all_data_thead.innerHTML = all_data_tfoot.innerHTML = "";
       doorhanger_tbody.innerHTML = doorhanger_thead.innerHTML = doorhanger_tfoot.innerHTML = "";
@@ -2535,12 +2549,26 @@
           var forwardbutton = document.getElementById(`${element.id}_forward`) || null;
           var page_number = document.getElementById(`${element.id}_number`) || null;
           var pager = document.getElementById(`${element.id}__pager`) || null;
+          var tfoot = document.getElementById(`${element.id}_tfoot`);
           pager_html[element.id] ? pager.innerHTML = pager_html[element.id] : null;
           table_index[element.id] = 1;
           var listofRows = element.querySelectorAll("tbody tr");
           table_len[element.id] = listofRows.length;
           page_number ? (page_number.innerText = "1", backbutton.classList.add("disabled_arrow")) : null;
           if (listofRows.length > page_len){
+            var new_tfoot_tr = `
+              <tr id='${element.id}_tfoot_tr'>
+                <td colspan='42' style='background-color:#F7F6EF;'>
+                  <div class='paging_div2' id='${element.id}__pager2'>
+                    <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
+                    Page
+                    <div id='${element.id}_number2'>1</div>
+                    <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
+                  </div>
+                </td>
+              </tr>
+            `;
+            tfoot.insertAdjacentHTML("beforeend", new_tfoot_tr);
             pager ? pager.style.display = "" : null;
             if (forwardbutton){
               forwardbutton.classList.contains("disabled_arrow") ? forwardbutton.classList.remove("disabled_arrow") : null;
@@ -2561,13 +2589,16 @@
       }
       else if (selector == "forward"){
           MyPageCounter = document.getElementById(`${table_id}_number`);
+          MyPageCounter2 = document.getElementById(`${table_id}_number2`);
           if (table_index[table_id] + page_len <= table_len[table_id]) {
             table_index[table_id] = table_index[table_id] + page_len;
             MyPageCounter.innerText = (Number(MyPageCounter.innerText) + 1).toString();
+            MyPageCounter2.innerText = (Number(MyPageCounter2.innerText) + 1).toString();
             document.getElementById(`${table_id}_back`).classList.remove("disabled_arrow");
+            document.getElementById(`${table_id}_back2`).classList.remove("disabled_arrow");
             (table_index[table_id] + page_len <= table_len[table_id]) ? null : document.getElementById(`${table_id}_forward`).classList.add("disabled_arrow");
+            (table_index[table_id] + page_len <= table_len[table_id]) ? null : document.getElementById(`${table_id}_forward2`).classList.add("disabled_arrow");
           }
-          //table_index[table_id] + page_len - 1 <= table_len[table_id] ? (table_index[table_id] = table_index[table_id] + page_len, MyPageCounter = "2") : null;
 
           var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
           listofRows.forEach((tr_element, index) => {
@@ -2579,23 +2610,18 @@
 
             }
           });
-          /*
-
-            if (!(index >= (table_index[table_id]+page_len) && index < (table_index[table_id]+page_len+page_len))) {
-              //tr_element.classList.add("hidden_row");
-            }
-            else {
-              //tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;
-            }
-          });*/
         }
         else if (selector == "back"){
           MyPageCounter = document.getElementById(`${table_id}_number`);
+          MyPageCounter2 = document.getElementById(`${table_id}_number2`);
           if (table_index[table_id] > 1) {
             table_index[table_id] = table_index[table_id] - page_len;
             MyPageCounter.innerText = (Number(MyPageCounter.innerText) - 1).toString();
+            MyPageCounter2.innerText = (Number(MyPageCounter2.innerText) - 1).toString();
             document.getElementById(`${table_id}_forward`).classList.remove("disabled_arrow");
+            document.getElementById(`${table_id}_forward2`).classList.remove("disabled_arrow");
             MyPageCounter.innerText == "1" ? document.getElementById(`${table_id}_back`).classList.add("disabled_arrow") : null;
+            MyPageCounter.innerText == "1" ? document.getElementById(`${table_id}_back2`).classList.add("disabled_arrow") : null;
           }
           var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
           listofRows.forEach((tr_element, index) => {
@@ -2612,6 +2638,8 @@
           var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
           var pager = document.getElementById(`${table_id}__pager`) || null;
           var page_number = document.getElementById(`${table_id}_number`);
+          var tfoot_tr = document.getElementById(`${table_id}_tfoot_tr`);
+          tfoot_tr.style.display = "none";
           page_number.innerText = "1";
           pager_html[table_id] = pager.innerHTML;
           pager.innerHTML = "All Rows";
