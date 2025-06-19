@@ -2598,7 +2598,7 @@
           tableElement.scrollIntoView({ behavior: 'smooth' });
 
           // Calculate the offset
-          const offset = 50; // Adjust this value for the desired buffer
+          const offset = 70; // Adjust this value for the desired buffer
           const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
 
           // Scroll to the calculated position with the offset
@@ -2612,6 +2612,7 @@
           var page_number = document.getElementById(`${element.id}_number`) || null;
           var pager = document.getElementById(`${element.id}__pager`) || null;
           var tfoot = document.getElementById(`${element.id}_tfoot`);
+          [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.paging_div').style.top='-5px';
           pager_html[element.id] ? pager.innerHTML = pager_html[element.id] : null;
           table_index[element.id] = 1;
           var listofRows = element.querySelectorAll("tbody tr");
@@ -2705,6 +2706,7 @@
           page_number.innerText = "1";
           pager_html[table_id] = pager.innerHTML;
           pager.innerHTML = "All Rows";
+          [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.paging_div').style.top='0';
           listofRows.forEach((tr_element, index) => {
             tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;  
           });
