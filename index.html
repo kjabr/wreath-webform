@@ -978,7 +978,7 @@
         }
         .tab button {
           font-size: 15px;
-          padding: 10px 15px;
+          padding: 10px 8px;
         }
 
         .avoidwrap {
@@ -1408,14 +1408,18 @@
       }, false); 
 
     const observer = new IntersectionObserver((entries) => {
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
        entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-            // Your function here
+        if (!entry.isIntersecting && vw > 540) {
+            // when element is out of view move it
             document.getElementById("tab_scoutname").append(document.getElementById("scoutname_span"));
 
           }
           else {
-            document.getElementById("name_email_section").insertBefore(document.getElementById("scoutname_span"), document.getElementById("name_email_section").firstChild);
+            //when element comes back, return it
+            if (vw > 540) {
+              document.getElementById("name_email_section").insertBefore(document.getElementById("scoutname_span"), document.getElementById("name_email_section").firstChild);
+            }
           }
         });
       }, {
