@@ -77,10 +77,9 @@
         }
 
       .scout_name_select{
-        min-width: 13em;
-        margin-bottom: 10px;
-        background-color: lightgrey;
+        background-color: khaki;
         border: transparent;
+        min-width: 12em;
       }
 
       .container {
@@ -104,14 +103,16 @@
       .tab {
         overflow: hidden;
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         position: sticky;
         top: 0;
-        width: 80%;
         padding: 0 2em 0 1em;
         border: 1px solid #ccc;
         background-color: #f1f1f1;
         border-radius: 5px;
-        z-index: 100;
+        z-index: 1000;
 
       }
 
@@ -155,6 +156,11 @@
         display: flex;
         justify-content: start;
         gap: 14px;
+      }
+
+      .tab_scoutname{
+        display: flex;
+        align-items: center;
       }
 
       .btn1, .btn2, .btn3 {
@@ -202,6 +208,9 @@
 
       .spacing1 {
         padding: 0 0 16px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
 
       .tab_info {
@@ -227,8 +236,9 @@
         scrollbar-color: #888 #f1f1f1;
       }
 
-      .all_data_table > caption {
+      .all_data_table  caption {
         position: relative;
+        z-index: 500;
       }
 
       .all_data_table > caption > h3 {
@@ -802,6 +812,12 @@
         position: relative;
       }
 
+      @media (min-width: 1080px) {
+        .tab{
+          width: 85%;
+        }
+      }
+
       @media (max-width: 800px)  {
 
         body {
@@ -962,6 +978,7 @@
         }
         .tab button {
           font-size: 15px;
+          padding: 10px 15px;
         }
 
         .avoidwrap {
@@ -994,9 +1011,9 @@
     <div class="container" id="container" onclick="container_click()">
       <center><h1 id="webform_title"></h1></center>
       <div id="yourip"></div>
-      <div class="spacing1">
-        <div class="name_email_section">
-          <span>
+      <div id="name_email_div" class="spacing1" >
+        <div class="name_email_section" id="name_email_section">
+          <span id="scoutname_span">
             <label for="scoutname">Scout Name: </label>
               <select name="scoutname" id="scoutname" class="scout_name_select" onchange="toggle_name(this)"></select>
           </span>
@@ -1005,19 +1022,25 @@
               <input id="other_name" type="text" class="other_name" name="other_name">
           </span> 
         </div>
-        <br>
-        <div class="email_div">
+        <span id="name_email_div_dummy_span"></span>
+        
+        <div class="email_div" id="email_div">
           <label for="email_address" class="email_label">Your Email: </label>
           <input id="email_address" type="email" name="email_address" placeholder="required">
           <span class="clickable_span" onclick="show_email_info()">[info]</span>
         </div>
       </div>
 
-      <div class="tab">
-        <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Enter Order</button>
-    <!--     <button class="tablinks" onclick="openTab(event, 'multi_order_section')">Multi Order</button> -->
-        <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
-        <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
+      <div class="tab" id="tab">
+        <div>
+          <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Enter Order</button>
+          <!--     <button class="tablinks" onclick="openTab(event, 'multi_order_section')">Multi Order</button> -->
+          <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
+          <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
+        </div>
+        <div id="tab_scoutname" class="tab_scoutname">
+        </div>
+
       </div>
 
       <div id="single_entry_section" class="tabcontent">
@@ -1373,7 +1396,7 @@
           populate_variables(sheet_values[webform_sheet_name].slice(1));
           build_page(sheet_values[webform_sheet_name].slice(1));
           get_catalog(sheet_values[local_sheet_name].slice(1));
-
+          observer.observe(document.querySelector("#name_email_div_dummy_span"));
 	      });
 
       getip().then(ip => {
@@ -1383,6 +1406,21 @@
 
         
       }, false); 
+
+    const observer = new IntersectionObserver((entries) => {
+       entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+            // Your function here
+            document.getElementById("tab_scoutname").append(document.getElementById("scoutname_span"));
+
+          }
+          else {
+            document.getElementById("name_email_section").insertBefore(document.getElementById("scoutname_span"), document.getElementById("name_email_section").firstChild);
+          }
+        });
+      }, {
+        threshold: 0 // This ensures the callback is triggered as soon as any part of the element is out of view
+        });
 
     async function fetch_spreadsheet(sheet_ID, api_key, range_of_sheets) {
         //more info about the link and options: https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/get
@@ -2550,7 +2588,19 @@
       var listoftables = MyDataTab.querySelectorAll("table");
       var MyPageCounter = "";
       var page_len = 10;
-      table_id ? document.getElementById(table_id).scrollIntoView({ behavior: 'smooth' }) : null;
+      const tableElement = document.getElementById(table_id);
+      if (tableElement) {
+          // Scroll to the table smoothly
+          tableElement.scrollIntoView({ behavior: 'smooth' });
+
+          // Calculate the offset
+          const offset = 50; // Adjust this value for the desired buffer
+          const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
+
+          // Scroll to the calculated position with the offset
+          window.scrollTo({ top: topPosition, behavior: 'smooth' });
+      }
+
       if (selector == "init"){
         listoftables.forEach((element) => {
           var backbutton = document.getElementById(`${element.id}_back`) || null;
