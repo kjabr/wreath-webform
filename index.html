@@ -40,7 +40,7 @@
         -moz-appearance: textfield;
       }
 
-      select {
+      .scout_name_select select, .add_item select {
         appearance: none;
         background-color: white;
         background-image: url(data:image/svg+xml,%3Csvg%20width%3D%2280px%22%20height%3D%2280px%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M5.70711%209.71069C5.31658%2010.1012%205.31658%2010.7344%205.70711%2011.1249L10.5993%2016.0123C11.3805%2016.7927%2012.6463%2016.7924%2013.4271%2016.0117L18.3174%2011.1213C18.708%2010.7308%2018.708%2010.0976%2018.3174%209.70708C17.9269%209.31655%2017.2937%209.31655%2016.9032%209.70708L12.7176%2013.8927C12.3271%2014.2833%2011.6939%2014.2832%2011.3034%2013.8927L7.12132%209.71069C6.7308%209.32016%206.09763%209.32016%205.70711%209.71069Z%22%20fill%3D%22%230F0F0F%22%2F%3E%0A%3C%2Fsvg%3E);
@@ -80,6 +80,12 @@
         background-color: khaki;
         border: transparent;
         min-width: 12em;
+        height: 24px;
+      }
+
+      .scout_name_select select {
+        height: 24px;
+        border-radius: 5px;
       }
 
       .container {
@@ -330,6 +336,29 @@
 
       .table_cell_note:hover {
         cursor: pointer;
+      }
+
+      tr.tfoot_wide_tr:hover td, tr.tfoot_wide_tr td:hover{
+        background-color: #F7F6EF !important;
+      }
+
+      .table_tfoot {
+        background-color:#F7F6EF;
+      }
+
+      .table_tfoot:hover {
+        background-color: inherit;
+      }
+
+      .tfoot_div1{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .tfoot_div1:hover {
+        background-color: inherit;
       }
 
       .local_orders_info, .gift_shipper_info {
@@ -787,10 +816,29 @@
         user-select: none;
         align-items: center;
         justify-content: center;
+        margin: 0 auto;
       }
 
       .paging_div2 div {
         user-select: none;
+      }
+
+      .paging_div3{
+        margin-right: 1em;
+      }
+
+      .paging_div3 select {
+        -webkit-appearance: none;
+        background-color: #E3EEFC;
+        font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
+        color: darkslategray;
+        border-radius: 4px;
+        font-size: 14px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align-last:center;
+        border: 1px gray solid;
+
       }
 
       table caption {
@@ -1138,18 +1186,11 @@
               <div id="local_orders" class="local_orders">
 
                 <table id="all_data_table" class="all_data_table">
-                  <caption>
+                  <caption id="all_data_table_caption">
                     <h3>Webform Orders - <a id="local_csv">[CSV]</a></h3>
                     <div class="column_toggle">
                       <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
                       <label for="column_toggle">Hide zero total columns</label>
-                    </div>
-                    <div class="paging_div" id="all_data_table__pager">
-                      <div id="all_data_table_back" onclick="table_paging('back', 'all_data_table')" class="table_paging_button">&laquo;</div>
-                      Page
-                      <div id="all_data_table_number">1</div>
-                      <div id="all_data_table_all" class="div_link" onclick="table_paging('all', 'all_data_table')">[ALL]</div>
-                      <div id="all_data_table_forward" onclick="table_paging('forward', 'all_data_table')" class="table_paging_button">&raquo;</div>
                     </div>
                   </caption>
                   <thead id="thead_data_table"></thead>
@@ -1167,18 +1208,11 @@
             <p id="doorhanger_info" class="all_data_info1"></p>
             <div id="doorhanger_orders" class="local_orders">
               <table id="doorhanger_table" class="all_data_table">
-                <caption>
+                <caption id="doorhanger_table_caption">
                   <h3>Doorhanger Orders - <a id="doorhanger_csv">[CSV]</a></h3>
                   <div class="column_toggle">
                     <input type="checkbox" id="doorhangercolumn_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
                     <label for="doorhangercolumn_toggle">Hide zero total columns</label>
-                  </div>
-                  <div class="paging_div" id="doorhanger_table__pager">
-                    <div id="doorhanger_table_back" onclick="table_paging('back', 'doorhanger_table')" class="table_paging_button">&laquo;</div>
-                    Page
-                    <div id="doorhanger_table_number">1</div>
-                    <div id="doorhanger_table_all" class="div_link" onclick="table_paging('all', 'doorhanger_table')">[ALL]</div>
-                    <div id="doorhanger_table_forward" onclick="table_paging('forward', 'doorhanger_table')" class="table_paging_button">&raquo;</div>
                   </div>
                 </caption>
                 <thead id="thead_doorhanger_table"></thead>
@@ -1195,14 +1229,7 @@
             <p id="all_data_info2"></p>
             <div id="gift_shipper_orders">
               <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
-                <caption><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3>
-                  <div class="paging_div" id="gift_shipper_table__pager">
-                    <div id="gift_shipper_table_back" onclick="table_paging('back', 'gift_shipper_table')" class="table_paging_button">&laquo;</div>
-                    Page
-                    <div id="gift_shipper_table_number">1</div>
-                    <div id="gift_shipper_table_all" class="div_link" onclick="table_paging('all', 'gift_shipper_table')">[ALL]</div>
-                    <div id="gift_shipper_table_forward" onclick="table_paging('forward', 'gift_shipper_table')" class="table_paging_button">&raquo;</div>
-                  </div>
+                <caption id="gift_shipper_table_caption"><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3>
                 </caption>
                 <thead id="thead_gift_shipper"></thead>
                 <tbody id="tbody_gift_shipper"></tbody>
@@ -2591,49 +2618,74 @@
 
     function table_paging(selector, table_id){
       var MyDataTab = document.getElementById("my_orders_section");
-      var listoftables = MyDataTab.querySelectorAll("table");
-      var MyPageCounter = "";
-      var page_len = 10;
-      const tableElement = document.getElementById(table_id);
-      if (tableElement) {
-          // Scroll to the table smoothly
-          tableElement.scrollIntoView({ behavior: 'smooth' });
-
-          // Calculate the offset
-          const offset = 70; // Adjust this value for the desired buffer
-          const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
-
-          // Scroll to the calculated position with the offset
-          window.scrollTo({ top: topPosition, behavior: 'smooth' });
+      if (selector !== "new_page_len") {
+        var listoftables = MyDataTab.querySelectorAll("table");
       }
+      else {
+        var listoftables = [document.getElementById(table_id)];
 
-      if (selector == "init"){
+      }
+      var MyPageCounter = "";
+      var page_len_element = document.getElementById(table_id + "_table_paging_select");
+      var page_len = page_len_element ? Number(page_len_element.value) : 10;
+
+      if (selector == "init" || selector =="new_page_len"){
         listoftables.forEach((element) => {
           var backbutton = document.getElementById(`${element.id}_back`) || null;
           var forwardbutton = document.getElementById(`${element.id}_forward`) || null;
           var page_number = document.getElementById(`${element.id}_number`) || null;
           var pager = document.getElementById(`${element.id}__pager`) || null;
           var tfoot = document.getElementById(`${element.id}_tfoot`);
+          var tcaption = document.getElementById(`${element.id}_caption`);
           [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.paging_div').style.top='-5px';
-          pager_html[element.id] ? pager.innerHTML = pager_html[element.id] : null;
+          //pager_html[element.id] !== "" ? pager.innerHTML = pager_html[element.id] : null;
           table_index[element.id] = 1;
           var listofRows = element.querySelectorAll("tbody tr");
           table_len[element.id] = listofRows.length;
           page_number ? (page_number.innerText = "1", backbutton.classList.add("disabled_arrow")) : null;
+          if (pager) {
+            pager.remove();
+            document.getElementById(`${element.id}_tfoot_tr`) ? document.getElementById(`${element.id}_tfoot_tr`).remove() : null;
+          }
           if (listofRows.length > page_len){
+            var new_caption_tr = `
+              <div class="paging_div" id="${element.id}__pager">
+                <div id="${element.id}_back" onclick="table_paging('back', '${element.id}')" class="table_paging_button disabled_arrow">&laquo;</div>
+                Page
+                <div id="${element.id}_number">1</div>
+                <div id="${element.id}_forward" onclick="table_paging('forward', '${element.id}')" class="table_paging_button">&raquo;</div>
+              </div>
+            `;
+
             var new_tfoot_tr = `
-              <tr id='${element.id}_tfoot_tr'>
-                <td colspan='42' style='background-color:#F7F6EF;'>
-                  <div class='paging_div2' id='${element.id}__pager2'>
-                    <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
-                    Page
-                    <div id='${element.id}_number2'>1</div>
-                    <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
+              <tr id='${element.id}_tfoot_tr' class='tfoot_wide_tr'>
+                <td colspan='42' class='table_tfoot'>
+                  <div id='${element.id}_tfoot_div1' class='tfoot_div1'>
+                    <div class='paging_div2' id='${element.id}__pager2'>
+                      <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
+                      Page
+                      <div id='${element.id}_number2'>1</div>
+                      <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
+                    </div>
+                    <div class='paging_div3'>
+                      <select id='${element.id}_table_paging_select' onchange='table_paging_select("${element.id}", this.value)'>
+                        <option value='5'>5 rows/page ↯</option>
+                        <option selected value='10'>10 rows/page ↯</option>
+                        <option value='20'>20 rows/page ↯</option>
+                        <option value='25'>25 rows/page ↯</option>
+                        <option value='all'>All rows/page ↯</option>
+                      </select>
+                    </div>
                   </div>
                 </td>
               </tr>
             `;
+
             tfoot.insertAdjacentHTML("beforeend", new_tfoot_tr);
+            tcaption.insertAdjacentHTML("beforeend", new_caption_tr);
+
+            selector == "new_page_len" ? document.getElementById(`${element.id}_table_paging_select`).value = page_len.toString() : null;
+
             pager ? pager.style.display = "" : null;
             if (forwardbutton){
               forwardbutton.classList.contains("disabled_arrow") ? forwardbutton.classList.remove("disabled_arrow") : null;
@@ -2653,6 +2705,7 @@
         });
       }
       else if (selector == "forward"){
+        console.log(page_len);
           MyPageCounter = document.getElementById(`${table_id}_number`);
           MyPageCounter2 = document.getElementById(`${table_id}_number2`);
           if (table_index[table_id] + page_len <= table_len[table_id]) {
@@ -2702,18 +2755,40 @@
         else if (selector == "all"){
           var listofRows = document.getElementById(table_id).querySelectorAll("tbody tr");
           var pager = document.getElementById(`${table_id}__pager`) || null;
+          var footer = document.getElementById(`${table_id}__pager2`) || null;
           var page_number = document.getElementById(`${table_id}_number`);
           var tfoot_tr = document.getElementById(`${table_id}_tfoot_tr`);
-          tfoot_tr.style.display = "none";
+          //tfoot_tr.style.display = "none";
           page_number.innerText = "1";
           pager_html[table_id] = pager.innerHTML;
           pager.innerHTML = "All Rows";
+          footer.innerHTML = "All Rows";
           [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.paging_div').style.top='0';
           listofRows.forEach((tr_element, index) => {
             tr_element.classList.contains("hidden_row") ? tr_element.classList.remove("hidden_row") : null;  
           });
         }
+
+        //the following scrolls the window to the top of the table
+        const tableElement = document.getElementById(table_id);
+        if (tableElement) {
+            // Scroll to the table smoothly
+            tableElement.scrollIntoView({ behavior: 'smooth' });
+
+            // Calculate the offset
+            const offset = 70; // Adjust this value for the desired buffer
+            const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
+
+            // Scroll to the calculated position with the offset
+            window.scrollTo({ top: topPosition, behavior: 'smooth' });
+        }
       }
+
+    function table_paging_select(table_id, select_value){
+      //console.log(`${table_id} ${select_value}`);
+      select_value == "all" ? table_paging(select_value, table_id) : table_paging("new_page_len", table_id);
+
+    }
 
     function numberWithCommas(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
