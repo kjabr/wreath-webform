@@ -81,6 +81,7 @@
         border: transparent;
         min-width: 12em;
         height: 24px;
+        border-radius: 5px;
       }
 
       .scout_name_select select {
@@ -1269,9 +1270,12 @@
     var giftshipper_sheet_name = "Gift Shipper";
     var webform_orders_sheet_name = "Webform";
     var doorhanger_orders_sheet_name = "Doorhanger";
+    var all_data_sheet_name = "All orders";
+    var collected_amount_column = 17;
+    var remaining_to_collect_column = 18;
     var sheet_names_setup = [local_sheet_name, webform_sheet_name];
-    var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name, doorhanger_orders_sheet_name];
-    var sheet_ranges = "A1:Q600";
+    var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name, doorhanger_orders_sheet_name, all_data_sheet_name];
+    var sheet_ranges = "A1:S600";
     var sheet_values = {};
     var order_data_values = {};
     var url_param_off = "yes";
@@ -1293,6 +1297,7 @@
     var local_orders = [];
     var doorhanger_orders = [];
     var gift_shipper_orders = [];
+    var all_data_orders = [];
 
     var csvStr_local = "";
     var doorhanger_csvStr = "";
@@ -2039,8 +2044,10 @@
           //console.log(order_data_values);
           local_orders = order_data_values[webform_orders_sheet_name];
           doorhanger_orders = order_data_values[doorhanger_orders_sheet_name];
+          all_data_orders = order_data_values[all_data_sheet_name];
           localStorage.setItem('cached_orders', JSON.stringify(local_orders));
           localStorage.setItem('doorhanger_orders', JSON.stringify(doorhanger_orders));
+          localStorage.setItem('all_data_orders', JSON.stringify(all_data_orders));
           localStorage.setItem('cached_timestamp', curr_timestamp);
           fetch_gift_shipper(order_data_values[giftshipper_sheet_name]);
 	      });
@@ -2136,6 +2143,7 @@
       var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
       var doorhanger_local_orders = JSON.parse(localStorage.getItem('doorhanger_orders')) || [];
       var gift_shipper_orders = JSON.parse(localStorage.getItem('cached_gift_shipper')) || [];
+      var all_data_orders = JSON.parse(localStorage.getItem('all_data_orders')) || [];
       //wreath_orders.length == 0 ? render_orders("server") : null;
       var table_head = "";
       var doorhanger_table_head = "";
@@ -2159,9 +2167,30 @@
       var scout_webform_count = {};
       var scout_doorhanger_count = {};
       var scout_giftshipper_count = {};
+      var ignore_columns = [];
       scout_webform_count[name] = 0;
       scout_doorhanger_count[name] = 0;
       scout_giftshipper_count[name] = 0;
+
+      var collected_amount = "";
+      var remaining_amount = "";
+      var collected_amount_text = "";
+      var remaining_amount_text = "";
+
+      //the following is looking through the 'All orders' tab in the tracking Sheet
+      //it collected the collected and remaining amount per scout
+      all_data_orders.forEach((data_row, index) => {
+        if (data_row[1] == scoutname){
+          collected_amount = data_row[collected_amount_column] || "$0";
+          remaining_amount = data_row[remaining_to_collect_column] || "$0";
+        }
+      });
+
+      //the following is the text of what to insert in My Orders
+      collected_amount == "$0" ? null : collected_amount_text = `He turned in ${collected_amount}`;
+      remaining_amount == "$0" ? remaining_amount_text = "." : remaining_amount_text = ` and has ${remaining_amount} remaining to turn in.`;
+      remaining_amount == "$0" && collected_amount == "$0" ? remaining_amount_text = "" : null;
+      remaining_amount == "" && collected_amount == "" ? (collected_amount_text= "", remaining_amount_text = "") : null;
 
       local_orders = JSON.parse(localStorage.getItem('cached_orders'));
       my_orders.style.display = "";
@@ -2190,8 +2219,23 @@
       all_data_div1.innerHTML = "";
       all_data_div2.innerHTML = "";
 
-      //fill each gap in the array (empty slots) with a zero
+      //the following removes empty columns
+      //first look for empties in the first row
+      wreath_orders[0].forEach((item, i) => {
+        item == "" ? ignore_columns.push(i) : null;
+      });
 
+      //then iterate through each row and remove the matching empty columns
+      wreath_orders.forEach((order_row) => {
+        ignore_columns.sort((a, b) => b - a);
+        ignore_columns.forEach((index) => {
+          order_row.splice(index, 1);
+        });
+      });
+
+      ignore_columns = [];
+
+      //fill each gap in the array (empty slots) with a zero
       wreath_orders.forEach((item, i) => {
         for (let i=0; i<wreath_orders[0].length; i++){
           item[i] == null || item[i] == "" ? item[i] = "0" : null;
@@ -2318,8 +2362,23 @@
       var doorhanger_order_divs = `<div class=''>dddd</div>`;
       doorhanger_div.innerHTML = "";
 
-      //fill each gap in the array (empty slots) with a zero
+      //the following removes empty columns
+      //first look for empties in the first row
+      doorhanger_local_orders[0].forEach((item, i) => {
+        item == "" ? ignore_columns.push(i) : null;
+      });
 
+      //then iterate through each row and remove the matching empty columns
+      doorhanger_local_orders.forEach((order_row) => {
+        ignore_columns.sort((a, b) => b - a);
+        ignore_columns.forEach((index) => {
+          order_row.splice(index, 1);
+        });
+      });
+
+      ignore_columns = [];
+
+      //fill each gap in the array (empty slots) with a zero
       doorhanger_local_orders.forEach((item, i) => {
         for (let i=0; i<doorhanger_local_orders[0].length; i++){
           item[i] == null || item[i] == "" ? item[i] = "0" : null;
@@ -2558,7 +2617,7 @@
             </ul>
           <li>Gift Shipper: $${numberWithCommas(round(gift_shipper_total, 2))}</li>
         </ul>
-        ${name.split(" ")[0]} should have <b>$${numberWithCommas(local_orders_total)}</b> from customers to turn in at the end of the wreath sale
+        ${name.split(" ")[0]} should have <b>$${numberWithCommas(local_orders_total)}</b> from customers. ${collected_amount_text}${remaining_amount_text} 
       `;
 
       
@@ -2807,7 +2866,6 @@
       }
 
     function table_paging_select(table_id, select_value){
-      //console.log(`${table_id} ${select_value}`);
       select_value == "all" ? table_paging(select_value, table_id) : table_paging("new_page_len", table_id);
 
     }
