@@ -1271,8 +1271,8 @@
     var webform_orders_sheet_name = "Webform";
     var doorhanger_orders_sheet_name = "Doorhanger";
     var all_data_sheet_name = "All orders";
-    var collected_amount_column = 17;
-    var remaining_to_collect_column = 18;
+    var collected_amount_column = 0;
+    var remaining_to_collect_column = 0;
     var sheet_names_setup = [local_sheet_name, webform_sheet_name];
     var sheet_names_orders = [giftshipper_sheet_name, webform_orders_sheet_name, doorhanger_orders_sheet_name, all_data_sheet_name];
     var sheet_ranges = "A1:S600";
@@ -2178,11 +2178,25 @@
       var remaining_amount_text = "";
 
       //the following is looking through the 'All orders' tab in the tracking Sheet
-      //it collected the collected and remaining amount per scout
+      //first find which columns have collected and remaining
+      all_data_orders.forEach((data_row, index) => {
+        if (index == 0) {
+          data_row.forEach((data_cell, index2) => {
+            if (data_cell.toLowerCase().includes("collected")) {
+              collected_amount_column = index2; // Set the index if found
+            }
+            if (data_cell.toLowerCase().includes("remaining")) {
+              remaining_to_collect_column = index2; // Set the index if found
+            }
+          });
+        }
+      });
+
+      //now when the scoutname matches get the collected and remaining amounts
       all_data_orders.forEach((data_row, index) => {
         if (data_row[1] == scoutname){
-          collected_amount = data_row[collected_amount_column] || "$0";
-          remaining_amount = data_row[remaining_to_collect_column] || "$0";
+          collected_amount_column != 0 ? collected_amount = data_row[collected_amount_column] || "$0" : collected_amount = "";
+          remaining_to_collect_column != 0 ? remaining_amount = data_row[remaining_to_collect_column] || "$0" : remaining_amount = "";
         }
       });
 
