@@ -2872,15 +2872,13 @@
         //the following scrolls the window to the top of the table
         const tableElement = document.getElementById(table_id);
         if (tableElement) {
-            // Scroll to the table smoothly
-            tableElement.scrollIntoView({ behavior: 'smooth' });
+          const offset = 70;
+          const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
 
-            // Calculate the offset
-            const offset = 70; // Adjust this value for the desired buffer
-            const topPosition = tableElement.getBoundingClientRect().top + window.scrollY - offset;
-
-            // Scroll to the calculated position with the offset
+          // Use requestAnimationFrame to ensure smooth scrolling
+          requestAnimationFrame(() => {
             window.scrollTo({ top: topPosition, behavior: 'smooth' });
+          });
         }
       }
 
