@@ -1921,6 +1921,9 @@
         log_order.unshift(name);
         log_order.unshift(curr_timestamp);
 
+        //the following appends the ip address to log_order
+        log_order.push(ip_addr);
+
         order["scoutname"] = scoutname;
         order["other_name"] = other_name;
         order['name'] = name;
