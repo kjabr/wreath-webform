@@ -1912,6 +1912,9 @@
           log_order[i] =log_order[i].toString();
         });
 
+        //the following appends the ip address to log_order
+        log_order[local_catalog.length] = ip_addr;
+
         scoutname == "Other" ? name = other_name : name = scoutname;
 
         log_order.unshift("$"+order_total);
@@ -1920,9 +1923,6 @@
         log_order.unshift(cust_contact1);
         log_order.unshift(name);
         log_order.unshift(curr_timestamp);
-
-        //the following appends the ip address to log_order
-        log_order.push(ip_addr);
 
         order["scoutname"] = scoutname;
         order["other_name"] = other_name;
