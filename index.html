@@ -2746,7 +2746,7 @@
             pager.remove();
             document.getElementById(`${element.id}_tfoot_tr`) ? document.getElementById(`${element.id}_tfoot_tr`).remove() : null;
           }
-          if (listofRows.length > page_len){
+          if (listofRows.length > page_len || selector == "new_page_len"){
             var new_caption_tr = `
               <div class="paging_div" id="${element.id}__pager">
                 <div id="${element.id}_back" onclick="table_paging('back', '${element.id}')" class="table_paging_button disabled_arrow">&laquo;</div>
@@ -2784,6 +2784,8 @@
             tcaption.insertAdjacentHTML("beforeend", new_caption_tr);
 
             selector == "new_page_len" ? document.getElementById(`${element.id}_table_paging_select`).value = page_len.toString() : null;
+            selector == "new_page_len" && page_len >= listofRows.length ? (document.getElementById(`${element.id}_forward2`).classList.add("disabled_arrow"),
+              document.getElementById(`${element.id}_forward`).classList.add("disabled_arrow")) : null;
 
             pager ? pager.style.display = "" : null;
             if (forwardbutton){
