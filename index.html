@@ -271,6 +271,11 @@
       .all_data_table tr:hover {background-color: #ddd;}
       .all_data_table td:hover {background-color: orange;}
 
+      .all_data_table td:hover .comment_div {
+        background-color: white;
+      }
+
+
       .all_data_table th {
         position: sticky;
         top: 0;
@@ -578,6 +583,7 @@
 
       .add_item_column {
         display: flex;
+        position: relative;
         flex-flow: column;
         border-radius: 5px;
         padding: 1em 1em 1em 1em;
@@ -616,6 +622,18 @@
 
       .add_item_svg:hover {
         color: #FF8C00;
+        cursor: pointer;
+      }
+
+      .x_circle {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+      }
+
+      .x_circle:hover {
+        color: white;
+        cursor: pointer;
       }
 
       .single_entry_bottom {
@@ -1057,7 +1075,7 @@
 
   </style>
   <body>
-    <div class="container" id="container" onclick="container_click()">
+    <div class="container" id="container">
       <center><h1 id="webform_title"></h1></center>
       <div id="yourip"></div>
       <div id="name_email_div" class="spacing1" >
@@ -1068,7 +1086,7 @@
           </span>
           <span id="display_other_name" style="display: none;">
             <label for="other_name">Enter Name: </label>
-              <input id="other_name" type="text" class="other_name" name="other_name">
+              <input id="other_name" type="text" class="other_name" name="other_name" onblur="container_click()">
           </span> 
         </div>
         <span id="name_email_div_dummy_span"></span>
@@ -1321,16 +1339,17 @@
     `;
 
     var x_circle = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
       </svg>
       `;
 
     var add_single_wreath = `
-      <div class="add_item">
-       <div id="add_item_MMM" class="add_item_svg" onclick="add_wreath_item(this)"> ${plus_circle} </div>
+      <div id="webform_item_MMM" class="add_item">
+       <div id="add_item_MMM" class="add_item_svg" onclick="add_wreath_item(this, event)" title="add another"> ${plus_circle} </div>
        <div class="add_item_column">
+          <div id="x_circle_MMM" class="x_circle" onclick="delete_wreath_item(this)" title="delete"> ${x_circle}</div>
           <div class="wreath_line">
             <div class="avoidwrap">
              <label for="wreath_name">Item:</label>
@@ -1553,7 +1572,77 @@
 
     }
 
-    function add_wreath_item(elem){
+    function delete_wreath_item(elem){
+      var MMM = elem.id.split("_")[2];
+      var add_item_elem = document.getElementById(`webform_item_${MMM}`);
+      var webform_items_list = [];
+      webform_items_list = document.getElementsByClassName("add_item");
+      if (webform_items_list.length == 1) {
+        document.getElementById("wreath_section").innerHTML =
+          add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
+          .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]);
+      }
+      else {
+        add_item_elem.remove();
+      }
+
+      single_order_data();
+      single_order_total();
+
+      var add_item_list = document.getElementsByClassName("add_item");
+      var last_item = add_item_list[add_item_list.length-1].id;
+      var last_item_visibility = document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility;
+      if (last_item_visibility == "hidden") {
+        document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility = "visible";
+      }
+    }
+
+    function single_order_data(){
+      var wreath_line_list = document.getElementsByClassName("wreath_line");
+      var new_single_order_list = [];
+      Array.from(wreath_line_list).forEach((item, index) => {
+        var wreath_selector = item.querySelector('.wreath_item_select');
+        var wreath_selector_quantity = item.querySelector("[id*='wreath_amt']");
+        var wreath_selector_price = item.querySelector("[id*='wreath_price']");
+        
+        var wreath_selector_value = wreath_selector.value;
+        var wreath_selector_option = wreath_selector.options[wreath_selector.selectedIndex].text;
+        var wreath_quantity = wreath_selector_quantity.value;
+        var wreath_price = wreath_selector_price.innerText.replace("$", "");
+
+        /*
+        if (wreath_selector_option == "Donation") {
+          wreath_price = (item.querySelector("[id*='wreath_donation_input']")).value.replace("$", "");
+          wreath_quantity = (1).toString();
+        }
+        */
+
+        if (new_single_order_list[Number(wreath_selector_value)]) { //that's if we have multiples of the same item in the order
+          if (wreath_selector_option == "Donation") {
+            wreath_price =  (Number(new_single_order_list[Number(wreath_selector_value)][2]) + Number((item.querySelector("[id*='wreath_donation_input']")).value.replace("$", ""))).toString();
+            wreath_quantity = (1).toString();
+          }
+          else {
+            wreath_quantity = (Number(new_single_order_list[Number(wreath_selector_value)][1]) + Number(wreath_quantity)).toString();
+            //wreath_price = (Number(new_single_order_list[Number(wreath_selector_value)][2]) + Number(wreath_price)).toString();
+          }
+        }
+        else {
+          if (wreath_selector_option == "Donation") {
+            wreath_price = (item.querySelector("[id*='wreath_donation_input']")).value.replace("$", "");
+            wreath_quantity = (1).toString();
+          }
+        }
+          new_single_order_list[Number(wreath_selector_value)] = [wreath_selector_value, wreath_quantity,  wreath_price, wreath_selector_option];
+
+      });
+
+      single_order = [];
+      single_order = [...new_single_order_list];
+    }
+
+    function add_wreath_item(elem, event){
+      event.stopPropagation();
       var MMM = elem.id.split("_")[2];
 
       document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
@@ -1756,6 +1845,7 @@
       Number(document.getElementById("wreath_amt_" + MMM).value) == 0 ?
         single_order[Number(MMM)] = [] : null;
 
+      single_order_data();
       single_order_total();
     }
 
@@ -1786,13 +1876,14 @@
       }
 
       single_order[Number(MMM)] = [];
+      single_order_data();
       single_order_total();
     }
 
     function single_order_total(){
       order_total = 0;
       single_order.forEach((item, i) => {
-        order_total += Number(item[1]) * Number(item[2]) || null;
+        item ? order_total += Number(item[1]) * Number(item[2]) : null;
       });
       document.getElementById("single_entry_total").innerHTML = "$" + order_total;
     }
@@ -1964,6 +2055,7 @@
       init_input_fields();
       single_order = [];
       single_order[0] = [];
+      single_order_data();
       single_order_total();
     }
 
@@ -2078,7 +2170,7 @@
       }
       else if (scoutname == "Other" && other_name == "") {
         popup_elem.innerHTML = "Enter any name above and then click anywhere in the document to see orders";
-        my_orders.style.display = "none";
+        //my_orders.style.display = "none";
         toggle_modal();
         return;
       }
@@ -2467,7 +2559,7 @@
        row_note = "";
      });
 
-     doorhanger_table_line = `<td>${scout_doorhanger_count[name]} orders</td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>${doorhanger_orders_total} </strong></td>`;
+     doorhanger_table_line = `<td>${scout_doorhanger_count[name]} orders</td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$${doorhanger_orders_total} </strong></td>`;
      for (const property in doorhanger_item_total) {
       count2++;
       if (count2 == Object.keys(doorhanger_item_total).length) {
@@ -2767,7 +2859,7 @@
                       <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
                     </div>
                     <div class='paging_div3'>
-                      <select id='${element.id}_table_paging_select' onchange='table_paging_select("${element.id}", this.value)'>
+                      <select id='${element.id}_table_paging_select' onchange='table_paging_select("${element.id}", this.value, event)'>
                         <option value='5'>5 rows/page ↯</option>
                         <option selected value='10'>10 rows/page ↯</option>
                         <option value='20'>20 rows/page ↯</option>
@@ -2882,7 +2974,9 @@
         }
       }
 
-    function table_paging_select(table_id, select_value){
+    function table_paging_select(table_id, select_value, event){
+      event.stopPropagation();
+    
       select_value == "all" ? table_paging(select_value, table_id) : table_paging("new_page_len", table_id);
 
     }
@@ -2922,6 +3016,7 @@
       var wreath_index = document.getElementById("wreath_item_"+elem.id.split("_")[3]).value;
       var MMM = elem.id.split("_")[3];
       single_order[Number(MMM)] = [wreath_index, "1", elem.value.split("$")[1], local_catalog[wreath_index][1]];
+      single_order_data();
       single_order_total();
     }
     
