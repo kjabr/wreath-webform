@@ -2335,7 +2335,7 @@
       //first look for empties in the first row
       wreath_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
-        item.toLowerCase == "donation" ? donation_column = i : null;
+        item.toLowerCase() == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
@@ -2480,7 +2480,7 @@
       //first look for empties in the first row
       doorhanger_local_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
-        item.toLowerCase == "donation" ? donation_column = i : null;
+        item.toLowerCase() == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
