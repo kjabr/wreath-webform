@@ -2273,6 +2273,8 @@
       var collected_amount_text = "";
       var remaining_amount_text = "";
 
+      var donation_column = 0;
+
       //the following is looking through the 'All orders' tab in the tracking Sheet
       //first find which columns have collected and remaining
       all_data_orders.forEach((data_row, index) => {
@@ -2333,6 +2335,7 @@
       //first look for empties in the first row
       wreath_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
+        item.toLowerCase == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
@@ -2378,7 +2381,7 @@
           door_hanger_total += Number(item[4].split("$")[1]);
          }
          else {
-          item[16] != "0" ? scout_donations_total += Number(item[16].split("$")[1]) : null;
+          item[donation_column] != "0" ? scout_donations_total += Number(item[donation_column].split("$")[1]) : null;
          }
 
          item.forEach((item, i) => {
@@ -2471,11 +2474,13 @@
 
       var doorhanger_order_divs = `<div class=''>dddd</div>`;
       doorhanger_div.innerHTML = "";
+      donation_column = 0;
 
       //the following removes empty columns
       //first look for empties in the first row
       doorhanger_local_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
+        item.toLowerCase == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
@@ -2521,7 +2526,7 @@
           door_hanger_total += Number(item[4].split("$")[1]);
          }
          else {
-          item[16] != "0" ? scout_donations_total += Number(item[16].split("$")[1]) : null;
+          item[donation_column] != "0" ? scout_donations_total += Number(item[donation_column].split("$")[1]) : null;
          }
 
          item.forEach((item, i) => {
