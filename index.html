@@ -1450,7 +1450,7 @@
           get_catalog(sheet_values[local_sheet_name].slice(1));
           observer.observe(document.querySelector("#name_email_div_dummy_span"));
 	      });
-
+      
       getip().then(ip => {
         document.getElementById("yourip").innerText = "Your IP: " + ip;
         ip_addr = ip;
@@ -1738,7 +1738,7 @@
       }).then((response) => {
         var popup_elem = document.getElementById("popup_content");
         if (response.status == "SUCCESS") {
-          popup_elem.innerHTML = "Success! Your order was sent.";
+          popup_elem.innerHTML = "Success! Next!";
           //console.log(response.status);
         }
          else {
@@ -2761,6 +2761,7 @@
       shipper_csv_elem2.download = name+"_gift_shipper_orders.csv";
 
       table_paging("init");
+      //console.log(checkHorizontalScroll(document.getElementById("doorhanger_orders")));
     }
     
     function td_mouseover(elem){
@@ -3060,6 +3061,13 @@
       return fetch("https://api64.ipify.org?format=json")
         .then(response => response.json())
         .then(data => data.ip);
+    }
+
+    function checkHorizontalScroll(element){
+      element.scrollLeft = 1;
+      const hasScroll = element.scrollLeft > 0;
+      element.scrollLeft = 0;
+      return hasScroll;
     }
 
   </script>
