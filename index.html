@@ -330,6 +330,10 @@
         width: 250px;
       } 
 
+      .table_item_lefty {
+        text-align: left !important;
+      }
+
       td:hover{
        overflow-x:visible;
        overflow-y: visible;
@@ -2632,8 +2636,11 @@
       else {
         giftshipper_thead.innerHTML = table_header.replace(/hhhh/g, table_head);
       }
+
+      //findIndexByText(gift_shipper_orders[0], "")
       
       gift_shipper_orders.slice(1).forEach((item, i) => {
+        /*
         var order_timestamp = item[0];
         var scout_credit = item[1];
         var buyer = item[2];
@@ -2642,6 +2649,20 @@
         var qty = item[11];
         var price = item[13];
         var msg = item[14];
+        */
+
+        var order_timestamp = item[findIndexByText(gift_shipper_orders[0], "Timestamp")];
+        var scout_credit = item[findIndexByText(gift_shipper_orders[0], "Scout/Org")];
+        var buyer = item[findIndexByText(gift_shipper_orders[0], "Buyer's Name")];
+        var recipient = item[findIndexByText(gift_shipper_orders[0], "Recipient Name")] + ":<br>" + item[findIndexByText(gift_shipper_orders[0], "Recipient Street")] 
+          + ", " + item[findIndexByText(gift_shipper_orders[0], "Recipient City")] + ", " + item[findIndexByText(gift_shipper_orders[0], "Recipient State")] + " " 
+          + item[findIndexByText(gift_shipper_orders[0], "Recipient Zip")];
+        var wreath_item = item[findIndexByText(gift_shipper_orders[0], "Wreath")];
+        var qty = item[findIndexByText(gift_shipper_orders[0], "Qty")];
+        var price = item[findIndexByText(gift_shipper_orders[0], "Cost")];
+        var msg = item[findIndexByText(gift_shipper_orders[0], "Gift Msg")];
+
+
         var div_text = "";
         var td_map = [order_timestamp, buyer, recipient, wreath_item, qty, price, msg];
         name == scout_credit ? gift_shipper_total += Number(qty) * Number(price.split("$")[1]) : null;
@@ -2649,7 +2670,7 @@
           scout_giftshipper_count[name]++;
           td_count++;
           td_map.forEach((item, i) => {
-            table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='column" + (i+100) + "'>" + item + "</td>";
+            table_line += "<td id='" + (td_count+3000) + "_column" + (i+100) + "' class='table_item_lefty column" + (i+100) + "'>" + item + "</td>";
 
           });
           div_text += "<div class='order_divs'>" + "Timestamp: " + order_timestamp + "<br>" + "Buyer: " + buyer + "<br>" + "Recipient: "
@@ -2761,6 +2782,10 @@
 
       table_paging("init");
       //console.log(checkHorizontalScroll(document.getElementById("doorhanger_orders")));
+    }
+
+    function findIndexByText(array, text) {
+      return array.findIndex(element => element === text);
     }
     
     function td_mouseover(elem){
