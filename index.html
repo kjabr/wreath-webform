@@ -729,6 +729,7 @@
 
       .clickable_span{
         color: blue;
+        margin-right: -6px;
       }
 
       .clickable_span:hover {
@@ -1157,6 +1158,7 @@
               <label for="cust_check">Check</label>
               <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
               <label for="cust_venmo">Venmo</label>
+              <span class="clickable_span" onclick="show_venmo_info()">[i]</span>
               <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
               <label for="cust_unpaid">Unpaid</label>
               <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
@@ -2119,6 +2121,12 @@
     function show_email_info(){
       var popup_elem = document.getElementById("popup_content");
       popup_elem.innerHTML = email_instructions;
+      toggle_modal();
+    }
+
+    function show_venmo_info(){
+      var popup_elem = document.getElementById("popup_content");
+      popup_elem.innerHTML = "If more convenient use the scout or parent Venmo account and pay the troop with a check when the money is collected";
       toggle_modal();
     }
 
