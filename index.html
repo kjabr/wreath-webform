@@ -1329,7 +1329,7 @@
     var csvStr_ship = "";
 
     var ip_addr = "";
-
+    var empty_catalog = false;
 
     var curr_tab;
 
@@ -1555,31 +1555,46 @@
     }
 
     function get_catalog(local_catalog_data){
+      var n = 0;
       if (webform_toggle == "no") {return;}
         local_catalog = [...local_catalog_data];
         //append a donation item to the catalog
+
+        local_catalog.forEach((element, i) => {
+          if (element[0] == "yes"){n++;}
+        });
+        //if (n == 0){local_catalog.push(["yes", "", "", "", "", ""]);}
+
         local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
         local_catalog.forEach((item, i) => {
           item[0] == "yes" ? (wreath_list += '<option value="'+ i + '">' + item[1] + '</option>',
                 wreath_items.push([item[1], item[3], item[2], item[4]]))
               : null;
         });
+          
         document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
 
-        /*
-        setTimeout(function(){
-        // This hides the address bar:
-          window.scrollTo(0, 25);
-        }, 100);
-        */
+        if (n == 0){
+          empty_catalog = true;
+          document.getElementById("wreath_item_span_" + 1).style.display = "none";
+          document.getElementById("photo_click_" + 1).style.display = "none";
+          document.getElementById("wreath_donation_label_" + 1).style.display = "";
+          document.getElementById("wreath_donation_input_" + 1).style.display = "";
+          document.getElementById("wreath_item_" + 1).style.minWidth = "6em";
+          document.getElementById("wreath_item_" + 1).style.width = "10em";
+        }
 
         init_input_fields();
 
     }
 
     function delete_wreath_item(elem){
+      if (empty_catalog == true){
+        clear_data();
+        return;
+      }
       var MMM = elem.id.split("_")[2];
       var add_item_elem = document.getElementById(`webform_item_${MMM}`);
       var webform_items_list = [];
@@ -1650,6 +1665,7 @@
 
     function add_wreath_item(elem, event){
       event.stopPropagation();
+      if (empty_catalog == true){return;}
       var MMM = elem.id.split("_")[2];
 
       document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
@@ -2056,9 +2072,13 @@
     }
 
     function clear_data(){
-      document.getElementById("wreath_section").innerHTML =
-        add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
+
+      if (empty_catalog == false){
+        document.getElementById("wreath_section").innerHTML =
+          add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]);
+      }
+      
       init_input_fields();
       single_order = [];
       single_order[0] = [];
