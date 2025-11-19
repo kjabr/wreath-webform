@@ -1686,6 +1686,7 @@
       announcement = setup_data[0][1] || "";
       title = setup_data[0][2] || "";
       scoutname = setup_data[0][3] || "";
+      scoutname = scoutname.replace(/, /g, ",").split(",").sort().join(","); //sorting the scoutname into an alphabetical order
       description = setup_data[0][4] || "";
       email_instructions = setup_data[0][5] || "";
       info_panel = setup_data[0][6] || "";
