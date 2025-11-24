@@ -1342,6 +1342,9 @@
     var table_page = {};
     var pager_html = {};
 
+    var id1 = "";
+    var id2 = "";
+
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -1404,20 +1407,21 @@
     `;
 
     document.getElementById("single_entry_content").style.display="none";
+    handle_ids();
 
     document.addEventListener('DOMContentLoaded', function() {
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      if (urlParams.get("id1") == undefined){
+      if (id1 == ""){
         document.getElementById("container").style.display = "none";
       }
 
-      if ((urlParams.get("id1"))){
+      if (id1 != ""){
           var scoutname_elem = document.getElementById('scoutname');
           var scout_email = document.getElementById('email_address');
           var other_name = document.getElementById('other_name');
           url_params = urlParams.get("email");
-          id=urlParams.get("id1").replace("/", "");
+          id=id1.replace("/", "");
           url_name = urlParams.get("scoutname") || "";
           url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
             .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
@@ -1448,8 +1452,8 @@
       });
 
       fetch_spreadsheet(
-          urlParams.get("id1").replace("/", ""),
-          urlParams.get("id2").replace("/", ""),
+          id1.replace("/", ""),
+          id2.replace("/", ""),
           range_of_sheets
         ).then(r => {
           //console.log(r.sheets);
@@ -1621,6 +1625,36 @@
       if (last_item_visibility == "hidden") {
         document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility = "visible";
       }
+    }
+
+    function remove_url_parameter(parameterName) {
+      const currentUrl = window.location.href;
+      const url = new URL(currentUrl);
+      const params = url.searchParams;
+      params.delete(parameterName);
+      window.history.replaceState({}, '', url);
+     }
+
+    function handle_ids(){
+      var queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      if (urlParams.get("id1") != undefined || urlParams.get("id2") != undefined){
+        id1 = urlParams.get("id1");
+        id2 = urlParams.get("id2")
+        localStorage.setItem("id1", id1);
+        localStorage.setItem("id2", id2);
+        remove_url_parameter("id1");
+        remove_url_parameter("id2");
+      }
+      else {
+        localStorage.getItem("id1") ? id1 = localStorage.getItem("id1") : id1 = "";
+        localStorage.getItem("id2") ? id2 = localStorage.getItem("id2") : id2 = "";
+
+        if (id1 == "" || id2 == ""){
+          window.location.href = "https://webform.troop432lo.org";
+        }
+      }
+
     }
 
     function single_order_data(){
@@ -2168,7 +2202,7 @@
 
       fetch_spreadsheet(
           tracking_sheet,
-          urlParams.get("id2").replace("/", ""),
+          id2.replace("/", ""),
           range_of_sheets
         ).then(r => {
           //console.log(r.sheets);
