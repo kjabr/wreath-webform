@@ -2421,11 +2421,17 @@
       all_data_div1.innerHTML = "";
       all_data_div2.innerHTML = "";
 
+      var webform_timestamp_index = findIndexByText(wreath_orders[0], "timestamp");
+      var webform_name_index = findIndexByText(wreath_orders[0], "name");
+      var webform_customer_index = findIndexByText(wreath_orders[0], "customer");
+      var webform_note_index = findIndexByText(wreath_orders[0], "note");
+      var webform_total_index = findIndexByText(wreath_orders[0], "total");
+      var webform_donation_index = findIndexByText(wreath_orders[0], "donation");
+
       //the following removes empty columns
       //first look for empties in the first row
       wreath_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
-        item.toLowerCase() == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
@@ -2447,46 +2453,46 @@
       });
 
       wreath_orders[0].forEach((item, i) => {
-        if (i == 1 || i == 3) return; //don't show scoutname or note in the table
+        if (i == webform_name_index || i == webform_note_index) return; //don't show scoutname or note in the table
         table_head += "<th class='column" + i + "'>" + item + "</th>";
       });
 
       all_data_thead.innerHTML = table_header.replace(/hhhh/g, table_head);
 
       wreath_orders.forEach((item, i) => {
-       if (item[1] == name) {
+       if (item[webform_name_index] == name) {
         scout_webform_count[name]++;
-         local_orders_total += Number(item[4].split("$")[1]);
+         local_orders_total += Number(item[webform_total_index].split("$")[1]);
          table_line = "";
          row_note = "";
-         item[3] != "-"  ? row_note = "Order Note: " + item[3].replace(/[^a-zA-Z0-9@,\s\$\-\+\?\/\.\!]/g, "") + "<br>" : row_note = "";
+         item[webform_note_index] != "-"  ? row_note = "Order Note: " + item[3].replace(/[^a-zA-Z0-9@,\s\$\-\+\?\/\.\!]/g, "") + "<br>" : row_note = "";
          //order_divs_line is for smaller screens
-         order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[0] + "<br>" + "<div>Customer: "
-            + item[2] + "</div><br>" + "Total: " + item[4] + "<br>" + row_note;
+         order_divs_line += "<div class='order_divs'>" + "Timestamp: " + item[webform_timestamp_index] + "<br>" + "<div>Customer: "
+            + item[webform_customer_index] + "</div><br>" + "Total: " + item[webform_total_index] + "<br>" + row_note;
         
-         if (item[3] == "Wreath Sale Donation"){
-          online_donations_total += Number(item[4].split("$")[1]);
+         if (item[webform_note_index] == "Wreath Sale Donation"){
+          online_donations_total += Number(item[webform_total_index].split("$")[1]);
          }
-         else if (item[3] == "Door Hanger Order"){
-          door_hanger_total += Number(item[4].split("$")[1]);
+         else if (item[webform_note_index] == "Door Hanger Order"){
+          door_hanger_total += Number(item[webform_total_index].split("$")[1]);
          }
          else {
-          item[donation_column] != "0" ? scout_donations_total += Number(item[donation_column].split("$")[1]) : null;
+          item[webform_donation_index] != "0" ? scout_donations_total += Number(item[webform_donation_index].split("$")[1]) : null;
          }
 
          item.forEach((item, i) => {
            td_count++;
            i == 3 && item != "0" ? row_note = item : null;
            i == 0 ? item = item.replace(/,/, ",<br>") : null;
-           if (i == 1 || i == 3) return;
-            if (row_note != "" && i == 2){
+           if (i == webform_name_index || i == webform_note_index) return;
+            if (row_note != "" && i == webform_customer_index){
               table_line += "<td class='table_cell_note table_item_left' title='" + row_note.split('<br>')[0] 
                 + "' onclick='note_popup(" + JSON.stringify(row_note) + ")'>" + item + "<div class='comment_div'></div></td>"; 
             }
-            else if (i == 2){
+            else if (i == webform_customer_index){
               table_line += "<td class='table_item_left'>" + item.replace("<br>", " ") + "</td>"; 
             }
-            else if (i == 0){
+            else if (i == webform_timestamp_index){
               table_line += "<td class='table_timestamp'>" + item + "</td>"; 
             }
             else {
@@ -2510,28 +2516,25 @@
        row_note = "";
      });
      table_line = `<td>${scout_webform_count[name]} orders</td><td class='totals_class'><strong>TOTALS</strong></td><td class='totals_class'><strong>$${local_orders_total} </strong></td>`;
+
+     item_total[webform_donation_index] = "$"+ item_total[webform_donation_index];
      for (const property in item_total) {
       count++;
-      if (count == Object.keys(item_total).length) {
-        table_line += "<td class='totals_class column" + property + "'> <strong>$" + item_total[property] + "</strong> </td>";
-        if (column_toggle_checkbox.checked) {
-          item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.column'+property)
-          .style.display='none': null;
-        }
-
-      }
-      else {
-        table_line += "<td class='totals_class column" + property + "'> <strong>" + item_total[property] + "</strong> </td>";
-        if (column_toggle_checkbox.checked) {
-          item_total[property] == 0 ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.column'+property)
-          .style.display='none': null;
-        }
-
-
+      table_line += "<td class='totals_class column" + property + "'> <strong>" + item_total[property] + "</strong> </td>";
+      if (column_toggle_checkbox.checked) {
+        item_total[property] == 0 || item_total[property] == "$0" ? [...document.styleSheets[0].cssRules].find(x=> x.selectorText=='.column'+property)
+        .style.display='none': null;
       }
      }
      all_data_tfoot.innerHTML = table_inner.replace(/tttt/g, table_line);
 
+    //change the color of donation column
+    const rules = Array.from(document.styleSheets[0].cssRules);
+    const rule = rules.find(x => x.selectorText === '.column' + webform_donation_index);
+    if (rule) {
+        rule.style.color = 'blue'; // Change the color to blue if the rule is found
+        rule.style.fontWeight = "bold";
+    }
 
     //build the CSV data
      csvStr_local = "";
@@ -2564,13 +2567,12 @@
 
       var doorhanger_order_divs = `<div class=''>dddd</div>`;
       doorhanger_div.innerHTML = "";
-      donation_column = 0;
+      donation_column = findIndexByText(doorhanger_local_orders[0], "donation");
 
       //the following removes empty columns
       //first look for empties in the first row
       doorhanger_local_orders[0].forEach((item, i) => {
         item == "" ? ignore_columns.push(i) : null;
-        item.toLowerCase() == "donation" ? donation_column = i : null;
       });
 
       //then iterate through each row and remove the matching empty columns
@@ -2871,7 +2873,7 @@
     }
 
     function findIndexByText(array, text) {
-      return array.findIndex(element => element === text);
+      return array.findIndex(element => element.toLowerCase() === text.toLowerCase());
     }
     
     function td_mouseover(elem){
