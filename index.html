@@ -1308,6 +1308,7 @@
     var sheet_values = {};
     var order_data_values = {};
     var url_param_off = "yes";
+    var local_wreath_list = [];
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
@@ -1534,7 +1535,7 @@
           item.data[0].rowData.forEach((item2, i2) => {
             var row_values = [];
 
-            item2.values.forEach((item3, i3) => {
+            item2.values?.forEach((item3, i3) => {
               if (item3.formattedValue) {
                 row_values.push(item3.formattedValue);
               }
@@ -1574,11 +1575,12 @@
         });
         //if (n == 0){local_catalog.push(["yes", "", "", "", "", ""]);}
 
-        local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
+        //local_catalog.push(["yes", "Donation", "Use this item to take a donation", "$0", "", ""]);
         local_catalog.forEach((item, i) => {
           item[0] == "yes" ? (wreath_list += '<option value="'+ i + '">' + item[1] + '</option>',
                 wreath_items.push([item[1], item[3], item[2], item[4]]))
               : null;
+          local_wreath_list.push(item[1]);
         });
           
         document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
@@ -1593,6 +1595,15 @@
           document.getElementById("wreath_donation_input_" + 1).style.display = "";
           document.getElementById("wreath_item_" + 1).style.minWidth = "6em";
           document.getElementById("wreath_item_" + 1).style.width = "10em";
+        }
+
+        if (wreath_items[0][0] == "Donation"){
+          document.getElementById("wreath_item_span_1").style.display = "none";
+          document.getElementById("photo_click_1").style.display = "none";
+          document.getElementById("wreath_donation_label_1").style.display = "";
+          document.getElementById("wreath_donation_input_1").style.display = "";
+          document.getElementById("wreath_item_1").style.minWidth = "6em";
+          document.getElementById("wreath_item_1").style.width = "10em";
         }
 
         init_input_fields();
@@ -1728,6 +1739,15 @@
       document.getElementById("wreath_section").insertAdjacentHTML('beforeend',
         add_single_wreath.replace(/MMM/g, item_count++).replace(/wreath_list/g, wreath_list)
         .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]));
+
+        if (wreath_items[0][0] == "Donation"){
+          document.getElementById("wreath_item_span_" + (item_count-1)).style.display = "none";
+          document.getElementById("photo_click_" + (item_count-1)).style.display = "none";
+          document.getElementById("wreath_donation_label_" + (item_count-1)).style.display = "";
+          document.getElementById("wreath_donation_input_" + (item_count-1)).style.display = "";
+          document.getElementById("wreath_item_" + (item_count-1)).style.minWidth = "6em";
+          document.getElementById("wreath_item_" + (item_count-1)).style.width = "10em";
+        }
 
       document.getElementById("add_item_"+MMM).style.visibility = 'hidden';
       window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" })
@@ -2085,7 +2105,7 @@
         });
 
         //the following appends the ip address to log_order
-        log_order[local_catalog.length] = ip_addr;
+        //log_order[local_catalog.length] = ip_addr;
 
         scoutname == "Other" ? name = other_name : name = scoutname;
 
@@ -2095,6 +2115,13 @@
         log_order.unshift(cust_contact1);
         log_order.unshift(name);
         log_order.unshift(curr_timestamp);
+        
+        /*
+        //move the donation amount to just right of the Total
+        let total_index = findIndexByText(log_order, "$"+order_total);
+        let donation_value = log_order.splice(findIndexByText(local_wreath_list, "donation")+total_index+1, 1)[0];
+        log_order.splice(total_index+1, 0, donation_value);
+        */
 
         order["scoutname"] = scoutname;
         order["other_name"] = other_name;
