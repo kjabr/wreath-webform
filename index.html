@@ -1623,6 +1623,15 @@
         document.getElementById("wreath_section").innerHTML =
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]);
+
+        if (wreath_items[0][0] == "Donation"){
+          document.getElementById("wreath_item_span_1").style.display = "none";
+          document.getElementById("photo_click_1").style.display = "none";
+          document.getElementById("wreath_donation_label_1").style.display = "";
+          document.getElementById("wreath_donation_input_1").style.display = "";
+          document.getElementById("wreath_item_1").style.minWidth = "6em";
+          document.getElementById("wreath_item_1").style.width = "10em";
+        }
       }
       else {
         add_item_elem.remove();
@@ -2162,6 +2171,15 @@
         document.getElementById("wreath_section").innerHTML =
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
           .replace(/nnn/g, wreath_items[0][1]).replace(/descr/g, wreath_items[0][2]);
+      }
+
+      if (wreath_items[0][0] == "Donation"){
+          document.getElementById("wreath_item_span_1").style.display = "none";
+          document.getElementById("photo_click_1").style.display = "none";
+          document.getElementById("wreath_donation_label_1").style.display = "";
+          document.getElementById("wreath_donation_input_1").style.display = "";
+          document.getElementById("wreath_item_1").style.minWidth = "6em";
+          document.getElementById("wreath_item_1").style.width = "10em";
       }
       
       init_input_fields();
