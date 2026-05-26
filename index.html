@@ -237,6 +237,16 @@
         box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
       }
 
+      .local_orders th:nth-child(n+3){
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        height: 100px;
+        width: 60px;
+        background-color: darkorange;
+        color: black;
+        font-weight: normal;
+      }
+
       .local_orders{
         overflow-x: auto;
         max-width: 100%;
@@ -284,8 +294,8 @@
         padding-top: 5px;
         padding-bottom: 5px;
         text-align: center;
-        background-color: #75c0e0;
-        color: white;
+        background-color: lightblue;
+        font-weight: normal;
       }
 
       .all_data_table tr {
@@ -1563,7 +1573,16 @@
             .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
           url_email = urlParams.get("email") || "";
 
-          document.getElementById("column_toggle").checked = true;
+          //document.getElementById("column_toggle").checked = true;
+          if (window.innerWidth >= 1000){
+            document.getElementById("column_toggle").checked = false;
+            document.getElementById("doorhangercolumn_toggle").checked = false;
+          }
+          else {
+            document.getElementById("column_toggle").checked = true;
+            document.getElementById("doorhangercolumn_toggle").checked = true;
+          }
+
 
           if (url_email != "") {
             var emailsArray3 = url_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
