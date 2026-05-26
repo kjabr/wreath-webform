@@ -634,6 +634,23 @@
         cursor: pointer;
       }
 
+      .add-row-btn:hover {
+        color: #FF8C00;
+        cursor: pointer;
+      }
+
+      .multi_plus_icon {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40px;
+      }
+
+      .multi_plus_icon:hover{
+        color: #FF8C00;
+        cursor: pointer;
+      }
+
       .x_circle {
         position: absolute;
         right: 5px;
@@ -657,7 +674,23 @@
         background: #f1f1f160;
         border: 1px solid #ccc;
         border-radius: 5px;
+        margin-top: 5px;
+      }
 
+      .multi_entry_bottom {
+        overflow: hidden;
+        display: flex;
+        position: sticky;
+        bottom: 0;
+        justify-content: space-between;
+        align-items: center;
+        width: 42em;
+        padding: 0.5em 2em 0.5em 1em;
+        background: #f1f1f160;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: auto;
+        margin-top: 10px;
       }
 
       .popup {
@@ -750,23 +783,41 @@
       }
 
       .loader {
+        width: 48px;
+        height: 48px;
+        border: 3px solid gray;
+        border-radius: 50%;
         display: none;
         position: fixed;
         z-index: 1101;
         left: 50%;
-        top: 50%;
-        border-top: 13px solid darkorange;
-        border-right: 13px solid seagreen;
-        border-bottom: 13px solid darkorange;
-        border-left: 13px solid seagreen;
-        border-radius: 50%;
-	      margin: auto;
-        margin-left: -7vw;
-        width: 70px;
-        height: 70px;
+        top: 40%;
+        margin: auto;
         transform: translate(-50%, -50%);
-        animation: spin 1.5s linear infinite;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        background-color: lightgray;
       }
+      .loader::after {
+        content: '';  
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        background: #FF3D00;
+        width: 3px;
+        height: 24px;
+        transform: translateX(-50%);
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      } 
 
       @keyframes spin {
         0% { transform: rotate(0deg); }
@@ -889,12 +940,66 @@
         position: relative;
       }
 
+      .multi-table{
+        font-size: small;
+        border-collapse: collapse;
+        margin: auto;
+      }
+
+      .multi-table a {
+        color: blue;
+        cursor: pointer;
+      }
+      
+      .multi-table tr:first-child {
+        height: 40px;
+      }
+
+      .multi-table td{
+        text-align: center;
+      }
+
+      .multi-table th, .multi-table td {
+        border: 1px solid #ddd;
+      }
+
+      .multi-table tr:first-child th,
+      .multi-table tr:first-child td {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        white-space: normal;
+        width: 60px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        height: 100px;
+        background-color: darkorange;
+        line-height: 20px;
+        text-align: center;
+      }
+
+      .multi-table tr td:first-child
+      {
+        background-color: transparent;
+        border: none;
+      }
+      
+      .multi-table tr td:last-child {
+        background-color: lightblue;
+      }
+
       @media (min-width: 1080px) {
         .tab{
           width: 96%;
         }
       }
 
+
+      @media (max-width: 900px)
+      {
+        .multi_order_btn {
+          display: none;
+        }
+      }
       @media (max-width: 800px)  {
 
         body {
@@ -1111,7 +1216,7 @@
       <div class="tab" id="tab">
         <div>
           <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Enter Order</button>
-          <!--     <button class="tablinks" onclick="openTab(event, 'multi_order_section')">Multi Order</button> -->
+          <button class="tablinks multi_order_btn" onclick="openTab(event, 'multi_order_section')">Multi Order</button>
           <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
           <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
         </div>
@@ -1198,11 +1303,26 @@
           </div>
         </div>
       </div>
-<!--
+
       <div id="multi_order_section" class="tabcontent">
-        <p id="multi_order_info"></p>
-      </div>
--->
+        <p id="multi_order_info">Use this tab to submit orders from multiple customers at the same time.</p>
+        <table id="multi-table" class="multi-table">
+          <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
+          <tbody id="multi-table-tbody">
+          </tbody>
+        </table>
+        <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
+
+          <div class="multi_entry_bottom">
+            <div id="multi_entry_buttons" class="multi_entry_buttons">
+              <button type="button" id="multi_clear_all" class="btn2" onclick="multi_clear_data()" name="multi_clear_data">Clear All</button>
+              <button type="button" id="multi_save_all" class="btn1" onclick="multi_submit_data()" name="multi_submit_data">Submit</button>
+            </div>
+            <div class="avoidwrap">
+              <strong>Grand Total: </strong> <span id="multi_entry_total">$0</span>
+            </div>
+          </div>
+        </div>
 
       <div id="my_orders_section" class="tabcontent">
         <p id="my_orders_info" class="tab_info"></p>
@@ -1323,7 +1443,6 @@
     single_order[0] = [];
     var multi_order = [];
 
-    var order = {};
     var local_orders = [];
     var doorhanger_orders = [];
     var gift_shipper_orders = [];
@@ -1332,6 +1451,7 @@
     var csvStr_local = "";
     var doorhanger_csvStr = "";
     var csvStr_ship = "";
+    var multi_table_csv = "";
 
     var ip_addr = "";
     var empty_catalog = false;
@@ -1607,8 +1727,448 @@
         }
 
         init_input_fields();
+        multi_table_create(wreath_items);
 
     }
+
+    function multi_table_create(wreath_items){
+        //console.log((wreath_items.map(item => item[0])).unshift("apple"));
+        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[0])), "Total"]);
+        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[1])), ""]);
+        addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0));
+
+        document.getElementById("multi_plus_icon").innerHTML = plus_circle;
+        document.getElementById("multi_plus_icon").onclick = function() {addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0));};
+
+    }
+
+    function addRowToTable(tableSelector, rowData) {
+      const table = document.querySelector(tableSelector);
+      const tbody = table.querySelector('tbody') || table;
+      const newRow = tbody.insertRow();
+  
+      rowData.forEach(cellContent => {
+        const cell = newRow.insertCell();
+        cell.textContent = cellContent;
+      });
+  
+      return newRow;
+    }
+
+    function createNumberSelector(initialValue = 0) {
+      const select = document.createElement('select');
+      
+      for (let i = 0; i <= 9; i++) {
+        const option = document.createElement('option');
+        option.value = String(i);  // Convert to string to match comparison
+        option.textContent = i;
+        
+        // Set the selected attribute on the initial value
+        if (i === Number(initialValue)) {
+          option.selected = true;
+        }
+        
+        select.appendChild(option);
+      }
+
+      select.onchange = () => {
+        const rowIndex = select.closest('tr').rowIndex;
+        const columnIndex = select.closest('td').cellIndex;
+        multi_total_row(select, rowIndex);
+        multi_select_change(select);
+      }
+      
+      return select;
+    }
+
+
+
+    function addRowWithSelectors(tableSelector, initialValues = []) {
+      const table = document.querySelector(tableSelector);
+      const tbody = table.querySelector('tbody') || table;
+      const newRow = tbody.insertRow();
+      newRow.style.position = 'relative';
+      const rowIndex = newRow.rowIndex;
+
+      const firstcell = newRow.insertCell();
+      firstcell.innerHTML = '<textarea placeholder="customer info", oninput="multi_textarea_change(this);" style="resize: none;", cols="16"></textarea>';
+      
+      // Create cells with number selectors
+      initialValues.forEach(value => {
+        const cell = newRow.insertCell();
+        cell.appendChild(createNumberSelector(value));
+      });
+
+      const lastcell = newRow.insertCell();
+      lastcell.innerHTML = `<input id="multi_donation" type="text" inputmode="decimal" style="width:3em;" oninput="this.value = donation_amt(this.value); multi_total_row(this, ${rowIndex})" placeholder="$">`;
+
+      const total_cell = newRow.insertCell();    
+      total_cell.textContent = "$0";  
+
+      // Add x button with absolute positioning
+      const addBtn = document.createElement('div');
+      addBtn.innerHTML = `${x_circle}`;
+      addBtn.className = 'add-row-btn';
+      addBtn.style.position = 'absolute';
+      addBtn.style.left = '-40px'; // Position to the left
+      addBtn.style.top = '50%';
+      addBtn.style.transform = 'translateY(-50%)'; // Center vertically
+      addBtn.title = "Delete row";
+
+      addBtn.addEventListener('click', () => {
+        const rowIndex = addBtn.closest('tr').rowIndex;
+        table.tBodies[0].rows.length > 3 ? removeRowWithSelectors('#multi-table', rowIndex) :
+        (removeRowWithSelectors('#multi-table', rowIndex),
+          addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0))
+        );
+        multi_grand_total();
+      });
+  
+      newRow.appendChild(addBtn);
+
+      
+      return newRow;
+    }
+
+    function removeRowWithSelectors(tableSelector, rowIndex) {
+      const table = document.querySelector(tableSelector);
+      const tbody = table.querySelector('tbody') || table;
+      tbody.deleteRow(rowIndex);
+    }
+
+    function multi_table_values(tableSelector, startRow){
+      const table = document.querySelector(tableSelector);
+      const tbody = table.querySelector('tbody') || table;
+      //const startRow = 2;
+      const data = Array.from(tbody.rows).slice(startRow == "all" ? 0 : 2).map(row =>
+        Array.from(row.cells).map(cell => {
+          const textarea = cell.querySelector('textarea');
+          const select = cell.querySelector('select');
+          const input = cell.querySelector('input');
+    
+          if (textarea) return textarea.value;
+          if (select) return select.value;
+          if (input) return input.value;
+          return cell.textContent;
+          })
+        );
+
+      return data;
+
+    }
+
+    function multi_row_values(tableSelector, rowIndex){
+      const table = document.querySelector(tableSelector);
+      const tbody = table.querySelector('tbody') || table;
+      const row = tbody.rows[rowIndex];
+      
+      return Array.from(row.cells).map(cell => {
+        const textarea = cell.querySelector('textarea');
+        const select = cell.querySelector('select');
+        const input = cell.querySelector('input');
+
+        if (textarea) return textarea.value;
+        if (select) return select.value;
+        if (input) return input.value;
+        return cell.textContent;
+      });
+    }
+
+    function multi_textarea_change(elem){
+      elem.value != "" ? elem.style.borderColor = "" : null;
+    }
+
+
+    function getCellValue(tableSelector, rowIndex, columnIndex) {
+      const row = document.querySelector(tableSelector).rows[rowIndex];
+      const cell = row.cells[columnIndex];
+      return cell.textContent;
+    }
+
+    function setLastRowCellValue(tableSelector, columnIndex, value) {
+      const table = document.querySelector(tableSelector);
+      const lastRow = table.rows[table.rows.length - 1];
+      const cell = lastRow.cells[columnIndex];
+  
+      const input = cell.querySelector('input, select, textarea');
+      if (input) {
+        input.value = value;
+      } else {
+        cell.textContent = value;
+      }
+    }
+
+    function setRowTotalValue(tableSelector, rowIndex, value) {
+      const table = document.querySelector(tableSelector);
+      const row = document.querySelector(tableSelector).rows[rowIndex];
+      row.cells[(row.cells).length-1].textContent = value;
+
+    }
+
+    function multi_total_row(elem, rowIndex){
+      var multi_row_total = 0;
+      var row_values = multi_row_values('#multi-table', rowIndex);
+      var multi_prices =  multi_row_values('#multi-table', 1);
+
+      row_values.forEach((item,i) => {
+        if (i > 0 && i < row_values.length-2) {
+          multi_row_total += Number(row_values[i]) * Number(multi_prices[i].split('$')[1]);
+        }
+        if (i==(row_values.length-1)){
+          multi_row_total += Number(row_values[row_values.length-2].split('$')[1]) || 0;
+        }
+      });
+      setRowTotalValue('#multi-table', rowIndex, '$'+multi_row_total);
+      multi_grand_total();
+
+    }
+
+    function multi_grand_total(){
+      var table_values = multi_table_values('#multi-table');
+      var grand_total = 0;
+      table_values.forEach((item,i) => {
+        grand_total += Number(item[item.length -1].split('$')[1]);
+      });
+
+      document.getElementById('multi_entry_total').innerText = "$"+grand_total;
+
+    }
+
+    function multi_csv(){
+      var all_table_values = multi_table_values('#multi-table', 'all');
+      var multi_table_csv = "";
+      var multi_table_csv_elem = document.getElementById('multi_table_csv');
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var name = "";
+      scoutname == "Other" ? name = other_name : name = scoutname;
+
+      all_table_values.forEach((item, i) => {
+        multi_table_csv += item.map(item1 => (escapeCSVField(item1) ? escapeCSVField(item1) : " ")).join(',') + '\n';
+      });
+
+      multi_table_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(multi_table_csv);
+      multi_table_csv_elem.target = "_blank";
+      multi_table_csv_elem.download = name+"_webform_orders.csv";
+
+      return multi_table_csv;
+    }
+
+    function multi_select_change(elem){
+      if (elem.value != "0") {
+        elem.style.backgroundColor = "lightblue";
+      }
+      else {
+        elem.style.backgroundColor = "";
+
+      }
+    }
+
+    function multi_submit_data(){
+      var order = {};
+      var log_order = [];
+      var popup_elem = document.getElementById("popup_content");
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var email_address = document.getElementById("email_address").value;
+      var error_msg = "";
+      var error_msg_textarea = "";
+
+      var timestamp = new Date();
+      var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
+      scoutname == "Other" && other_name != "" ? (other_name = other_name.replace(/[\.\_\-]/g, " ")
+          .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
+          document.getElementById("other_name").value = other_name): null;      
+
+      scoutname == "" ? error_msg += "The scout name cannot be blank!<br>" : null;
+      scoutname == "Other" && other_name == "" ? error_msg += "The name field cannot be blank!<br>" : null;
+
+      email_address == "" ? error_msg += "Your email address cannot be left blank! <br>" : null;
+      if (email_address !="") {
+        var emailsArray1 = email_address.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi);
+        if (emailsArray1 == null || emailsArray1.length == 0) {
+          error_msg += "Your email address is not valid. Please fix before submitting! <br>";
+        }
+      }
+
+      const table_textareas = document.querySelectorAll('#multi-table textarea');
+      table_textareas.forEach((item, i) => {
+        item.value == "" ? (error_msg_textarea = "At least one of your customer contact fields is empty! <br>", 
+          item.style.borderColor = "red") : null;
+      });
+
+      error_msg += error_msg_textarea;
+      error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
+
+      if (error_msg == "") {
+      scoutname == "Other" ? name = other_name : name = scoutname;
+
+      log_order = multi_table_values('#multi-table');
+
+      //inject timestamp
+      log_order = injectColumn(log_order, 0, curr_timestamp);
+
+      //inject scoutname
+      log_order = injectColumn(log_order, 1, name);
+
+      //inject note
+      log_order = injectColumn(log_order, 3, "");
+
+      //move total to a new column position
+      log_order = moveColumn(log_order, (log_order[0].length-1), 4);
+
+      //get the multi-table html code
+      const multi_table_element = document.getElementById('multi-table');
+      //const multi_table_htmlCode = multi_table_element.outerHTML;
+      const multi_table_htmlCode = getElementWithInlineStyles(multi_table_element);
+
+      const emailBody = `
+          <html>
+            <body style="font-family: Arial, sans-serif;">
+              <p>Hey, you submitted this on the wreath webform!</p>
+              <p>See the table below (a copy in CSV format is attached for your reference):</p>
+              ${multi_table_htmlCode}
+              <p>Nice job</p>
+            </body>
+          </html>
+        `;
+      order["order_mode"] = "multi";
+      order["id"] = id;
+      order['hostname'] = window.location.hostname;
+      order["log_order"] = log_order;
+      order["scoutname"] = scoutname;
+      order['name'] = name;
+      order["email_address"] = email_address;
+      order["tracking_sheet"] = tracking_sheet;
+      order["ip_addr"] = ip_addr;
+      order["curr_timestamp"] = curr_timestamp;
+      order['table'] = emailBody;
+      order['multi_table_csv'] = multi_csv();
+
+      document.getElementById("loader").style.display = "block";
+      document.getElementById("multi_entry_buttons").style.visibility="hidden";
+      send_backend(order);
+      }
+    }
+
+    function multi_clear_data(){
+      document.getElementById('multi-table-tbody').innerHTML = "";
+      multi_table_create(wreath_items);
+      multi_grand_total();
+    }
+
+    function injectColumn(array, columnIndex, value) {
+      return array.map(row => {
+        const newRow = [...row];
+        newRow.splice(columnIndex, 0, value);
+        return newRow;
+      });
+    }
+
+    function moveColumn(array, fromIndex, toIndex) {
+      return array.map(row => {
+        const newRow = [...row];
+        const [movedValue] = newRow.splice(fromIndex, 1);
+        newRow.splice(toIndex, 0, movedValue);
+        return newRow;
+      });
+    }
+
+    function getElementWithInlineStyles(element) {
+      // Store the selected values BEFORE cloning
+      const originalSelects = element.querySelectorAll('select');
+      const selectedValues = [];
+      originalSelects.forEach(select => {
+        selectedValues.push(select.value);
+      });
+
+      const clone = element.cloneNode(true);
+
+      // Remove all SVG elements from the clone
+      const svgs = clone.querySelectorAll('svg');
+      svgs.forEach(svg => svg.remove());
+
+      const captions = clone.querySelectorAll('caption');
+      captions.forEach(caption => caption.remove());
+
+      // Replace selectors with their values using the stored selectedValues
+      const clonedSelects = clone.querySelectorAll('select');
+      clonedSelects.forEach((select, index) => {
+        const value = selectedValues[index] || '0';
+        const span = document.createElement('div');
+        span.textContent = value;
+        span.style.textAlign = 'center';
+        span.style.width = '100%';
+        select.replaceWith(span);
+      });
+
+      // Replace inputs with centered values
+      const inputs = clone.querySelectorAll('input');
+      inputs.forEach(input => {
+        const value = input.value || '';
+        const span = document.createElement('div');
+        span.textContent = value;
+        span.style.textAlign = 'center';
+        span.style.width = '100%';
+        input.replaceWith(span);
+      });
+
+      // Replace textareas with centered values
+      const textareas = clone.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+        const value = textarea.value || '';
+        const span = document.createElement('div');
+        span.textContent = value;
+        span.style.textAlign = 'center';
+        span.style.width = '100%';
+        textarea.replaceWith(span);
+      });
+
+      const styles = window.getComputedStyle(element);
+      let cssText = '';
+      for (let i = 0; i < styles.length; i++) {
+        const property = styles[i];
+        cssText += `${property}: ${styles.getPropertyValue(property)}; `;
+      }
+
+      // Add background color to the table with !important
+      cssText += 'background-color: rgb(245, 247, 238) !important; ';
+
+      // Center all table cell content, and fix rotated cells for email compatibility
+      const originalCells = element.querySelectorAll('td, th');
+      const clonedCells = clone.querySelectorAll('td, th');
+
+      clonedCells.forEach((cell, index) => {
+        const originalCell = originalCells[index];
+        const transform = window.getComputedStyle(originalCell).transform;
+        const isRotated = transform && transform !== 'none' && transform !== 'matrix(1, 0, 0, 1, 0, 0)';
+
+        const existingStyle = cell.getAttribute('style') || '';
+
+        if (isRotated) {
+          cell.setAttribute('style',
+            existingStyle +
+            'text-align: center; ' +
+            'vertical-align: middle; ' +
+            'writing-mode: vertical-rl; ' +
+            'transform: rotate(180deg); ' +
+            'white-space: nowrap; '
+          );
+        } else {
+          cell.setAttribute('style',
+            existingStyle +
+            'text-align: center; ' +
+            'vertical-align: middle; '
+          );
+        }
+      });
+
+      clone.setAttribute('style', cssText);
+      return clone.outerHTML;
+    }
+
+    
 
     function delete_wreath_item(elem){
       if (empty_catalog == true){
@@ -1823,7 +2383,7 @@
 
     }
 
-    function send_backend(){
+    function send_backend(order){
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
@@ -1849,18 +2409,31 @@
         if (response.status == "SUCCESS") {
           popup_elem.innerHTML = "Success! Hurray!";
           //console.log(response.status);
+          if (order['order_mode'] == "single"){
+            local_orders.push(order["log_order"]);
+            localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+            clear_data();
+          }
+          else {
+            order["log_order"].forEach((item, i) => {
+              local_orders.push(item);
+            });
+            localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+            multi_clear_data();
+          }
         }
          else {
           popup_elem.innerHTML = "Submit Error!<br><br>" + response.status;
         }
         document.getElementById("loader").style.display = "none";
         document.getElementById("single_entry_buttons").style.visibility="";
+        document.getElementById("multi_entry_buttons").style.visibility="";
         toggle_modal();
-        clear_data();
       }).catch((error) =>{
         var popup_elem = document.getElementById("popup_content");
         document.getElementById("loader").style.display = "none";
         document.getElementById("single_entry_buttons").style.visibility="";
+        document.getElementById("multi_entry_buttons").style.visibility="";
         popup_elem.innerHTML = "An error occured while sending to the server <br> <br>" + error;
         toggle_modal();
       });
@@ -2016,6 +2589,7 @@
     }
 
     function save_data(){
+      var order = {};
       var popup_elem = document.getElementById("popup_content");
       var scoutname = document.getElementById('scoutname').value;
       var other_name = document.getElementById("other_name").value;
@@ -2150,18 +2724,17 @@
         order["tracking_sheet"] = tracking_sheet;
         order["hostname"] = window.location.hostname;
         order["ip_addr"] = ip_addr;
+        order["order_mode"] = "single";
 
         /*
         single_order.forEach((item, i) => {
           item.length > 0 ? local_orders.push(single_order) : null;
         });
         */
-        local_orders.push(log_order);
-        localStorage.setItem('cached_orders', JSON.stringify(local_orders));
         //localStorage.setItem('cached_timestamp', JSON.stringify(curr_timestamp));
         document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
-        send_backend();
+        send_backend(order);
       }
     }
 
@@ -2286,6 +2859,7 @@
 
     function fetch_gift_shipper(gift_shipper_orders){
         localStorage.setItem('cached_gift_shipper', JSON.stringify(gift_shipper_orders));
+        document.getElementById("loader").style.display = "none";
         show_orders();
     }
 
@@ -2316,13 +2890,23 @@
           show_orders();
         }
         else {
+          document.getElementById("loader").style.display = "block";
           fetch_orders();
         }
       }
       else {
+        document.getElementById("loader").style.display = "block";
         fetch_orders();
       }
 
+    }
+
+    function escapeCSVField(field) {
+      const str = field.toString().replace(/<.*?>/g,'').replace(/#/g, "");
+      if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
     }
 
     function show_orders(){
@@ -2585,7 +3169,8 @@
      csvStr_local = "";
      wreath_orders.forEach((item, i) => {
       if (item[1] == "Name" || item[1] == name) {
-        csvStr_local += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
+        //csvStr_local += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
+        csvStr_local += item.map(item1 => escapeCSVField(item1)).join(',') + '\n';
       }
      });
 
@@ -2730,7 +3315,8 @@
      doorhanger_csvStr = "";
      doorhanger_local_orders.forEach((item, i) => {
       if (item[1] == "Name" || item[1] == name) {
-        doorhanger_csvStr += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
+        //doorhanger_csvStr += '"' + item.map(item1 => item1.toString().replace(/<.*?[>]/g,'').replace(/[#]/g, "")).join('","') + '"\n';
+        doorhanger_csvStr += item.map(item1 => escapeCSVField(item1)).join(',') + '\n';
       }
      });
 
@@ -2830,7 +3416,8 @@
       csvStr_ship = "";
       gift_shipper_orders.forEach((item, i) => {
       if (item[1] == "Scout/Org" || item[1] == name) {
-        csvStr_ship += '"' + item.map(item1 => item1.replace('#','num')).map(item1 => item1.replace(/[\r\n]+/g,' ')).join('","') + '"\n';
+        //csvStr_ship += '"' + item.map(item1 => item1.replace('#','num')).map(item1 => item1.replace(/[\r\n]+/g,' ')).join('","') + '"\n';
+        csvStr_ship += item.map(item1 => escapeCSVField(item1)).join(',') + '\n';
       }
      });
 
