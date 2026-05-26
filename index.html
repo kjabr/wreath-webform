@@ -1305,23 +1305,36 @@
       </div>
 
       <div id="multi_order_section" class="tabcontent">
-        <p id="multi_order_info">Use this tab to submit orders from multiple customers at the same time.</p>
-        <table id="multi-table" class="multi-table">
-          <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
-          <tbody id="multi-table-tbody">
-          </tbody>
-        </table>
-        <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
+        <div id="multi_entry_content">
+          <p id="multi_order_info">Use this tab to submit orders from multiple customers at the same time.</p>
+          <table id="multi-table" class="multi-table">
+            <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
+            <tbody id="multi-table-tbody">
+            </tbody>
+          </table>
+          <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
 
-          <div class="multi_entry_bottom">
-            <div id="multi_entry_buttons" class="multi_entry_buttons">
-              <button type="button" id="multi_clear_all" class="btn2" onclick="multi_clear_data()" name="multi_clear_data">Clear All</button>
-              <button type="button" id="multi_save_all" class="btn1" onclick="multi_submit_data()" name="multi_submit_data">Submit</button>
+            <div class="multi_entry_bottom">
+              <div id="multi_entry_buttons" class="multi_entry_buttons">
+                <button type="button" id="multi_clear_all" class="btn2" onclick="multi_clear_data()" name="multi_clear_data">Clear All</button>
+                <button type="button" id="multi_save_all" class="btn1" onclick="multi_submit_data()" name="multi_submit_data">Submit</button>
+              </div>
+              <div class="avoidwrap">
+                <strong>Grand Total: </strong> <span id="multi_entry_total">$0</span>
+              </div>
             </div>
-            <div class="avoidwrap">
-              <strong>Grand Total: </strong> <span id="multi_entry_total">$0</span>
+        </div>
+            <div id="multi_entry_section_off" class="" style="display: none;">
+              <div id="multi_entry_off" class="single_entry_off">
+                <div id="popup3" class="popup2">
+                  <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
+                  <div id="popup_content3" class="popup_content"> 
+                    <center>Order Entry is Off</center>
+                  </div>
+                </div>
+                <div id="popup_overlay3" class="popup_overlay2"></div>
+              </div>
             </div>
-          </div>
         </div>
 
       <div id="my_orders_section" class="tabcontent">
@@ -1528,6 +1541,7 @@
     `;
 
     document.getElementById("single_entry_content").style.display="none";
+    document.getElementById('multi_entry_content').style.display="none";
 
     document.addEventListener('DOMContentLoaded', function() {
       handle_ids(); //store id1 and id2 and remove them and handle the associated logic of finding them
@@ -2364,9 +2378,11 @@
     function build_page(setup_data){
       if (webform_toggle == "no") {
           document.getElementById("single_entry_section_off").style.display="";
+          document.getElementById("multi_entry_section_off").style.display="";
         }
         else {
           document.getElementById("single_entry_content").style.display="";
+          document.getElementById("multi_entry_content").style.display="";
 
         }
       document.getElementById("loader").style.display = "none";
