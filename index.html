@@ -888,7 +888,7 @@
         display: flex;
         flex-direction: row;
         font-size: 16px;
-        gap: 13px;
+        gap: 8px;
         z-index: 200;
         user-select: none;
         align-items: center;
@@ -902,7 +902,7 @@
         display: flex;
         flex-direction: row;
         font-size: 12px;
-        gap: 13px;
+        gap: 8px;
         user-select: none;
         align-items: center;
         justify-content: center;
@@ -3630,6 +3630,7 @@
                 <div id="${element.id}_back" onclick="table_paging('back', '${element.id}')" class="table_paging_button disabled_arrow">&laquo;</div>
                 Page
                 <div id="${element.id}_number">1</div>
+                of ${Math.floor((listofRows.length / page_len) + 1)}
                 <div id="${element.id}_forward" onclick="table_paging('forward', '${element.id}')" class="table_paging_button">&raquo;</div>
               </div>
             `;
@@ -3642,6 +3643,7 @@
                       <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
                       Page
                       <div id='${element.id}_number2'>1</div>
+                      of ${Math.floor((listofRows.length / page_len) + 1)}
                       <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
                     </div>
                     <div class='paging_div3'>
