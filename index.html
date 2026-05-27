@@ -648,6 +648,10 @@
         color: #FF8C00;
         cursor: pointer;
       }
+      
+        .add-row-btn svg {
+          vertical-align: center;
+        }
 
       .multi_plus_icon {
         margin-top: 10px;
@@ -959,6 +963,10 @@
       .multi-table a {
         color: blue;
         cursor: pointer;
+      }
+
+      .multi-table textarea {
+        width: 160px;
       }
       
       .multi-table tr:first-child {
@@ -1316,7 +1324,7 @@
 
       <div id="multi_order_section" class="tabcontent">
         <div id="multi_entry_content">
-          <p id="multi_order_info">Use this tab to submit orders from multiple customers at the same time.</p>
+          <p id="multi_order_info"></p>
           <table id="multi-table" class="multi-table">
             <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
             <tbody id="multi-table-tbody">
@@ -1824,7 +1832,7 @@
       const rowIndex = newRow.rowIndex;
 
       const firstcell = newRow.insertCell();
-      firstcell.innerHTML = '<textarea placeholder="customer info", oninput="multi_textarea_change(this);" style="resize: none;", cols="16"></textarea>';
+      firstcell.innerHTML = '<textarea placeholder="customer info", spellcheck="false", oninput="multi_textarea_change(this);" style="resize: none;"></textarea>';
       
       // Create cells with number selectors
       initialValues.forEach(value => {
@@ -2413,6 +2421,7 @@
       document.getElementById('my_orders_info').innerHTML = my_orders_panel;
       document.getElementById('info_info').innerHTML = info_panel;
       document.getElementById('email_address').setAttribute('title', email_instructions);
+      document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
 
       document.getElementById("enter_order_button").click();
 
