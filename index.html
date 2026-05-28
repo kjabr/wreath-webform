@@ -166,6 +166,10 @@
         gap: 14px;
       }
 
+      #name_email_div input {
+        font-size: 16px;
+      }
+
       .tab_scoutname{
         display: flex;
         align-items: center;
@@ -980,6 +984,7 @@
 
       .multi-table td{
         text-align: center;
+        position: relative;
       }
 
       .multi-table th, .multi-table td {
@@ -1211,8 +1216,13 @@
       }
 
     @supports (font: -apple-system-body) and (-webkit-appearance: none) {
-      .multi-table select,  .multi-table input, .multi-table textarea{
-        font-size: 16px;
+      .multi-table input, .multi-table textarea{
+        font-size: 14px;
+      }
+
+      .multi-table select {
+        background-color: transparent;
+        font-size: 14px;
       }
     }
 
@@ -1876,7 +1886,7 @@
         multi_grand_total();
       });
   
-      newRow.appendChild(addBtn);
+      firstcell.appendChild(addBtn);
 
       
       return newRow;
