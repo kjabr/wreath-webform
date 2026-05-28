@@ -849,7 +849,8 @@
       }
 
       #cust_addr, #cust_note, #cust_email {
-        flex-grow: 2;
+        /*flex-grow: 2;*/
+        width: 100%;
       }
 
       .btn4 {
@@ -1058,8 +1059,9 @@
         }
 
         #cust_addr, #cust_note, #cust_email {
-          width: auto;
-          max-width: 80%;
+          width: 100%;
+          /*width: auto;
+          max-width: 80%;*/
       }
 
         .wreath_info {
@@ -1238,7 +1240,7 @@
           font-size: small;
 
         }
-
+/*
         #cust_email{
           max-width: 7em;
         }
@@ -1249,7 +1251,7 @@
 
         #cust_addr {
           max-width: 60%;
-        }
+        }*/
 
         .wreath_item_select{
           min-width: 70%;
@@ -1337,7 +1339,7 @@
 
             <div class="cust_info_item">
               <label for="cust_email">Email address to get a receipt: </label>
-              <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional" autocomplete="off">
+              <input id="cust_email" type="text" name="cust_email" placeholder="optional" autocomplete="off">
             </div>
 
             <div class="cust_info_item">
