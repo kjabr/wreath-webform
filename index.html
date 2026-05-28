@@ -968,6 +968,11 @@
       .multi-table textarea {
         width: 160px;
       }
+
+      /*
+      .multi-table select {
+        font-size: 16px;
+      }*/
       
       .multi-table tr:first-child {
         height: 40px;
@@ -1204,6 +1209,12 @@
         }
 
       }
+
+    @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+      .multi-table select {
+        font-size: 16px;
+      }
+    }
 
 
   </style>
