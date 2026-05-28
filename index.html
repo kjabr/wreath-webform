@@ -210,7 +210,7 @@
 
       .btn3 {
         z-index: 1;
-        font-size: 10px;
+        font-size: 14px;
       }
 
       #totals {
@@ -1251,7 +1251,7 @@
         
         <div class="email_div" id="email_div">
           <label for="email_address" class="email_label">Your Email: </label>
-          <input id="email_address" type="email" name="email_address" placeholder="required">
+          <input id="email_address" type="email" name="email_address" placeholder="required" autocomplete="off">
           <span class="clickable_span" onclick="show_email_info()">[info]</span>
         </div>
       </div>
@@ -1293,12 +1293,12 @@
 
             <div class="cust_info_item">
               <label for="cust_email">Email address to get a receipt: </label>
-              <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional">
+              <input id="cust_email" type="text" name="cust_email" style="width: 10em;" placeholder="optional" autocomplete="off">
             </div>
 
             <div class="cust_info_item">
               <label for="cust_note">Add note to order? </label>
-              <input id="cust_note" type="text" name="cust_note" placeholder="optional">
+              <input id="cust_note" type="text" name="cust_note" placeholder="optional" autocomplete="off">
               <!-- 
               <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
               -->
@@ -1890,7 +1890,7 @@
         multi_grand_total();
       });
   
-      firstcell.appendChild(addBtn);
+      firstcell.appendChild(addBtn); //placed next to the textarea which has a parent TR with position relative
 
       
       return newRow;
