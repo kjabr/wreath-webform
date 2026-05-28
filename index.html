@@ -983,6 +983,10 @@
         border-width: 1px;
       }
 
+      .multi-table select {
+        background-color: transparent;
+      }
+
       .multi-table tr:first-child {
         height: 40px;
       }
@@ -1220,13 +1224,13 @@
 
       }
 
+      /*Safari support only*/
     @supports (font: -apple-system-body) and (-webkit-appearance: none) {
       .multi-table input, .multi-table textarea{
         font-size: 14px;
       }
 
       .multi-table select {
-        background-color: transparent;
         font-size: 14px;
       }
 
@@ -1234,7 +1238,6 @@
         font-size: 14px;
       }
     }
-
 
   </style>
   <body>
