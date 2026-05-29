@@ -2588,7 +2588,7 @@
       curr_tab = tab_name;
       tab_name == "my_orders_section" ? render_orders('cached') : null;
       if (tab_name == "multi_order_section" && wide_tbl_msg == false){
-          popup_elem.innerHTML = "innerwidth: " + window.innerWidth;
+          popup_elem.innerHTML = "innerwidth: " + window.innerWidth + " innerheight: " + window.innerHeight;
           toggle_modal();
         if (window.innerWidth <= 600){
           document.getElementById("multi_btn_div_msg").style.display = "block";
