@@ -672,6 +672,8 @@
         margin-left: auto;
         margin-right: auto;
         width: 40px;
+        position: relative;
+        z-index: 100;
       }
 
       .multi_plus_icon:hover{
@@ -1854,7 +1856,8 @@
         addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0));
 
         document.getElementById("multi_plus_icon").innerHTML = plus_circle;
-        document.getElementById("multi_plus_icon").onclick = function() {addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0));};
+        document.getElementById("multi_plus_icon").onclick = function() {addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0)); 
+          window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });};
 
     }
 
