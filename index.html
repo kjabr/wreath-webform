@@ -920,16 +920,18 @@
       .paging_div2{
         display: flex;
         flex-direction: row;
-        font-size: 12px;
+        font-size: 16px;
         gap: 8px;
         user-select: none;
         align-items: center;
-        justify-content: center;
-        margin: 0 auto;
+        justify-content: space-between;
+        width: 100%;
       }
 
-      .paging_div2 div {
-        user-select: none;
+      .paging_div2 div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
 
       .paging_div3{
@@ -937,10 +939,8 @@
       }
 
       .paging_div3 select {
-        -webkit-appearance: none;
-        background-color: #E3EEFC;
+        background-color: linen;
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
-        color: darkslategray;
         border-radius: 4px;
         font-size: 14px;
         padding-left: 8px;
@@ -1276,7 +1276,8 @@
         font-size: 14px;
       }
 
-      .scout_name_select select, .add_item select{
+      .paging_div3 select {
+        font-size: 14px;
       }
     }
 
@@ -3723,20 +3724,23 @@
                 <td colspan='42' class='table_tfoot'>
                   <div id='${element.id}_tfoot_div1' class='tfoot_div1'>
                     <div class='paging_div2' id='${element.id}__pager2'>
-                      <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
-                      Page
-                      <div id='${element.id}_number2'>1</div>
-                      of ${Math.floor((listofRows.length / page_len) + 1)}
-                      <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
-                    </div>
-                    <div class='paging_div3'>
-                      <select id='${element.id}_table_paging_select' onchange='table_paging_select("${element.id}", this.value, event)'>
-                        <option value='5'>5 rows/page ↯</option>
-                        <option selected value='10'>10 rows/page ↯</option>
-                        <option value='20'>20 rows/page ↯</option>
-                        <option value='25'>25 rows/page ↯</option>
-                        <option value='all'>All rows/page ↯</option>
-                      </select>
+                      <div>Multiple Pages</div>
+                      <div>
+                        <div id='${element.id}_back2' onclick="table_paging('back', '${element.id}')" class='table_paging_button disabled_arrow'>&laquo;</div>
+                        Page
+                        <div id='${element.id}_number2'>1</div>
+                        of ${Math.floor((listofRows.length / page_len) + 1)}
+                        <div id='${element.id}_forward2' onclick="table_paging('forward', '${element.id}')" class='table_paging_button'>&raquo;</div>
+                      </div>
+                      <div class='paging_div3'>
+                        <select id='${element.id}_table_paging_select' onchange='table_paging_select("${element.id}", this.value, event)'>
+                          <option value='5'>5 rows/page</option>
+                          <option selected value='10'>10 rows/page</option>
+                          <option value='20'>20 rows/page</option>
+                          <option value='25'>25 rows/page</option>
+                          <option value='all'>All rows/page</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </td>
