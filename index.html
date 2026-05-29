@@ -112,7 +112,6 @@
       }
 
       .tab {
-        overflow: hidden;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -143,6 +142,7 @@
         transition: 0.3s;
         font-size: 17px;
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
+        position: relative;
       }
 
       /* Change background color of buttons on hover */
@@ -158,6 +158,7 @@
       /* Style the tab content */
       .tabcontent {
         display: none;
+        position: relative;
         padding: 6px 6px;
         /*animation: fadeEffect 1s;*/
       }
@@ -679,6 +680,18 @@
       .multi_plus_icon:hover{
         color: #FF8C00;
         cursor: pointer;
+      }
+
+      .multi_btn_div_msg {
+        display: none;
+        position: absolute;
+        top: 13%;
+        left: 30%;
+        max-width: 45%;
+        background-color: black;
+        color: whitesmoke;
+        font-size: small;
+        border-radius: 5px;
       }
 
       .x_circle {
@@ -1231,10 +1244,6 @@
           height: 60vh;
         }
 
-        .multi_order_btn {
-          display: none;
-        }
-
         .multi-table textarea {
           width: 120px;
         }
@@ -1419,6 +1428,7 @@
               </div>
             </div>
         </div>
+        <div class="multi_btn_div_msg" id="multi_btn_div_msg">Wide table... <br>Use landscape mode for this tab or a tablet/laptop.</div>
             <div id="multi_entry_section_off" class="" style="display: none;">
               <div id="multi_entry_off" class="single_entry_off">
                 <div id="popup3" class="popup2">
@@ -1573,6 +1583,8 @@
 
     var id1 = "";
     var id2 = "";
+
+    var wide_tbr_msg = false;
 
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -2574,6 +2586,16 @@
       event.currentTarget.className += " active";
       curr_tab = tab_name;
       tab_name == "my_orders_section" ? render_orders('cached') : null;
+      if (tab_name == "multi_order_section" && wide_tbr_msg == false){
+        if (window.innerWidth <= 600){
+          document.getElementById("multi_btn_div_msg").style.display = "block";
+          setTimeout(() => {document.getElementById("multi_btn_div_msg").style.display = "none";}, 3000);
+          wide_tbr_msg = true;
+        }
+        else {
+          document.getElementById("multi_btn_div_msg").style.display = "none";
+        }
+      }
     }
 
     function container_click(){
