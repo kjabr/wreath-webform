@@ -1941,7 +1941,7 @@
           const select = cell.querySelector('select');
           const input = cell.querySelector('input');
     
-          if (textarea) return textarea.value;
+          if (textarea) return sanitizeInput(textarea.value);
           if (select) return select.value;
           if (input) return input.value;
           return cell.textContent;
@@ -1950,6 +1950,19 @@
 
       return data;
 
+    }
+
+    function sanitizeInput(input) {
+      // Remove leading/trailing whitespace
+      let cleaned = input.trim();
+      
+      // Replace multiple consecutive spaces/tabs with single space
+      cleaned = cleaned.replace(/\s+/g, ' ');
+      
+      // Remove control characters (except newlines/tabs which might be intentional)
+      cleaned = cleaned.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '');
+      
+      return cleaned;
     }
 
     function multi_row_values(tableSelector, rowIndex){
@@ -2566,7 +2579,7 @@
 
       scoutname == "Other" && other_name != "" ? (other_name = other_name.replace(/[\.\_\-]/g, " ")
           .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()),
-          document.getElementById("other_name").value = other_name): null;
+          document.getElementById("other_name").value = other_name.trim()): null;
     }
 
     function populate_scoutnames(){
