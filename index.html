@@ -1554,6 +1554,8 @@
     var table_page = {};
     var pager_html = {};
 
+    var cached_user = {};
+
     var id1 = "";
     var id2 = "";
 
@@ -1688,6 +1690,7 @@
           build_page(sheet_values[webform_sheet_name].slice(1));
           get_catalog(sheet_values[local_sheet_name].slice(1));
           observer.observe(document.querySelector("#name_email_div_dummy_span"));
+          cache_user("load");
 	      });
       
       getip().then(ip => {
@@ -2515,6 +2518,7 @@
           if (order['order_mode'] == "single"){
             local_orders.push(order["log_order"]);
             localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+            cache_user("cache");
             clear_data();
           }
           else {
@@ -2522,6 +2526,7 @@
               local_orders.push(item);
             });
             localStorage.setItem('cached_orders', JSON.stringify(local_orders));
+            cache_user("cache");
             multi_clear_data();
           }
         }
@@ -3888,6 +3893,41 @@
       const hasScroll = element.scrollLeft > 0;
       element.scrollLeft = 0;
       return hasScroll;
+    }
+
+    function cache_user(whattodo){
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var email_address = document.getElementById("email_address").value;
+
+      if (whattodo == "cache"){
+        cached_user["scoutname"] = scoutname;
+        cached_user["other_name"] = other_name;
+        cached_user["email_address"] = email_address;
+
+        localStorage.setItem('cached_user', JSON.stringify(cached_user));
+        cached_user = {};
+      }
+      else if (whattodo == "load") {
+        cached_user = JSON.parse(localStorage.getItem('cached_user')) || {};
+        //console.log(cached_user);
+        if (cached_user['scoutname']) {
+          document.getElementById('scoutname').value = cached_user['scoutname'];
+          if (cached_user['scoutname'] == "Other") {
+            document.getElementById('display_other_name').style.display = "";
+          }
+          else {
+            document.getElementById('display_other_name').style.display = "none";
+            document.getElementById('other_name').value = "";
+          }
+        }
+        if (cached_user['other_name']) {
+          document.getElementById('other_name').value = cached_user['other_name'];
+        }
+        if (cached_user['email_address']) {
+          document.getElementById('email_address').value = cached_user['email_address'];
+        }
+      }
     }
 
   </script>
