@@ -2562,7 +2562,7 @@
       curr_tab = tab_name;
       tab_name == "my_orders_section" ? render_orders('cached') : null;
       if (tab_name == "multi_order_section" && wide_tbl_msg == false){
-        if (window.innerWidth < window.innerHeight && window.innerWidth < 900){
+        if ((window.innerWidth < window.innerHeight && window.innerWidth < 900) && webform_toggle != "no"){
           document.getElementById("multi_btn_div_msg").style.display = "block";
           setTimeout(() => {document.getElementById("multi_btn_div_msg").style.display = "none";}, 3000);
           wide_tbl_msg = true;
