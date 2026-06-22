@@ -657,6 +657,7 @@
         width: 40px;
         position: relative;
         z-index: 100;
+        text-align: center;
       }
 
       .multi_plus_icon:hover{
@@ -973,7 +974,7 @@
         font-size: small;
         border-collapse: collapse;
         margin: auto;
-        width: 95%;
+        width: 100%;
       }
 
       .multi-table a {
@@ -1885,11 +1886,46 @@
       const table = document.querySelector(tableSelector);
       const tbody = table.querySelector('tbody') || table;
       const newRow = tbody.insertRow();
-      newRow.style.position = 'relative';
+      //newRow.style.position = 'relative';
       const rowIndex = newRow.rowIndex;
 
       const firstcell = newRow.insertCell();
-      firstcell.innerHTML = '<textarea placeholder="customer info", spellcheck="false", oninput="multi_textarea_change(this);" style="resize: none;"></textarea>';
+      const firstcell_div = document.createElement('div');
+
+      const addBtn = document.createElement('div');
+      addBtn.innerHTML = `${x_circle}`;
+      addBtn.className = 'add-row-btn';
+      addBtn.style.marginRight = "15px";
+      addBtn.title = "Delete row";
+
+      addBtn.addEventListener('click', () => {
+        const rowIndex = addBtn.closest('tr').rowIndex;
+        table.tBodies[0].rows.length > 3 ? removeRowWithSelectors('#multi-table', rowIndex) :
+        (removeRowWithSelectors('#multi-table', rowIndex),
+          addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0))
+        );
+        multi_grand_total();
+      });
+  
+      firstcell_div.appendChild(addBtn);
+
+      //firstcell_div.innerHTML += '<textarea placeholder="customer info", spellcheck="false", oninput="multi_textarea_change(this);" style="resize: none;"></textarea>';
+
+      const textarea = document.createElement('textarea');
+      textarea.placeholder = "customer info";
+      textarea.spellcheck = false;
+      textarea.oninput = function() { multi_textarea_change(this); };
+      textarea.style.resize = "none";
+      firstcell_div.appendChild(textarea);
+
+      firstcell_div.style.display = "flex";
+      firstcell_div.style.flexDirection = "row";
+      firstcell_div.style.flexWrap = "nowrap";
+      //firstcell_div.style.gap = "15px";
+      firstcell_div.style.alignItems = "center";
+      firstcell_div.style.justifyContent = "center";
+
+      firstcell.appendChild(firstcell_div);
       
       // Create cells with number selectors
       initialValues.forEach(value => {
@@ -1902,28 +1938,6 @@
 
       const total_cell = newRow.insertCell();    
       total_cell.textContent = "$0";  
-
-      // Add x button with absolute positioning
-      const addBtn = document.createElement('div');
-      addBtn.innerHTML = `${x_circle}`;
-      addBtn.className = 'add-row-btn';
-      addBtn.style.position = 'absolute';
-      addBtn.style.left = '-12%'; // Position to the left
-      addBtn.style.top = '50%';
-      addBtn.style.transform = 'translateY(-50%)'; // Center vertically
-      addBtn.title = "Delete row";
-
-      addBtn.addEventListener('click', () => {
-        const rowIndex = addBtn.closest('tr').rowIndex;
-        table.tBodies[0].rows.length > 3 ? removeRowWithSelectors('#multi-table', rowIndex) :
-        (removeRowWithSelectors('#multi-table', rowIndex),
-          addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0))
-        );
-        multi_grand_total();
-      });
-  
-      firstcell.appendChild(addBtn); //placed next to the textarea which has a parent TR with position relative
-
       
       return newRow;
     }
