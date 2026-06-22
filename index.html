@@ -2343,7 +2343,7 @@
         localStorage.getItem("id1") ? id1 = localStorage.getItem("id1") : id1 = "";
         localStorage.getItem("id2") ? id2 = localStorage.getItem("id2") : id2 = "";
 
-        if (id1 == "" || id2 == ""){
+        if (!id1 || !id2){
           //if not then redirect
           window.location.href = "https://webform.troop432lo.org/?" + getUrlParameters() ;
         }
