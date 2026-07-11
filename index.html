@@ -1035,6 +1035,22 @@
         width: 2em;
       }
 
+      .row-delete {
+        animation: slideOutUp 0.3s ease-out forwards;
+      }
+
+      @keyframes slideOutUp {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+      }
+
+
       @media (min-width: 1080px) {
         .tab{
           width: 96%;
@@ -1947,8 +1963,23 @@
     function removeRowWithSelectors(tableSelector, rowIndex) {
       const table = document.querySelector(tableSelector);
       const tbody = table.querySelector('tbody') || table;
-      tbody.deleteRow(rowIndex);
+      const row = tbody.rows[rowIndex];
+      const rowCount = table.rows.length;
+
+      if (rowIndex != 2 || rowCount > 3) {
+        // Add animation class
+        row.classList.add('row-delete');
+
+        // Wait for animation to complete, then delete
+        row.addEventListener('animationend', () => {
+          tbody.deleteRow(rowIndex);
+        }, { once: true });
+      }
+      else {
+        tbody.deleteRow(rowIndex);
+      }
     }
+
 
     function multi_table_values(tableSelector, startRow){
       const table = document.querySelector(tableSelector);
