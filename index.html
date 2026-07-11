@@ -1050,6 +1050,11 @@
         }
       }
 
+      .div-delete {
+        animation: fadeToFogDense 0.3s ease-out forwards;
+
+      }
+
       @keyframes bounceOut {
         0% {
           opacity: 1;
@@ -1064,6 +1069,16 @@
         }
       }
 
+      @keyframes fadeToFogDense {
+        from {
+          opacity: 1;
+          filter: blur(0px) brightness(1);
+        }
+        to {
+          opacity: 0;
+          filter: blur(20px) brightness(1.2);
+        }
+      }
 
 
       @media (min-width: 1080px) {
@@ -2348,10 +2363,12 @@
         clear_data();
         return;
       }
+      
       var MMM = elem.id.split("_")[2];
       var add_item_elem = document.getElementById(`webform_item_${MMM}`);
       var webform_items_list = [];
       webform_items_list = document.getElementsByClassName("add_item");
+      
       if (webform_items_list.length == 1) {
         document.getElementById("wreath_section").innerHTML =
           add_single_wreath.replace(/MMM/g, "1").replace(/wreath_list/g, wreath_list)
@@ -2365,21 +2382,36 @@
           document.getElementById("wreath_item_1").style.minWidth = "6em";
           document.getElementById("wreath_item_1").style.width = "10em";
         }
+        
+        // Run cleanup logic immediately (no animation)
+        finalize_deletion();
       }
       else {
-        add_item_elem.remove();
+        add_item_elem.classList.add('div-delete');
+        
+        // Wait for animation, then run cleanup logic
+        add_item_elem.addEventListener('animationend', () => {
+          add_item_elem.remove();
+          finalize_deletion();
+        }, { once: true });
       }
+    }
 
+    // New function: handles all the post-deletion logic
+    function finalize_deletion(){
       single_order_data();
       single_order_total();
 
       var add_item_list = document.getElementsByClassName("add_item");
-      var last_item = add_item_list[add_item_list.length-1].id;
-      var last_item_visibility = document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility;
-      if (last_item_visibility == "hidden") {
-        document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility = "visible";
+      if (add_item_list.length > 0) {
+        var last_item = add_item_list[add_item_list.length-1].id;
+        var last_item_visibility = document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility;
+        if (last_item_visibility == "hidden") {
+          document.getElementById(`add_item_${last_item.split('_')[2]}`).style.visibility = "visible";
+        }
       }
     }
+
 
     function remove_url_parameter(parameterName) {
       const currentUrl = window.location.href;
