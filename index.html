@@ -1036,7 +1036,7 @@
       }
 
       .row-delete {
-        animation: slideOutUp 0.3s ease-out forwards;
+        animation: bounceOut 0.3s ease-out forwards;
       }
 
       @keyframes slideOutUp {
@@ -1049,6 +1049,21 @@
           transform: translateY(-20px);
         }
       }
+
+      @keyframes bounceOut {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
 
 
       @media (min-width: 1080px) {
