@@ -2003,6 +2003,7 @@
         // Wait for animation to complete, then delete
         row.addEventListener('animationend', () => {
           tbody.deleteRow(rowIndex);
+          multi_grand_total();
         }, { once: true });
       }
       else {
