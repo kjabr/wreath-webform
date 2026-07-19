@@ -4006,7 +4006,7 @@
       else if (whattodo == "load") {
         cached_user = JSON.parse(localStorage.getItem('cached_user')) || {};
         //console.log(cached_user);
-        if (cached_user['scoutname']) {
+        if (cached_user['scoutname'] && url_name == "") {
           document.getElementById('scoutname').value = cached_user['scoutname'];
           if (cached_user['scoutname'] == "Other") {
             document.getElementById('display_other_name').style.display = "";
@@ -4016,10 +4016,10 @@
             document.getElementById('other_name').value = "";
           }
         }
-        if (cached_user['other_name']) {
+        if (cached_user['other_name'] && url_name == "") {
           document.getElementById('other_name').value = cached_user['other_name'];
         }
-        if (cached_user['email_address']) {
+        if (cached_user['email_address'] && url_email == "") {
           document.getElementById('email_address').value = cached_user['email_address'];
         }
       }
