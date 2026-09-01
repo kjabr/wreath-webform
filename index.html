@@ -1787,7 +1787,7 @@
           return data;
       } catch (error) {
         console.log(`reloadCount: ${reloadCount}`);
-        if (reloadCount < 2) {
+        if (reloadCount < 1) {
           reloadCount = parseInt(reloadCount) + 1;
           sessionStorage.setItem('reloadCount', reloadCount);
           localStorage.setItem("id1", "");
