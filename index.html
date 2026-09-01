@@ -1674,6 +1674,8 @@
     document.getElementById("single_entry_content").style.display="none";
     document.getElementById('multi_entry_content').style.display="none";
 
+    var reloadCount = sessionStorage.getItem('reloadCount') || 0;
+
     document.addEventListener('DOMContentLoaded', function() {
       handle_ids(); //store id1 and id2 and remove them and handle the associated logic of finding them
 
@@ -1742,6 +1744,7 @@
           cache_user("load");
 	      });
       
+
       getip().then(ip => {
         document.getElementById("yourip").innerText = "Your IP: " + ip;
         ip_addr = ip;
@@ -1783,10 +1786,20 @@
           const data = await response.json();
           return data;
       } catch (error) {
+        console.log(`reloadCount: ${reloadCount}`);
+        if (reloadCount < 2) {
+          reloadCount = parseInt(reloadCount) + 1;
+          sessionStorage.setItem('reloadCount', reloadCount);
+          localStorage.setItem("id1", "");
+          localStorage.setItem("id2", "");
+          location.reload();
+        }
+        else {
           console.error("Error fetching spreadsheet:", error);
           var popup_elem = document.getElementById("popup_content");
           popup_elem.innerHTML = "An error occured while fetching from the server <br> <br>" + error;
           toggle_modal();
+        }
       }
     }
 
