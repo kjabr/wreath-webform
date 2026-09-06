@@ -2304,7 +2304,12 @@ function getElementWithInlineStyles(element) {
     const value = selectedValues[index] || '0';
     const span = document.createElement('div');
     span.textContent = value;
-    span.style.textAlign = 'center';
+    
+    // Check if this select is in the first column
+    const cell = select.closest('td, th');
+    const isFirstColumn = cell && cell.cellIndex === 0;
+    span.style.textAlign = isFirstColumn ? 'left' : 'center';
+    
     span.style.width = '100%';
     select.replaceWith(span);
   });
@@ -2314,7 +2319,12 @@ function getElementWithInlineStyles(element) {
     const value = input.value || '';
     const span = document.createElement('div');
     span.textContent = value;
-    span.style.textAlign = 'center';
+    
+    // Check if this input is in the first column
+    const cell = input.closest('td, th');
+    const isFirstColumn = cell && cell.cellIndex === 0;
+    span.style.textAlign = isFirstColumn ? 'left' : 'center';
+    
     span.style.width = '100%';
     input.replaceWith(span);
   });
@@ -2324,7 +2334,12 @@ function getElementWithInlineStyles(element) {
     const value = textarea.value || '';
     const span = document.createElement('div');
     span.textContent = value;
-    span.style.textAlign = 'center';
+    
+    // Check if this textarea is in the first column
+    const cell = textarea.closest('td, th');
+    const isFirstColumn = cell && cell.cellIndex === 0;
+    span.style.textAlign = isFirstColumn ? 'left' : 'center';
+    
     span.style.width = '100%';
     textarea.replaceWith(span);
   });
