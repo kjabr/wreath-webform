@@ -2278,99 +2278,93 @@
       });
     }
 
-    function getElementWithInlineStyles(element) {
-      // Store the selected values BEFORE cloning
-      const originalSelects = element.querySelectorAll('select');
-      const selectedValues = [];
-      originalSelects.forEach(select => {
-        selectedValues.push(select.value);
-      });
+  function getElementWithInlineStyles(element) {
+    const originalSelects = element.querySelectorAll('select');
+    const selectedValues = [];
+    originalSelects.forEach(select => {
+      selectedValues.push(select.value);
+    });
 
-      const clone = element.cloneNode(true);
+    const clone = element.cloneNode(true);
 
-      // Remove all SVG elements from the clone
-      const svgs = clone.querySelectorAll('svg');
-      svgs.forEach(svg => svg.remove());
+    // **REMOVE the existing style attribute completely**
+    clone.removeAttribute('style');
 
-      const captions = clone.querySelectorAll('caption');
-      captions.forEach(caption => caption.remove());
+    // Remove all SVG elements from the clone
+    const svgs = clone.querySelectorAll('svg');
+    svgs.forEach(svg => svg.remove());
 
-      // Replace selectors with their values using the stored selectedValues
-      const clonedSelects = clone.querySelectorAll('select');
-      clonedSelects.forEach((select, index) => {
-        const value = selectedValues[index] || '0';
-        const span = document.createElement('div');
-        span.textContent = value;
-        span.style.textAlign = 'center';
-        span.style.width = '100%';
-        select.replaceWith(span);
-      });
+    const captions = clone.querySelectorAll('caption');
+    captions.forEach(caption => caption.remove());
 
-      // Replace inputs with centered values
-      const inputs = clone.querySelectorAll('input');
-      inputs.forEach(input => {
-        const value = input.value || '';
-        const span = document.createElement('div');
-        span.textContent = value;
-        span.style.textAlign = 'center';
-        span.style.width = '100%';
-        input.replaceWith(span);
-      });
+    // Replace selectors, inputs, textareas (your existing code)
+    const clonedSelects = clone.querySelectorAll('select');
+    clonedSelects.forEach((select, index) => {
+      const value = selectedValues[index] || '0';
+      const span = document.createElement('div');
+      span.textContent = value;
+      span.style.textAlign = 'center';
+      span.style.width = '100%';
+      select.replaceWith(span);
+    });
 
-      // Replace textareas with centered values
-      const textareas = clone.querySelectorAll('textarea');
-      textareas.forEach(textarea => {
-        const value = textarea.value || '';
-        const span = document.createElement('div');
-        span.textContent = value;
-        span.style.textAlign = 'center';
-        span.style.width = '100%';
-        textarea.replaceWith(span);
-      });
+    const inputs = clone.querySelectorAll('input');
+    inputs.forEach(input => {
+      const value = input.value || '';
+      const span = document.createElement('div');
+      span.textContent = value;
+      span.style.textAlign = 'center';
+      span.style.width = '100%';
+      input.replaceWith(span);
+    });
 
-      const styles = window.getComputedStyle(element);
-      let cssText = '';
-      for (let i = 0; i < styles.length; i++) {
-        const property = styles[i];
-        cssText += `${property}: ${styles.getPropertyValue(property)}; `;
+    const textareas = clone.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+      const value = textarea.value || '';
+      const span = document.createElement('div');
+      span.textContent = value;
+      span.style.textAlign = 'center';
+      span.style.width = '100%';
+      textarea.replaceWith(span);
+    });
+
+    // **NOW set only the styles you want**
+    clone.style.width = '100%';
+    clone.style.backgroundColor = 'linen';
+    clone.style.borderCollapse = 'collapse';
+    clone.style.borderSpacing = '0';
+
+    // Center all table cell content
+    const originalCells = element.querySelectorAll('td, th');
+    const clonedCells = clone.querySelectorAll('td, th');
+
+    clonedCells.forEach((cell, index) => {
+      const originalCell = originalCells[index];
+      const transform = window.getComputedStyle(originalCell).transform;
+      const isRotated = transform && transform !== 'none' && transform !== 'matrix(1, 0, 0, 1, 0, 0)';
+
+      const existingStyle = cell.getAttribute('style') || '';
+
+      if (isRotated) {
+        cell.setAttribute('style',
+          existingStyle +
+          'text-align: center; ' +
+          'vertical-align: middle; ' +
+          'writing-mode: vertical-rl; ' +
+          'transform: rotate(180deg); ' +
+          'white-space: nowrap; '
+        );
+      } else {
+        cell.setAttribute('style',
+          existingStyle +
+          'text-align: center; ' +
+          'vertical-align: middle; '
+        );
       }
+    });
 
-      // Add background color to the table with !important
-      cssText += 'background-color: rgb(245, 247, 238) !important; ';
-
-      // Center all table cell content, and fix rotated cells for email compatibility
-      const originalCells = element.querySelectorAll('td, th');
-      const clonedCells = clone.querySelectorAll('td, th');
-
-      clonedCells.forEach((cell, index) => {
-        const originalCell = originalCells[index];
-        const transform = window.getComputedStyle(originalCell).transform;
-        const isRotated = transform && transform !== 'none' && transform !== 'matrix(1, 0, 0, 1, 0, 0)';
-
-        const existingStyle = cell.getAttribute('style') || '';
-
-        if (isRotated) {
-          cell.setAttribute('style',
-            existingStyle +
-            'text-align: center; ' +
-            'vertical-align: middle; ' +
-            'writing-mode: vertical-rl; ' +
-            'transform: rotate(180deg); ' +
-            'white-space: nowrap; '
-          );
-        } else {
-          cell.setAttribute('style',
-            existingStyle +
-            'text-align: center; ' +
-            'vertical-align: middle; '
-          );
-        }
-      });
-
-      clone.setAttribute('style', cssText);
-      return clone.outerHTML;
-    }
-
+    return clone.outerHTML;
+  }
     
 
     function delete_wreath_item(elem){
