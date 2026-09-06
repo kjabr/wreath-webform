@@ -2278,95 +2278,91 @@
       });
     }
 
-  function getElementWithInlineStyles(element) {
-    const originalSelects = element.querySelectorAll('select');
-    const selectedValues = [];
-    originalSelects.forEach(select => {
-      selectedValues.push(select.value);
-    });
+function getElementWithInlineStyles(element) {
+  const originalSelects = element.querySelectorAll('select');
+  const selectedValues = [];
+  originalSelects.forEach(select => {
+    selectedValues.push(select.value);
+  });
 
-    const clone = element.cloneNode(true);
+  const clone = element.cloneNode(true);
+  clone.removeAttribute('style');
 
-    // **REMOVE the existing style attribute completely**
-    clone.removeAttribute('style');
+  // Remove SVGs, captions, etc.
+  const svgs = clone.querySelectorAll('svg');
+  svgs.forEach(svg => svg.remove());
+  const captions = clone.querySelectorAll('caption');
+  captions.forEach(caption => caption.remove());
 
-    // Remove all SVG elements from the clone
-    const svgs = clone.querySelectorAll('svg');
-    svgs.forEach(svg => svg.remove());
+  // Replace form elements
+  const clonedSelects = clone.querySelectorAll('select');
+  clonedSelects.forEach((select, index) => {
+    const value = selectedValues[index] || '0';
+    const span = document.createElement('div');
+    span.textContent = value;
+    span.style.textAlign = 'center';
+    span.style.width = '100%';
+    select.replaceWith(span);
+  });
 
-    const captions = clone.querySelectorAll('caption');
-    captions.forEach(caption => caption.remove());
+  const inputs = clone.querySelectorAll('input');
+  inputs.forEach(input => {
+    const value = input.value || '';
+    const span = document.createElement('div');
+    span.textContent = value;
+    span.style.textAlign = 'center';
+    span.style.width = '100%';
+    input.replaceWith(span);
+  });
 
-    // Replace selectors, inputs, textareas (your existing code)
-    const clonedSelects = clone.querySelectorAll('select');
-    clonedSelects.forEach((select, index) => {
-      const value = selectedValues[index] || '0';
-      const span = document.createElement('div');
-      span.textContent = value;
-      span.style.textAlign = 'center';
-      span.style.width = '100%';
-      select.replaceWith(span);
-    });
+  const textareas = clone.querySelectorAll('textarea');
+  textareas.forEach(textarea => {
+    const value = textarea.value || '';
+    const span = document.createElement('div');
+    span.textContent = value;
+    span.style.textAlign = 'center';
+    span.style.width = '100%';
+    textarea.replaceWith(span);
+  });
 
-    const inputs = clone.querySelectorAll('input');
-    inputs.forEach(input => {
-      const value = input.value || '';
-      const span = document.createElement('div');
-      span.textContent = value;
-      span.style.textAlign = 'center';
-      span.style.width = '100%';
-      input.replaceWith(span);
-    });
+  // Set table styles
+  clone.style.width = '100%';
+  clone.style.backgroundColor = 'linen';
+  clone.style.borderCollapse = 'collapse';
+  clone.style.borderSpacing = '0';
+  clone.style.tableLayout = 'fixed';
+  clone.style.fontSize = '12px';
 
-    const textareas = clone.querySelectorAll('textarea');
-    textareas.forEach(textarea => {
-      const value = textarea.value || '';
-      const span = document.createElement('div');
-      span.textContent = value;
-      span.style.textAlign = 'center';
-      span.style.width = '100%';
-      textarea.replaceWith(span);
-    });
+  // Process cells
+  const originalCells = element.querySelectorAll('td, th');
+  const clonedCells = clone.querySelectorAll('td, th');
 
-    // **NOW set only the styles you want**
-      clone.style.width = '100%';
-      clone.style.backgroundColor = 'linen';
-      clone.style.borderCollapse = 'collapse';
-      clone.style.borderSpacing = '0';
-      clone.style.tableLayout = 'fixed';
-      clone.style.fontSize = '12px';
+  clonedCells.forEach((cell, index) => {
+    const originalCell = originalCells[index];
+    const originalStyle = window.getComputedStyle(originalCell);
+    
+    // Check if original cell has writing-mode or is rotated
+    const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
+    const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
 
-    // Center all table cell content
-    const originalCells = element.querySelectorAll('td, th');
-    const clonedCells = clone.querySelectorAll('td, th');
+    let styleString = 'text-align: center; vertical-align: middle; ';
 
-    clonedCells.forEach((cell, index) => {
-      const originalCell = originalCells[index];
-      const transform = window.getComputedStyle(originalCell).transform;
-      const isRotated = transform && transform !== 'none' && transform !== 'matrix(1, 0, 0, 1, 0, 0)';
+    if (hasWritingMode || hasRotation) {
+      // For email: use transform instead of writing-mode
+      styleString += 'transform: rotate(-90deg); ' +
+                     'display: inline-block; ' +
+                     'white-space: nowrap; ' +
+                     'height: 128px; ' +
+                     'background-color: darkorange; ' +
+                     'line-height: 20px; ';
+    }
 
-      const existingStyle = cell.getAttribute('style') || '';
+    cell.setAttribute('style', styleString);
+  });
 
-      if (isRotated) {
-        cell.setAttribute('style',
-          existingStyle +
-          'text-align: center; ' +
-          'vertical-align: middle; ' +
-          'writing-mode: vertical-rl; ' +
-          'transform: rotate(180deg); ' +
-          'white-space: nowrap; '
-        );
-      } else {
-        cell.setAttribute('style',
-          existingStyle +
-          'text-align: center; ' +
-          'vertical-align: middle; '
-        );
-      }
-    });
+  return clone.outerHTML;
+}
 
-    return clone.outerHTML;
-  }
     
 
     function delete_wreath_item(elem){
