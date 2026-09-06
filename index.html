@@ -2338,27 +2338,30 @@ function getElementWithInlineStyles(element) {
   const clonedCells = clone.querySelectorAll('td, th');
 
   clonedCells.forEach((cell, index) => {
-    const originalCell = originalCells[index];
-    const originalStyle = window.getComputedStyle(originalCell);
-    
-    // Check if original cell has writing-mode or is rotated
-    const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
-    const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
+  const originalCell = originalCells[index];
+  const originalStyle = window.getComputedStyle(originalCell);
+  
+  // Check if original cell has writing-mode or is rotated
+  const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
+  const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
 
-    let styleString = 'text-align: center; vertical-align: middle; ';
+  let styleString = 'text-align: center; vertical-align: middle; ';
 
-    if (hasWritingMode || hasRotation) {
-      // For email: use transform instead of writing-mode
-      styleString += 'transform: rotate(-90deg); ' +
-                     'display: inline-block; ' +
-                     'white-space: nowrap; ' +
-                     'height: 128px; ' +
-                     'background-color: darkorange; ' +
-                     'line-height: 20px; ';
-    }
+  if (hasWritingMode || hasRotation) {
+    // Apply writing-mode as inline style
+    styleString += 'writing-mode: vertical-rl; ' +
+                   'text-orientation: mixed; ' +
+                   'white-space: normal; ' +
+                   'word-break: break-word; ' +
+                   'overflow-wrap: break-word; ' +
+                   'height: 128px; ' +
+                   'background-color: darkorange; ' +
+                   'line-height: 20px; ' +
+                   'padding: 5px; ';
+  }
 
-    cell.setAttribute('style', styleString);
-  });
+  cell.setAttribute('style', styleString);
+});
 
   return clone.outerHTML;
 }
