@@ -2342,34 +2342,41 @@ function getElementWithInlineStyles(element) {
   const clonedCells = clone.querySelectorAll('td, th');
 
   clonedCells.forEach((cell, index) => {
-  const originalCell = originalCells[index];
-  const originalStyle = window.getComputedStyle(originalCell);
-  
-  // Check if original cell has writing-mode or is rotated
-  const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
-  const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
+    const originalCell = originalCells[index];
+    const originalStyle = window.getComputedStyle(originalCell);
+    
+    // Check if original cell has writing-mode or is rotated
+    const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
+    const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
 
-  let styleString = 'text-align: center; vertical-align: middle; ';
+    // Check if cell is in the first column
+    const cellIndex = cell.cellIndex; // 0-based column index
+    const isFirstColumn = cellIndex === 0;
 
-  if (hasWritingMode || hasRotation) {
-    // Apply writing-mode as inline style
-    styleString += 'writing-mode: vertical-rl; ' +
-                   'text-orientation: mixed; ' +
-                   'white-space: normal; ' +
-                   'word-break: break-word; ' +
-                   'overflow-wrap: break-word; ' +
-                   'height: 90px; ' +
-                   'width: 40px; ' +
-                   'background-color: darkorange; ' +
-                   'line-height: 20px; ' +
-                   'padding: 5px; ';
-  }
+    // Use left alignment for first column, center for others
+    const textAlign = isFirstColumn ? 'left' : 'center';
+    let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
 
-  cell.setAttribute('style', styleString);
-});
+    if (hasWritingMode || hasRotation) {
+      // Apply writing-mode as inline style
+      styleString += 'writing-mode: vertical-rl; ' +
+                     'text-orientation: mixed; ' +
+                     'white-space: normal; ' +
+                     'word-break: break-word; ' +
+                     'overflow-wrap: break-word; ' +
+                     'height: 90px; ' +
+                     'width: 40px; ' +
+                     'background-color: darkorange; ' +
+                     'line-height: 20px; ' +
+                     'padding: 5px; ';
+    }
+
+    cell.setAttribute('style', styleString);
+  });
 
   return clone.outerHTML;
 }
+
 
     
 
