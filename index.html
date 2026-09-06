@@ -2372,6 +2372,12 @@ function getElementWithInlineStyles(element) {
     const textAlign = isFirstColumn ? 'left' : 'center';
     let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
 
+    if (isFirstColumn) {
+      styleString += 'max-width: 200px; ' +
+                     'word-break: break-word; ' +
+                      'overflow-wrap: break-word; ';
+      }
+
     if (hasWritingMode || hasRotation) {
       // Apply writing-mode as inline style
       styleString += 'writing-mode: vertical-rl; ' +
