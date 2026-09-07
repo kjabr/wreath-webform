@@ -2282,128 +2282,122 @@
       });
     }
 
-function getElementWithInlineStyles(element) {
-  const originalSelects = element.querySelectorAll('select');
-  const selectedValues = [];
-  originalSelects.forEach(select => {
-    selectedValues.push(select.value);
-  });
+    function getElementWithInlineStyles(element) {
+      const originalSelects = element.querySelectorAll('select');
+      const selectedValues = [];
+      originalSelects.forEach(select => {
+        selectedValues.push(select.value);
+      });
 
-  const clone = element.cloneNode(true);
-  clone.removeAttribute('style');
+      const clone = element.cloneNode(true);
+      clone.removeAttribute('style');
 
-  // Remove SVGs, captions, etc.
-  const svgs = clone.querySelectorAll('svg');
-  svgs.forEach(svg => svg.remove());
-  const captions = clone.querySelectorAll('caption');
-  captions.forEach(caption => caption.remove());
+      // Remove SVGs, captions, etc.
+      const svgs = clone.querySelectorAll('svg');
+      svgs.forEach(svg => svg.remove());
+      const captions = clone.querySelectorAll('caption');
+      captions.forEach(caption => caption.remove());
 
-  // Replace form elements
-  const clonedSelects = clone.querySelectorAll('select');
-  clonedSelects.forEach((select, index) => {
-    const value = selectedValues[index] || '0';
-    const span = document.createElement('div');
-    span.textContent = value;
-    
-    // Check if this select is in the first column
-    const cell = select.closest('td, th');
-    const isFirstColumn = cell && cell.cellIndex === 0;
-    span.style.textAlign = isFirstColumn ? 'left' : 'center';
-    
-    span.style.width = '100%';
-    select.replaceWith(span);
-  });
+      // Replace form elements
+      const clonedSelects = clone.querySelectorAll('select');
+      clonedSelects.forEach((select, index) => {
+        const value = selectedValues[index] || '0';
+        const span = document.createElement('div');
+        span.textContent = value;
+        
+        const cell = select.closest('td, th');
+        const isFirstColumn = cell && cell.cellIndex === 0;
+        span.style.textAlign = isFirstColumn ? 'left' : 'center';
+        
+        span.style.width = '100%';
+        select.replaceWith(span);
+      });
 
-  const inputs = clone.querySelectorAll('input');
-  inputs.forEach(input => {
-    const value = input.value || '';
-    const span = document.createElement('div');
-    span.textContent = value;
-    
-    // Check if this input is in the first column
-    const cell = input.closest('td, th');
-    const isFirstColumn = cell && cell.cellIndex === 0;
-    span.style.textAlign = isFirstColumn ? 'left' : 'center';
-    
-    span.style.width = '100%';
-    input.replaceWith(span);
-  });
+      const inputs = clone.querySelectorAll('input');
+      inputs.forEach(input => {
+        const value = input.value || '';
+        const span = document.createElement('div');
+        span.textContent = value;
+        
+        const cell = input.closest('td, th');
+        const isFirstColumn = cell && cell.cellIndex === 0;
+        span.style.textAlign = isFirstColumn ? 'left' : 'center';
+        
+        span.style.width = '100%';
+        input.replaceWith(span);
+      });
 
-  const textareas = clone.querySelectorAll('textarea');
-  textareas.forEach(textarea => {
-    const value = textarea.value || '';
-    const span = document.createElement('div');
-    span.textContent = value;
-    
-    // Check if this textarea is in the first column
-    const cell = textarea.closest('td, th');
-    const isFirstColumn = cell && cell.cellIndex === 0;
-    span.style.textAlign = isFirstColumn ? 'left' : 'center';
-    
-    span.style.width = '100%';
-    textarea.replaceWith(span);
-  });
+      const textareas = clone.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+        const value = textarea.value || '';
+        const span = document.createElement('div');
+        span.textContent = value;
+        
+        const cell = textarea.closest('td, th');
+        const isFirstColumn = cell && cell.cellIndex === 0;
+        span.style.textAlign = isFirstColumn ? 'left' : 'center';
+        
+        span.style.width = '100%';
+        textarea.replaceWith(span);
+      });
 
-  // Set table styles
-  clone.style.width = '100%';
-  clone.style.backgroundColor = 'linen';
-  clone.style.borderCollapse = 'collapse';
-  clone.style.borderSpacing = '0';
-  clone.style.tableLayout = 'fixed';
-  clone.style.fontSize = '12px';
+      // Set table styles
+      clone.style.width = '100%';
+      clone.style.backgroundColor = 'linen';
+      clone.style.borderCollapse = 'collapse';
+      clone.style.borderSpacing = '0';
+      clone.style.tableLayout = 'fixed';
+      clone.style.fontSize = '12px';
 
-  // Process cells
-  const originalCells = element.querySelectorAll('td, th');
-  const clonedCells = clone.querySelectorAll('td, th');
+      // Process cells
+      const originalCells = element.querySelectorAll('td, th');
+      const clonedCells = clone.querySelectorAll('td, th');
 
-  clonedCells.forEach((cell, index) => {
-    const originalCell = originalCells[index];
-    const originalStyle = window.getComputedStyle(originalCell);
-    
-    // Check if original cell has writing-mode or is rotated
-    const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
-    const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
+      clonedCells.forEach((cell, index) => {
+        const originalCell = originalCells[index];
+        const originalStyle = window.getComputedStyle(originalCell);
+        
+        const hasWritingMode = originalStyle.writingMode && originalStyle.writingMode !== 'horizontal-tb';
+        const hasRotation = originalStyle.transform && originalStyle.transform !== 'none';
 
-    // Check if cell is in the first column
-    const cellIndex = cell.cellIndex; // 0-based column index
-    const isFirstColumn = cellIndex === 0;
+        const cellIndex = cell.cellIndex;
+        const isFirstColumn = cellIndex === 0;
 
-    // Use left alignment for first column, center for others
-    const textAlign = isFirstColumn ? 'left' : 'center';
-    let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
+        const textAlign = isFirstColumn ? 'left' : 'center';
+        let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
 
-    if (isFirstColumn) {
-      styleString += 'max-width: 300px; ' +
-                      'min-width: 200px; ' +
-                     'word-break: break-word; ' +
-                      'overflow-wrap: break-word; ';
-      }
-      else {
-        styleString += 'width: 65px; ';
-      }
+        if (isFirstColumn) {
+          styleString += 'max-width: 300px; ' +
+                        'min-width: 200px; ' +
+                        'word-break: break-word; ' +
+                        'overflow-wrap: break-word; ';
+        } else {
+          // Add explicit width for non-first columns
+          styleString += 'width: 20px; ' +
+                        'min-width: 20px; ' +
+                        'max-width: 20px; ' +
+                        'overflow: hidden; ';
+        }
 
-    if (hasWritingMode || hasRotation) {
-      // Apply writing-mode as inline style
-      styleString += 'writing-mode: vertical-rl; ' +
-                     'text-orientation: mixed; ' +
-                     'white-space: normal; ' +
-                     'word-break: break-word; ' +
-                     'overflow-wrap: break-word; ' +
-                     'height: 90px; ' +
-                     'width: 40px; ' +
-                     'background-color: darkorange; ' +
-                     'line-height: 20px; ' +
-                     'padding: 5px; ';
+        if (hasWritingMode || hasRotation) {
+          styleString += 'writing-mode: vertical-rl; ' +
+                        'text-orientation: mixed; ' +
+                        'white-space: normal; ' +
+                        'word-break: break-word; ' +
+                        'overflow-wrap: break-word; ' +
+                        'height: 90px; ' +
+                        'width: 40px; ' +
+                        'background-color: darkorange; ' +
+                        'line-height: 20px; ' +
+                        'padding: 5px; ';
+        }
+
+        cell.setAttribute('style', styleString);
+      });
+
+      return clone.outerHTML;
     }
 
-    cell.setAttribute('style', styleString);
-  });
-
-  return clone.outerHTML;
-}
-
-
-    
 
     function delete_wreath_item(elem){
       if (empty_catalog == true){
