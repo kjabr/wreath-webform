@@ -2394,6 +2394,10 @@
       const clonedCells = clone.querySelectorAll('td, th');
 
       clonedCells.forEach((cell, index) => {
+          // Skip if there's no corresponding original cell (e.g., footer cells)
+          if (index >= originalCells.length) {
+            return;
+          }
         const originalCell = originalCells[index];
         const originalStyle = window.getComputedStyle(originalCell);
         
