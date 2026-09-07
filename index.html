@@ -2235,7 +2235,9 @@
             <body style="font-family: Arial, sans-serif;">
               <p>Hey, you submitted this on the wreath webform!</p>
               <p>See the table below (a copy in CSV format is attached for your reference):</p>
+              <div>
               ${multi_table_htmlCode}
+              </div>
               <p>Nice job</p>
             </body>
           </html>
@@ -2363,9 +2365,9 @@
       for (let i = 0; i < numColumns; i++) {
         const col = document.createElement('col');
         if (i === 0) {
-          col.style.width = '89px'; // First column width
+          col.style.width = '100px'; // First column width
         } else {
-          col.style.width = '32px'; // Other columns width
+          col.style.width = '48px'; // Other columns width
         }
         colgroup.appendChild(col);
       }
