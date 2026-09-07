@@ -2224,7 +2224,7 @@
       //get the multi-table html code
       const multi_table_element = document.getElementById('multi-table');
       //const multi_table_htmlCode = multi_table_element.outerHTML;
-      const multi_table_htmlCode = getElementWithInlineStyles(multi_table_element);
+      const multi_table_htmlCode = getElementWithInlineStyles(multi_table_element, timestamp);
 
       const emailBody = `
           <head>
@@ -2233,6 +2233,7 @@
           </head>
           <html>
             <body style="font-family: Arial, sans-serif;">
+              ${timestamp}<br>
               <p>Hey, you submitted this on the wreath webform!</p>
               <p>See the table below (a copy in CSV format is attached for your reference):</p>
               ${multi_table_htmlCode}
@@ -2282,7 +2283,7 @@
       });
     }
 
-    function getElementWithInlineStyles(element) {
+    function getElementWithInlineStyles(element, timestamp) {
       const originalSelects = element.querySelectorAll('select');
       const selectedValues = [];
       originalSelects.forEach(select => {
@@ -2372,6 +2373,22 @@
       
       clone.insertBefore(colgroup, clone.querySelector('thead') || clone.querySelector('tbody'));
 
+      // Add footer spanning all columns
+      const tfoot = document.createElement('tfoot');
+      const footerRow = document.createElement('tr');
+      const footerCell = document.createElement('td');
+      
+      footerCell.setAttribute('colspan', numColumns);
+      footerCell.textContent = timestamp;
+      footerCell.style.textAlign = 'center';
+      footerCell.style.padding = '10px';
+      footerCell.style.fontWeight = 'bold';
+      footerCell.style.backgroundColor = 'darkgray';
+      
+      footerRow.appendChild(footerCell);
+      tfoot.appendChild(footerRow);
+      clone.appendChild(tfoot);
+      
       // Process cells
       const originalCells = element.querySelectorAll('td, th');
       const clonedCells = clone.querySelectorAll('td, th');
