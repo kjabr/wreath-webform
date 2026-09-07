@@ -2378,6 +2378,9 @@ function getElementWithInlineStyles(element) {
                      'word-break: break-word; ' +
                       'overflow-wrap: break-word; ';
       }
+      else {
+        styleString += 'width: 65px; ';
+      }
 
     if (hasWritingMode || hasRotation) {
       // Apply writing-mode as inline style
