@@ -2373,7 +2373,8 @@ function getElementWithInlineStyles(element) {
     let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
 
     if (isFirstColumn) {
-      styleString += 'max-width: 250px; ' +
+      styleString += 'max-width: 300px; ' +
+                      'min-width: 200px; ' +
                      'word-break: break-word; ' +
                       'overflow-wrap: break-word; ';
       }
