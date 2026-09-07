@@ -2233,7 +2233,8 @@
           </head>
           <html>
             <body style="font-family: Arial, sans-serif;">
-              ${timestamp}<br>
+              <span style="color: gray">${timestamp}</span>
+              <br>
               <p>Hey, you submitted this on the wreath webform!</p>
               <p>See the table below (a copy in CSV format is attached for your reference):</p>
               ${multi_table_htmlCode}
@@ -2382,8 +2383,8 @@
       footerCell.textContent = timestamp;
       footerCell.style.textAlign = 'center';
       footerCell.style.padding = '10px';
-      footerCell.style.fontWeight = 'bold';
-      footerCell.style.backgroundColor = 'darkgray';
+      //footerCell.style.fontWeight = 'bold';
+      footerCell.style.backgroundColor = 'linen';
       
       footerRow.appendChild(footerCell);
       tfoot.appendChild(footerRow);
