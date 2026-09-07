@@ -2343,7 +2343,6 @@
 
       // Set table styles
       clone.style.width = '100%';
-      clone.style.maxWidth = '1000px';
       clone.style.backgroundColor = 'linen';
       clone.style.borderCollapse = 'collapse';
       clone.style.borderSpacing = '0';
@@ -2364,9 +2363,9 @@
       for (let i = 0; i < numColumns; i++) {
         const col = document.createElement('col');
         if (i === 0) {
-          col.style.width = '100px'; // First column width
+          col.style.width = '140px'; // First column width
         } else {
-          col.style.width = '48px'; // Other columns width
+          col.style.width = '32px'; // Other columns width
         }
         colgroup.appendChild(col);
       }
