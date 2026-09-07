@@ -2349,6 +2349,29 @@
       clone.style.tableLayout = 'fixed';
       clone.style.fontSize = '12px';
 
+      // Get the number of columns
+      const firstRow = clone.querySelector('tr');
+      const numColumns = firstRow ? firstRow.querySelectorAll('td, th').length : 0;
+
+      // Create and insert colgroup for MacOS Mail compatibility
+      let colgroup = clone.querySelector('colgroup');
+      if (colgroup) {
+        colgroup.remove();
+      }
+      
+      colgroup = document.createElement('colgroup');
+      for (let i = 0; i < numColumns; i++) {
+        const col = document.createElement('col');
+        if (i === 0) {
+          col.style.width = '200px'; // First column width
+        } else {
+          col.style.width = '32px'; // Other columns width
+        }
+        colgroup.appendChild(col);
+      }
+      
+      clone.insertBefore(colgroup, clone.querySelector('thead') || clone.querySelector('tbody'));
+
       // Process cells
       const originalCells = element.querySelectorAll('td, th');
       const clonedCells = clone.querySelectorAll('td, th');
@@ -2367,14 +2390,10 @@
         let styleString = `text-align: ${textAlign}; vertical-align: middle; `;
 
         if (isFirstColumn) {
-          styleString += 'max-width: 300px; ' +
-                        'min-width: 200px; ' +
-                        'word-break: break-word; ' +
+          styleString += 'word-break: break-word; ' +
                         'overflow-wrap: break-word; ';
         } else {
-          // Add explicit width for non-first columns
-          styleString += 'width: 32px; ' +
-                        'overflow: hidden; ';
+          styleString += 'overflow: hidden; ';
         }
 
         if (hasWritingMode || hasRotation) {
@@ -2395,6 +2414,7 @@
 
       return clone.outerHTML;
     }
+
 
 
     function delete_wreath_item(elem){
