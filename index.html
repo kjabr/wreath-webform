@@ -2343,6 +2343,7 @@
 
       // Set table styles
       clone.style.width = '100%';
+      clone.style.maxWidth = '500px';
       clone.style.backgroundColor = 'linen';
       clone.style.borderCollapse = 'collapse';
       clone.style.borderSpacing = '0';
@@ -2393,7 +2394,7 @@
           styleString += 'word-break: break-word; ' +
                         'overflow-wrap: break-word; ';
         } else {
-          //styleString += 'overflow: hidden; ';
+          styleString += 'overflow: hidden; ';
         }
 
         if (hasWritingMode || hasRotation) {
