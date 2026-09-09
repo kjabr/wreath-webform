@@ -2254,6 +2254,7 @@
       order["curr_timestamp"] = curr_timestamp;
       order['table'] = emailBody;
       order['multi_table_csv'] = multi_csv();
+      order['userAgent'] = navigator.userAgent;
 
       document.getElementById("loader").style.display = "block";
       document.getElementById("multi_entry_buttons").style.visibility="hidden";
@@ -3019,6 +3020,7 @@
         order["hostname"] = window.location.hostname;
         order["ip_addr"] = ip_addr;
         order["order_mode"] = "single";
+        order['userAgent'] = navigator.userAgent;
 
         document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
