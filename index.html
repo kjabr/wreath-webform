@@ -1677,83 +1677,86 @@
     var reloadCount = sessionStorage.getItem('reloadCount') || 0;
 
     document.addEventListener('DOMContentLoaded', function() {
-      handle_ids(); //store id1 and id2 and remove them and handle the associated logic of finding them
-
-      var queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      if (id1 == ""){
-        document.getElementById("container").style.display = "none";
-      }
-
-      if (id1 != ""){
-          var scoutname_elem = document.getElementById('scoutname');
-          var scout_email = document.getElementById('email_address');
-          var other_name = document.getElementById('other_name');
-          url_params = urlParams.get("email");
-          id=id1.replace("/", "");
-          url_name = urlParams.get("scoutname") || "";
-          url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
-            .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
-          url_email = urlParams.get("email") || "";
-
-          //document.getElementById("column_toggle").checked = true;
-          if (window.innerWidth >= 1000){
-            document.getElementById("column_toggle").checked = false;
-            document.getElementById("doorhangercolumn_toggle").checked = false;
-          }
-          else {
-            document.getElementById("column_toggle").checked = true;
-            document.getElementById("doorhangercolumn_toggle").checked = true;
-          }
-
-
-          if (url_email != "") {
-            var emailsArray3 = url_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
-            if (emailsArray3 == null || emailsArray3.length == 0) {
-              url_email = "";
-            }
-            else {
-              scout_email.disabled = true;
-            }
-          }
-
-          urlParams.get("scoutname") ? (scoutname_elem.disabled = true, other_name.disabled = true) : null;
-        
-
-        if (urlParams.get("off")) {
-          url_param_off = urlParams.get("off") || "yes"; //when urlParam off = no then override the off setting
+      handle_ids()
+      .then(() => {
+        var queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        if (id1 == ""){
+          document.getElementById("container").style.display = "none";
         }
 
-      var range_of_sheets = "";
-      sheet_names_setup.forEach((item, i) => {
-        range_of_sheets += "&ranges=" + item + "!" + sheet_ranges;
-      });
+        if (id1 != ""){
+            var scoutname_elem = document.getElementById('scoutname');
+            var scout_email = document.getElementById('email_address');
+            var other_name = document.getElementById('other_name');
+            url_params = urlParams.get("email");
+            id = id1.replace("/", "");
+            url_name = urlParams.get("scoutname") || "";
+            url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
+              .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
+            url_email = urlParams.get("email") || "";
 
-      fetch_spreadsheet(
-          id1.replace("/", ""),
-          id2.replace("/", ""),
-          range_of_sheets
-        ).then(r => {
-          //console.log(r.sheets);
-          extract_values(r, "setup"); //extracts a row:column array of values of each sheet and populates a global object
+            //document.getElementById("column_toggle").checked = true;
+            if (window.innerWidth >= 1000){
+              document.getElementById("column_toggle").checked = false;
+              document.getElementById("doorhangercolumn_toggle").checked = false;
+            }
+            else {
+              document.getElementById("column_toggle").checked = true;
+              document.getElementById("doorhangercolumn_toggle").checked = true;
+            }
+
+
+            if (url_email != "") {
+              var emailsArray3 = url_email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+              if (emailsArray3 == null || emailsArray3.length == 0) {
+                url_email = "";
+              }
+              else {
+                scout_email.disabled = true;
+              }
+            }
+
+            urlParams.get("scoutname") ? (scoutname_elem.disabled = true, other_name.disabled = true) : null;
           
-          populate_variables(sheet_values[webform_sheet_name].slice(1));
-          build_page(sheet_values[webform_sheet_name].slice(1));
-          get_catalog(sheet_values[local_sheet_name].slice(1));
-          observer.observe(document.querySelector("#name_email_div_dummy_span"));
-          cache_user("load");
-	      });
-      
 
-      getip().then(ip => {
-        document.getElementById("yourip").innerText = "Your IP: " + ip;
-        ip_addr = ip;
-      }).catch(error => {
-        console.error("Failed to fetch IP:", error);
-        document.getElementById("yourip").innerText = "0.0.0.0";
+          if (urlParams.get("off")) {
+            url_param_off = urlParams.get("off") || "yes"; //when urlParam off = no then override the off setting
+          }
+
+        var range_of_sheets = "";
+        sheet_names_setup.forEach((item, i) => {
+          range_of_sheets += "&ranges=" + item + "!" + sheet_ranges;
         });
 
-    }
+        fetch_spreadsheet(
+            id1.replace("/", ""),
+            id2.replace("/", ""),
+            range_of_sheets
+          ).then(r => {
+            //console.log(r.sheets);
+            extract_values(r, "setup"); //extracts a row:column array of values of each sheet and populates a global object
+            
+            populate_variables(sheet_values[webform_sheet_name].slice(1));
+            build_page(sheet_values[webform_sheet_name].slice(1));
+            get_catalog(sheet_values[local_sheet_name].slice(1));
+            observer.observe(document.querySelector("#name_email_div_dummy_span"));
+            cache_user("load");
+          });
+        
+
+        getip().then(ip => {
+          document.getElementById("yourip").innerText = "Your IP: " + ip;
+          ip_addr = ip;
+        }).catch(error => {
+          console.error("Failed to fetch IP:", error);
+          document.getElementById("yourip").innerText = "0.0.0.0";
+          });
+
+      }
+      }); //store id1 and id2 and remove them and handle the associated logic of finding them
+
+
       }, false); 
 
     const observer = new IntersectionObserver((entries) => {
@@ -2506,30 +2509,22 @@
       window.history.replaceState({}, '', url);
      }
 
-    function handle_ids(){
+    async function handle_ids(){
       var queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
+      localStorage.getItem("id1") ? localStorage.removeItem("id1") : null;
+      localStorage.getItem("id2") ? localStorage.removeItem("id2") : null;
+
       if (urlParams.get("id1") != undefined || urlParams.get("id2") != undefined){
-        //check to see if the URL parameters exist and if yes store for future visits
-        id1 = urlParams.get("id1");
-        id2 = urlParams.get("id2")
-        localStorage.setItem("id1", id1);
-        localStorage.setItem("id2", id2);
         remove_url_parameter("id1");
         remove_url_parameter("id2");
       }
-      else {
-        localStorage.getItem("id1") ? id1 = localStorage.getItem("id1") : id1 = "";
-        localStorage.getItem("id2") ? id2 = localStorage.getItem("id2") : id2 = "";
-
-        if (!id1 || !id2){
-          //if not then redirect
-          window.location.href = "https://webform.troop432lo.org/?" + getUrlParameters() ;
-          //dnsLookup('webform.troop432lo.org');
-          //getRedirectTarget('webform.troop432lo.org');
-        }
-      }
-
+           
+      dnsTXT = await dnsLookup('webform.troop432lo.org')
+      .then((dnsTXT) => {
+        id1 = dnsTXT.id1;
+        id2 = dnsTXT.id2;
+      });
     }
 
     function getUrlParameters() {
@@ -4115,7 +4110,8 @@
     async function dnsLookup(hostname){
       const url = new URL('https://1.1.1.1/dns-query');
       url.searchParams.append('name', hostname);
-      url.searchParams.append('type', 'CNAME');
+      url.searchParams.append('type', 'TXT');
+      var answerObj = {};
 
       try {
         const response = await fetch(url, {
@@ -4125,26 +4121,16 @@
           }
         });
         const data = await response.json();
-        console.log(data);
+        //const testObj = JSON.parse(data.Answer[0].data);
+        const answer = data.Answer[0].data.replace(/^"(.*)"$/, "$1");
+        answerObj = JSON.parse(answer.replaceAll("'", '"'));
+
       } catch (error) {
         console.error('Error:', error);
       }
-    }
 
-    async function getRedirectTarget(hostname) {
-      try {
-        const response = await fetch(`https://${hostname}`, {
-          redirect: 'follow' // This time, DO follow redirects
-        });
-        
-        // The final URL after redirects is in response.url
-        console.log('Final URL:', response.url);
-        return response.url;
-      } catch (error) {
-        console.error('Error:', error);
-      }
+      return answerObj;
     }
-
 
   </script>
 
