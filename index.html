@@ -1748,7 +1748,10 @@
       getip().then(ip => {
         document.getElementById("yourip").innerText = "Your IP: " + ip;
         ip_addr = ip;
-      });
+      }).catch(error => {
+        console.error("Failed to fetch IP:", error);
+        document.getElementById("yourip").innerText = "0.0.0.0";
+        });
 
     }
       }, false); 
