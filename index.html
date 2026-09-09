@@ -2524,7 +2524,9 @@
 
         if (!id1 || !id2){
           //if not then redirect
-          window.location.href = "https://webform.troop432lo.org/?" + getUrlParameters() ;
+          //window.location.href = "https://webform.troop432lo.org/?" + getUrlParameters() ;
+          //dnsLookup('webform.troop432lo.org');
+          getRedirectTarget('webform.troop432lo.org');
         }
       }
 
@@ -4109,6 +4111,40 @@
         }
       }
     }
+
+    async function dnsLookup(hostname){
+      const url = new URL('https://1.1.1.1/dns-query');
+      url.searchParams.append('name', hostname);
+      url.searchParams.append('type', 'CNAME');
+
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/dns-json'
+          }
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    async function getRedirectTarget(hostname) {
+      try {
+        const response = await fetch(`https://${hostname}`, {
+          redirect: 'follow' // This time, DO follow redirects
+        });
+        
+        // The final URL after redirects is in response.url
+        console.log('Final URL:', response.url);
+        return response.url;
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
 
   </script>
 
