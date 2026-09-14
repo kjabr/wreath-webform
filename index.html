@@ -1341,7 +1341,7 @@
       <div class="tab" id="tab">
         <div>
           <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Single Order</button>
-          <button class="tablinks multi_order_btn" onclick="openTab(event, 'multi_order_section')">Multi Order</button>
+          <button id="multi_order_button" class="tablinks multi_order_btn" onclick="openTab(event, 'multi_order_section')">Multi Order</button>
           <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
           <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
         </div>
@@ -2659,9 +2659,15 @@
       document.getElementById('my_orders_info').innerHTML = my_orders_panel;
       document.getElementById('info_info').innerHTML = info_panel;
       document.getElementById('email_address').setAttribute('title', email_instructions);
-      document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
+      //document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
+      document.getElementById('multi_order_info').innerHTML = description;
 
-      document.getElementById("enter_order_button").click();
+      if (window.innerWidth > 1040) {
+        document.getElementById("multi_order_button").click();
+      }
+      else {
+        document.getElementById("enter_order_button").click();
+      }
 
     }
 
