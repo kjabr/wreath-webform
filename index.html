@@ -1844,12 +1844,8 @@
           order_data_values[item.properties.title] = sheet_interesting_values;
           }
           else {
-            sheet_values[item.properties.title] = removeEmptyColumns(sheet_interesting_values).filter((row, index) => {
-              if (row[1] === "") {
-                console.log("Row number:", index);
-              }
-              return row[1] !== "";
-            });
+            sheet_values[item.properties.title] = removeEmptyColumns(sheet_interesting_values).filter(row => row[1] !== "");
+
           }
 
         }); 
