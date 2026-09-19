@@ -2043,7 +2043,7 @@
       });
 
       const lastcell = newRow.insertCell();
-      lastcell.innerHTML = `<input id="multi_donation" type="text" inputmode="decimal" style="width:3em;" oninput="this.value = donation_amt(this.value); multi_total_row(this, ${rowIndex})" placeholder="$">`;
+      lastcell.innerHTML = `<input id="multi_donation" type="text" inputmode="decimal" style="width:3em;border-style:dotted;border-width:1px;" oninput="this.value = donation_amt(this.value); multi_total_row(this, ${rowIndex})" placeholder="$">`;
 
       const total_cell = newRow.insertCell();    
       total_cell.textContent = "$0";  
