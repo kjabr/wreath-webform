@@ -1842,12 +1842,28 @@
             }
           });
           if (type=="order_data"){
-          order_data_values[item.properties.title] = sheet_interesting_values;
+            order_data_values[item.properties.title] = sheet_interesting_values;
           }
           else {
-            sheet_values[item.properties.title] = removeEmptyColumns(sheet_interesting_values).filter(row => row[1] !== "");
+            if (item.properties.title.toLowerCase() == "local catalog") {
+              //for donations, move the item in the catalog to the bottom if not already
+              var upper_index = 0;
+              
+              temp_sheet_values = removeEmptyColumns(sheet_interesting_values).filter(row => row[1] !== "");
+              temp_sheet_values.forEach((item4, i4) => {
+                let idx = item4.map(inner_item => inner_item.toLowerCase());
+                idx.indexOf("donation") != -1 ? upper_index = i4 : null;
+              });
+              temp_sheet_values.push(...temp_sheet_values.splice(upper_index, 1))
+              sheet_values[item.properties.title] = temp_sheet_values;
 
+            }
+            else {
+              sheet_values[item.properties.title] = removeEmptyColumns(sheet_interesting_values);
+            }
           }
+
+
 
         }); 
     }
