@@ -985,6 +985,7 @@
 
       .multi-table textarea {
         width: 160px;
+        font-size: 12px !important;
       }
 
       .multi-table select, .multi-table textarea, .multi-table input {
@@ -2007,7 +2008,7 @@
       textarea.placeholder = "customer info";
       textarea.spellcheck = false;
       textarea.oninput = function() { multi_textarea_change(this); };
-      textarea.style.resize = "none";
+      //textarea.style.resize = "none";
       firstcell_div.appendChild(textarea);
 
       firstcell_div.style.display = "flex";
