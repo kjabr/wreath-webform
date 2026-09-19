@@ -1942,7 +1942,18 @@
     function multi_table_create(wreath_items){
         //console.log((wreath_items.map(item => item[0])).unshift("apple"));
         addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[0])), "Total"]);
-        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[1])), ""]);
+        //addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[1])), ""]);
+        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => { 
+          const price = item[1];
+          if (price.split(".")[1] == "00"){
+            return price.split(".")[0];
+          }
+          else {
+            return price;
+          }
+        }) 
+        ), ""]);
+
         addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0));
 
         document.getElementById("multi_plus_icon").innerHTML = plus_circle;
