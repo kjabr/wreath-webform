@@ -2649,6 +2649,8 @@
         remove_url_parameter("id1");
         remove_url_parameter("id2");
       }
+
+      urlParams.get("utm_source") ? remove_url_parameter("utm_source") : null;
            
       dnsTXT = await dnsLookup('webform.troop432lo.org')
       .then((dnsTXT) => {
