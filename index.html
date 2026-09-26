@@ -91,13 +91,25 @@
         font-family: Geneva, 'Lucida Grande', 'Lucida Sans Unicode', serif;
       }
 
+      .cust_payment {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        max-width: 90%;
+      }
+
+      /*
       .cust_payment>label {
         margin-right: -6px;
-      }
+      }*/
 
       .cust_payment>input {
         margin-right: 10px;
 
+      }
+
+      .cust_payment>span{
+        margin-right: 10px;
       }
 
       .tab {
@@ -633,6 +645,10 @@
         background: #ADD8E6;
         border-radius: 5px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px
       }
 
       .cust_info_item {
@@ -645,6 +661,7 @@
       .cust_info_item label {
         White-space: nowrap;
       }
+
 
       .section_titles {
         display: flex;
@@ -678,8 +695,8 @@
         border-radius: 5px;
         padding: 1em 1em 1em 1em;
         background: #FF8C00;
-        width: 40em;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding-right: 30px;
       }
       
       .wreath_line {
@@ -1315,7 +1332,7 @@
         .add_item_column {
           padding: 0.5em 0.5em 0.5em 0.5em;
           max-width: 30em;
-
+          
         }
 
         .add_item_svg {
@@ -1361,6 +1378,10 @@
 
         .multi-table textarea {
           width: 120px;
+        }
+
+        .cust_payment {
+          font-size: small;
         }
 
       }
@@ -1420,7 +1441,7 @@
       }
 
       p, .tab_info {
-        font-size: larger;
+        font-size: large;
       }
     }
 
