@@ -1378,12 +1378,24 @@
 
       /*Safari support only*/
     @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+      /*
       .multi-table input, .multi-table textarea{
         font-size: 14px;
       }
 
       .multi-table select {
         font-size: 14px;
+      }*/
+
+      @media (max-width: 1200px) {
+        .multi-table tr:first-child th,
+        .multi-table tr:first-child td {
+          width: 40px; 
+        }
+
+        .multi-table select {
+          font-size: 12px;
+        }
       }
 
       .scout_name_select {
