@@ -1061,12 +1061,17 @@
       }
 
       .multi-table{
-        display: block;
+        display: table;
         font-size: small;
         border-collapse: collapse;
         margin: auto;
-        width: auto;
+        width: 100%;
         min-width: 50%;
+        table-layout: auto;
+      }
+
+      .multi-table-div {
+        width: 100%;
         overflow-x: scroll;
       }
 
@@ -1090,6 +1095,7 @@
         background-color: linen;
         color: black;
         padding: 2px;
+        field-sizing: content;
       }
 
       .multi-table tr:first-child {
@@ -1112,11 +1118,10 @@
         white-space: normal;
         word-break: break-word;
         overflow-wrap: break-word;
-        height: 128px;
+        max-height: 150px;
         background-color: darkorange;
         line-height: 20px;
         text-align: center;
-        width: 50px;
       }
 
       .multi-table tr td:first-child
@@ -1193,6 +1198,12 @@
               margin: auto;
               }
             }
+
+      @media (max-width: 900px){
+        .tab_scoutname{
+          display: none;
+        }
+      }
 
       @media (max-width: 700px)  {
 
@@ -1379,6 +1390,10 @@
           width: 120px;
         }
 
+        .multi-table td {
+          padding: 1px;
+        }
+
         .cust_payment {
           font-size: small;
         }
@@ -1411,15 +1426,13 @@
       .multi-table tr:first-child th,
       .multi-table tr:first-child td {
         font-size: 16px;
-        height: 155px;
+        max-height: 155px;
         }
         
       @media (max-width: 1350px) {
         .multi-table tr:first-child th,
         .multi-table tr:first-child td {
-          width: 40px; 
-          font-size: 15px;
-          height: 135px;
+          font-size: 14px;
         }
       
         .multi-table select {
@@ -1563,11 +1576,13 @@
       <div id="multi_order_section" class="tabcontent">
         <div id="multi_entry_content">
           <p id="multi_order_info"></p>
+          <div class="multi-table-div">
           <table id="multi-table" class="multi-table">
             <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
             <tbody id="multi-table-tbody">
             </tbody>
           </table>
+          </div>
           <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
 
             <div class="multi_entry_bottom">
