@@ -108,6 +108,10 @@
         align-items: center;
       }
 
+      .cust_payment_span {
+        margin-right: -15px;
+      }
+
       .tab {
         display: flex;
         flex-direction: row;
@@ -1430,6 +1434,10 @@
           padding: 1px;
         }
 
+        .cust_payment_span {
+          display: none;
+        }
+
       }
 
       @media (max-width: 420px){
@@ -1550,19 +1558,19 @@
             </div>
 
             <div class="cust_info_item">
-              <label for="cust_email">Email address to get a receipt: </label>
+              <label for="cust_email">Email to get a receipt: </label>
               <input id="cust_email" type="text" name="cust_email" placeholder="optional" autocomplete="off">
             </div>
 
             <div class="cust_info_item">
-              <label for="cust_note">Add note to order? </label>
+              <label for="cust_note">Add a note? </label>
               <input id="cust_note" type="text" name="cust_note" placeholder="optional" autocomplete="off">
               <!-- 
               <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
               -->
             </div>
             <div class="cust_payment">
-              <span style="margin-right: -15px">Payment:  </span>
+              <span class="cust_payment_span">Payment:  </span>
               <div class="cust_payment_item">
                 <label for="cust_cash">Cash</label>
                 <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
