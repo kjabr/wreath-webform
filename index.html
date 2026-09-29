@@ -95,23 +95,16 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        max-width: 90%;
+        width: 100%;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
       }
 
-      /*
-      .cust_payment>label {
-        margin-right: -6px;
-      }*/
-
-      .cust_payment>input {
-        margin-right: 10px;
-
-      }
-
-      .cust_payment>span:nth-child(1) {
-        margin-right: 10px;
+      .cust_payment_item {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 2px;
       }
 
       .tab {
@@ -1572,16 +1565,24 @@
               -->
             </div>
             <div class="cust_payment">
-              <span>Payment:  </span>
-              <label for="cust_cash">Cash</label>
-              <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
-              <label for="cust_check">Check</label>
-              <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
-              <label for="cust_venmo">Venmo</label>
-              <span class="clickable_span" onclick="show_venmo_info()">[i]</span>
-              <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
-              <label for="cust_unpaid">Unpaid</label>
-              <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
+              <span style="margin-right: -15px">Payment:  </span>
+              <div class="cust_payment_item">
+                <label for="cust_cash">Cash</label>
+                <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
+              </div>
+              <div class="cust_payment_item">
+                <label for="cust_check">Check</label>
+                <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
+              </div>
+              <div class="cust_payment_item">
+                <label for="cust_venmo">Venmo</label>
+                <span class="clickable_span" onclick="show_venmo_info()">[i]</span>
+                <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
+              </div>
+              <div class="cust_payment_item">
+                <label for="cust_unpaid">Unpaid</label>
+                <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
+              </div>
             </div>
 
           </div>
