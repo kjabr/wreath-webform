@@ -783,6 +783,43 @@
         cursor: pointer;
       }
 
+      .right-arrow {
+        position: absolute;
+        display: none;
+        bottom: 18%;
+        right: 5%;
+        width: 30px;
+        height: 0px;
+        border: 2px solid;
+        border-radius: 2px;
+        animation: jumpInfinite 1.5s infinite;
+      }
+
+      .right-arrow:after {
+        content: " ";
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 16px;
+        height: 16px;
+        border-bottom: 4px solid;
+        border-right: 4px solid;
+        border-radius: 4px;
+        transform: rotateZ(-45deg);
+      }
+
+      @keyframes jumpInfinite {
+        0% {
+          margin-right: 0;
+        }
+        50% {
+          margin-right: 20px;
+        }
+        100% {
+          margin-right: 0;
+        }
+      }
+
       .single_entry_bottom {
         overflow: hidden;
         display: flex;
@@ -1575,12 +1612,13 @@
       <div id="multi_order_section" class="tabcontent">
         <div id="multi_entry_content">
           <p id="multi_order_info"></p>
-          <div class="multi-table-div">
+          <div class="multi-table-div" id="multi-table-div" onscroll="multi_table_scroll()">
           <table id="multi-table" class="multi-table">
             <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
             <tbody id="multi-table-tbody">
             </tbody>
           </table>
+          <div id="right-arrow" class="right-arrow"></div>
           </div>
           <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
 
@@ -1754,6 +1792,7 @@
     var id2 = "";
 
     var wide_tbl_msg = false;
+    var scrollObserver = null;
 
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -2639,7 +2678,14 @@
       return clone.outerHTML;
     }
 
+    function isScrollable(elem) {
+        return elem.scrollWidth > elem.clientWidth;
+    }
 
+    function multi_table_scroll(){
+      document.getElementById("right-arrow").style.display = "";
+      stopObserving();
+    }
 
     function delete_wreath_item(elem){
       if (empty_catalog == true){
@@ -2950,6 +2996,50 @@
           document.getElementById("multi_btn_div_msg").style.display = "none";
         }
       }
+
+      if (tab_name == "multi_order_section") {
+        isScrollable(document.getElementById("multi-table-div")) ? document.getElementById("right-arrow").style.display = "block" : document.getElementById("right-arrow").style.display = "";
+        startObserving(document.getElementById("multi-table-div"));
+      }
+      else {
+        stopObserving();
+      }
+    }
+
+    function startObserving(elem) {
+    // Disconnect existing observer if any
+    if (scrollObserver) {
+        scrollObserver.disconnect();
+    }
+
+    let previousScrollWidth = elem.scrollWidth;
+    let previousClientWidth = elem.clientWidth;
+    let wasScrollable = previousScrollWidth > previousClientWidth;
+
+    scrollObserver = new ResizeObserver(() => {
+        const isNowScrollable = elem.scrollWidth > elem.clientWidth;
+        
+        if (wasScrollable !== isNowScrollable) {
+            if (isNowScrollable) {
+                document.getElementById("right-arrow").style.display = "block";
+            } else {
+                document.getElementById("right-arrow").style.display = "";
+            }
+            wasScrollable = isNowScrollable;
+        }
+        
+        previousScrollWidth = elem.scrollWidth;
+        previousClientWidth = elem.clientWidth;
+    });
+
+    scrollObserver.observe(elem);
+    }
+
+    function stopObserving() {
+        if (scrollObserver) {
+            scrollObserver.disconnect();
+            scrollObserver = null;
+        }
     }
 
     function container_click(){
