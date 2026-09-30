@@ -4028,18 +4028,21 @@
         Orders for <strong>${name}</strong><br>
         Grand Total: $${numberWithCommas(local_orders_total + gift_shipper_total + doorhanger_orders_total)}
         <ul class='order_totals_ul'>
-          <li>Webform: $${numberWithCommas(local_orders_total)}</li>
-          <li>Doorhanger: $${numberWithCommas(doorhanger_orders_total)}</li>
+          <li>Webform: $${numberWithCommas(local_orders_total)} (includes $${numberWithCommas(scout_donations_total)} in webform donations) </li>
+          <li>Doorhanger: $${numberWithCommas(doorhanger_orders_total)} (includes $${numberWithCommas(online_donations_total)} in doorhanger donations)</li>
           <li>Gift Shipper: $${numberWithCommas(round(gift_shipper_total, 2))}</li>
-          <br>
-          <li>Note the donations total: $${numberWithCommas(scout_donations_total + online_donations_total)}</li>
+        </ul>
+        ${name.split(" ")[0]} should have <b>$${numberWithCommas(local_orders_total)}</b> from customers. ${collected_amount_text}${remaining_amount_text} 
+      `;
+
+      /*
+      <li>Note the donations total: $${numberWithCommas(scout_donations_total + online_donations_total)}</li>
             <ul>
               <li>Scout collected: $${numberWithCommas(scout_donations_total)}</li>
               <li>From Doorhanger: $${numberWithCommas(online_donations_total)}</li>
             </ul>
-        </ul>
-        ${name.split(" ")[0]} should have <b>$${numberWithCommas(local_orders_total)}</b> from customers. ${collected_amount_text}${remaining_amount_text} 
-      `;
+
+      */
       
       local_csv_elem.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr_local);
       local_csv_elem.target = "_blank";
