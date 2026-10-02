@@ -346,6 +346,16 @@
         background-color: azure;
       }
 
+      .giftshipper_table2 td:nth-child(3){
+        min-width: 150px;
+      }
+
+      .giftshipper_table2 td:nth-child(8){
+        min-width: 150px;
+      }
+
+
+
       .local_orders{
         overflow-x: auto;
         max-width: 100%;
@@ -1770,13 +1780,13 @@
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
             <p id="all_data_info1" class="all_data_info1"></p>
-            <div id="webform2" style="position: relative;">
+            <div id="webform2" style="position: relative; overflow-x: scroll;">
               <p id="webform2_p" style="display: none;">**** No Webform Orders ****</p>
             </div>
-            <div id="doorhanger2" style="position: relative;">
+            <div id="doorhanger2" style="position: relative; overflow-x: scroll;">
               <p id="doorhanger2_p" style="display: none;">**** No Doorhanger Orders ****</p>
             </div>
-            <div id="giftshipper2" style="position: relative;">
+            <div id="giftshipper2" style="position: relative; overflow-x: scroll;">
               <p id="giftshipper2_p" style="display: none;">**** No Giftshipper Orders ****</p>
             </div>
         </div>
