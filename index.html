@@ -245,13 +245,101 @@
         box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
       }
 
-      .local_orders th:nth-child(n+3){
+      .webform2{
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 50px;
+      }
+
+      .webform2 caption {
+        font-size: large;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .webform2 caption a {
+        color: blue;
+        text-decoration: none;
+      }
+
+      .giftshipper_table2{
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 50px;
+      }
+
+      .giftshipper_table2 caption {
+        font-size: large;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .giftshipper_table2 caption a {
+        color: blue;
+        text-decoration: none;
+      }
+
+      .webform2 th{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        background-color: lightblue;
+        font-weight: normal;
+      }
+
+      .giftshipper_table2 th{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        background-color: lightblue;
+        font-weight: normal;
+      }
+
+      .giftshipper_table2 tr:hover {background-color: #ddd;}
+      .giftshipper_table2 td:hover {background-color: orange;}
+
+      .giftshipper_table2 tr:nth-child(2n+1) {
+        background-color: azure;
+      }
+
+      .webform2 th:nth-child(n+4){
         writing-mode: vertical-rl;
         text-orientation: mixed;
         height: 128px;
         background-color: darkorange;
         color: black;
         font-weight: normal;
+        width: auto;
+      }
+
+      .webform2 td {
+        text-align: center;
+      }
+
+      .webform2 td:nth-child(2){
+        width: 200px;
+        min-width: 140px;
+        text-align: start;
+        word-break: break-all;
+      }
+
+      .webform2 td:nth-child(1){
+        max-width: 60px;
+        text-align: start;
+      }
+
+
+      .webform2 tr:hover {background-color: #ddd;}
+      .webform2 td:hover {background-color: orange;}
+
+      .webform2 tr:nth-child(2n+1) {
+        background-color: azure;
       }
 
       .local_orders{
@@ -1673,65 +1761,9 @@
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
             <p id="all_data_info1" class="all_data_info1"></p>
-              <div id="local_orders" class="local_orders">
-
-                <table id="all_data_table" class="all_data_table">
-                  <caption id="all_data_table_caption">
-                    <h3>Webform Orders - <a id="local_csv">[CSV]</a></h3>
-                    <div class="column_toggle">
-                      <input type="checkbox" id="column_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
-                      <label for="column_toggle">Hide zero total columns</label>
-                    </div>
-                  </caption>
-                  <thead id="thead_data_table"></thead>
-                  <tbody id="tbody_data_table"></tbody>
-                  <tfoot id="all_data_table_tfoot"></tfoot>
-                </table>
-                <p class="local_orders_info">Webform orders - 
-                  <a id="local_csv2"> [CSV]</a>
-                </p>
-
-                <div id="all_data_div1" class="all_data_div">
-                </div>
-              </div>
-              <br><br>
-            <p id="doorhanger_info" class="all_data_info1"></p>
-            <div id="doorhanger_orders" class="local_orders">
-              <table id="doorhanger_table" class="all_data_table">
-                <caption id="doorhanger_table_caption">
-                  <h3>Doorhanger Orders - <a id="doorhanger_csv">[CSV]</a></h3>
-                  <div class="column_toggle">
-                    <input type="checkbox" id="doorhangercolumn_toggle" name="column_toggle" onclick="checkbox_toggle(this)" checked>
-                    <label for="doorhangercolumn_toggle">Hide zero total columns</label>
-                  </div>
-                </caption>
-                <thead id="thead_doorhanger_table"></thead>
-                <tbody id="tbody_doorhanger_table"></tbody>
-                <tfoot id="doorhanger_table_tfoot"></tfoot>
-              </table>
-              <p class="local_orders_info">Doorhanger orders - 
-                <a id="doorhanger_csv2"> [CSV]</a>
-              </p>
-              <div id="doorhanger_div" class="all_data_div">
-              </div>
-            </div>
-            <br><br>
-            <p id="all_data_info2"></p>
-            <div id="gift_shipper_orders">
-              <table id="gift_shipper_table" class="all_data_table gift_shipper_table">
-                <caption id="gift_shipper_table_caption"><h3>Gift Shipper Orders - <a id="shipper_csv">[CSV]</a></h3>
-                </caption>
-                <thead id="thead_gift_shipper"></thead>
-                <tbody id="tbody_gift_shipper"></tbody>
-                <tfoot id="gift_shipper_table_tfoot"></tfoot>
-              </table>
-              <p class="gift_shipper_info">Gift Shipper Orders:
-                <a id="shipper_csv2"> [CSV]</a>
-              </p>
-              <div id="all_data_div2" class="all_data_div">
-              </div>
-            </div>
-            <br><br>
+            <div id="webform2"></div>
+            <div id="doorhanger2"></div>
+            <div id="giftshipper2"></div>
         </div>
       </div>
 
@@ -1898,16 +1930,6 @@
             url_name != "" ? url_name = url_name.replace(/[\.\_\-]/g, " ")
               .toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : null;
             url_email = urlParams.get("email") || "";
-
-            //document.getElementById("column_toggle").checked = true;
-            if (window.innerWidth >= 1000){
-              document.getElementById("column_toggle").checked = false;
-              document.getElementById("doorhangercolumn_toggle").checked = false;
-            }
-            else {
-              document.getElementById("column_toggle").checked = true;
-              document.getElementById("doorhangercolumn_toggle").checked = true;
-            }
 
 
             if (url_email != "") {
@@ -3511,7 +3533,7 @@
       return str;
     }
 
-    function show_orders(){
+    function show_orders_old(){
       var scoutname = document.getElementById('scoutname').value;
       var other_name = document.getElementById("other_name").value;
       var cached_timestamp = document.getElementById('cached_timestamp');
@@ -4070,6 +4092,349 @@
 
       table_paging("init");
       //console.log(checkHorizontalScroll(document.getElementById("doorhanger_orders")));
+    }
+
+    function show_orders(){
+      var scoutname = document.getElementById('scoutname').value;
+      var other_name = document.getElementById("other_name").value;
+      var name = "";
+      scoutname == "Other" ? name = other_name : name = scoutname;
+      var wreath_orders = JSON.parse(localStorage.getItem('cached_orders')) || [];
+      var doorhanger_local_orders = JSON.parse(localStorage.getItem('doorhanger_orders')) || [];
+      var gift_shipper_orders = JSON.parse(localStorage.getItem('cached_gift_shipper')) || [];
+
+      var webform_orders_div = document.getElementById("local_orders");
+      var doorhanger_orders_div = document.getElementById("doorhanger_orders");
+      var giftshipper_orders_div = document.getElementById("gift_shipper_orders");
+
+      var totals = document.getElementById("totals");
+      var cached_timestamp = document.getElementById('cached_timestamp');
+
+      var webform2 = document.getElementById("webform2");
+      webform2.innerHTML = "";
+
+      var webform_total = "$0";
+      var doorhanger_total = "$0";
+      var giftshipper_total = 0;
+
+      const columnIndicesToRemove = [1, 3];
+
+      // Also find columns with empty headers
+      const headers = wreath_orders[0];
+      const emptyHeaderIndices = headers
+        .map((header, index) => header === "" || header === null || header === undefined ? index : -1)
+        .filter(index => index !== -1);
+
+      // Combine both lists
+      const allIndicesToRemove = [...new Set([...columnIndicesToRemove, ...emptyHeaderIndices])];
+
+      const webform_scoutfocused = wreath_orders.filter(row => row[1] == name || row[1] == "Name");
+
+      const webform_filtered = wreath_orders.filter(row => row[1] == name || row[1] == "Name").map(row =>
+        row.filter((cell, index) => !allIndicesToRemove.includes(index))
+      );
+
+      const doorhanger_scoutfocused = doorhanger_local_orders.filter(row => row[1] == name || row[1] == "Name");
+
+      //because the doorhanger data also has the same headers and structure like the Webform we use the same allIndicesToRemove
+      const doorhanger_filtered = doorhanger_local_orders.filter(row => row[1] == name || row[1] == "Name").map(row =>
+        row.filter((cell, index) => !allIndicesToRemove.includes(index))
+      );
+      
+      //Giftshipper on the other hand has it's own column removal list
+      const giftshipper_emptyheaders = gift_shipper_orders[0].map((header, index) => header === "" || header === null || header === undefined ? index : -1)
+        .filter(index => index !== -1);
+
+
+      const giftshipper_indices_to_remove = [...new Set([...[1], ...giftshipper_emptyheaders])];
+      const giftshipper_filtered = gift_shipper_orders.filter(row => row[1] == name || row[1] == "Scout/Org").map(row =>
+        row.filter((cell, index) => !giftshipper_indices_to_remove.includes(index))
+      );
+
+      //some columns are combined to save space (buyer info and recipient info)
+      const giftshipper_combined = giftshipper_filtered.map(row => [
+        row.slice(0, 1),                          // Column 0 (unchanged)
+        row.slice(1, 4).join(", "),              // Columns 1-3 combined with " | "
+        row.slice(4, 9).join(", "),              // Columns 4-8 combined with " | "
+        row.slice(9)                              // Columns 9+ (unchanged)
+      ].flat());
+
+      //change the header for the combined info to Buyer and Recipient
+      giftshipper_combined[0][1] = "Buyer";
+      giftshipper_combined[0][2] = "Recipient";
+
+      var webform_table = arrayToTable(webform_filtered, true);
+      webform_table.id = "webform_table";
+      webform_table.classList.add("webform2");
+      webform2.appendChild(webform_table);
+      addNote(webform_table.id, webform_scoutfocused);
+
+      var doorhanger_table = arrayToTable(doorhanger_filtered, true);
+      doorhanger_table.id = "doorhanger2_table";
+      doorhanger_table.classList.add("webform2");
+      webform2.appendChild(doorhanger_table);
+      addNote(doorhanger_table.id, doorhanger_scoutfocused);
+
+      var giftshipper_table = arrayToTable(giftshipper_combined, true);
+      giftshipper_table.id = "giftshipper2_table";
+      giftshipper_table.classList.add("giftshipper_table2");
+      webform2.appendChild(giftshipper_table);
+
+      const webform_caption = document.createElement("caption");
+      webform_caption.innerHTML = "Webform Orders";
+
+      const doorhanger_caption = document.createElement("caption");
+      doorhanger_caption.innerHTML = "Doorhanger Orders";
+
+      const giftshipper_caption = document.createElement("caption");
+      giftshipper_caption.innerHTML = "Giftshipper Orders";
+
+      const downloadLink_webform = document.createElement("a");
+      downloadLink_webform.href = "#";
+      downloadLink_webform.textContent = " [Download CSV]";
+      downloadLink_webform.style.marginLeft = "10px";
+      downloadLink_webform.onclick = (e) => {
+        e.preventDefault();
+        downloadCSV(webform_filtered, "webform_orders.csv");
+      };
+
+      const downloadLink_doorhanger = document.createElement("a");
+      downloadLink_doorhanger.href = "#";
+      downloadLink_doorhanger.textContent = " [Download CSV]";
+      downloadLink_doorhanger.style.marginLeft = "10px";
+      downloadLink_doorhanger.onclick = (e) => {
+        e.preventDefault();
+        downloadCSV(doorhanger_filtered, "doorhanger_orders.csv");
+      };
+
+      const downloadLink_giftshipper = document.createElement("a");
+      downloadLink_giftshipper.href = "#";
+      downloadLink_giftshipper.textContent = " [Download CSV]";
+      downloadLink_giftshipper.style.marginLeft = "10px";
+      downloadLink_giftshipper.onclick = (e) => {
+        e.preventDefault();
+        downloadCSV(giftshipper_filtered, "giftshipper_orders.csv");
+      };
+
+      webform_caption.appendChild(downloadLink_webform);
+      doorhanger_caption.appendChild(downloadLink_doorhanger);
+      giftshipper_caption.appendChild(downloadLink_giftshipper);
+
+      webform_table.insertBefore(webform_caption, webform_table.firstChild);
+      doorhanger_table.insertBefore(doorhanger_caption, doorhanger_table.firstChild);
+      giftshipper_table.insertBefore(giftshipper_caption, giftshipper_table.firstChild);
+
+      webform_total = addSumRow(webform_table, webform_filtered, 1);
+      doorhanger_total = addSumRow(doorhanger_table, doorhanger_filtered, 1);
+
+      //not assigning the total to giftshipper because the cost column is different
+      addSumRow(giftshipper_table, giftshipper_combined, 3);
+
+      //handling the giftshipper total differently
+      giftshipper_combined.forEach((item, i) => {
+        if (i == 0) {return;} //ignore first row
+        //giftshipper_total += Number(item[6].split('$')[1]).toFixed(2);
+        giftshipper_total += Number(item[6].replace(/[$,]/g, "")) || 0
+
+      });
+
+      giftshipper_total = "$" +giftshipper_total.toFixed(2);
+
+      //totals data per person
+      totals.innerHTML = `
+        Orders for <strong>${name}</strong><br>
+        Grand Total: $${(Number(webform_total.split('$')[1]) + Number(doorhanger_total.split('$')[1]) + Number(giftshipper_total.split('$')[1])).toFixed(2)}
+        <ul class='order_totals_ul'>
+          <li>Webform: ${webform_total}</li>
+          <li>Doorhanger: ${doorhanger_total}</li>
+          <li>Gift Shipper: ${giftshipper_total}</li>
+        </ul>
+        ${name.split(" ")[0]} should have <b>${webform_total}</b> from customers.
+      `;
+
+      //if a table has a totals of $0 then replace with some text that it's empty
+      if (giftshipper_total == "$0.00"){
+        let paragraph = document.createElement("p"); 
+        paragraph.textContent = "**** No Giftshipper orders";
+        giftshipper_table.replaceWith(paragraph);
+      }
+
+      if (webform_total == "$0.00"){
+        let paragraph = document.createElement("p"); 
+        paragraph.textContent = "**** No Webform orders";
+        webform_table.replaceWith(paragraph);
+      }
+
+      if (doorhanger_total == "$0.00"){
+        let paragraph = document.createElement("p"); 
+        paragraph.textContent = "**** No Doorhanger orders";
+        doorhanger_table.replaceWith(paragraph);
+      }
+
+      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last refresh from server: " + 
+        localStorage.getItem('cached_timestamp')
+            : null;
+
+
+    }
+
+    function arrayToCSV(array) {
+      return array
+        .map(row => 
+          row.map(cell => {
+            const str = String(cell);
+            // Wrap in quotes if contains comma, quote, or newline
+            if (str.includes(",") || str.includes('"') || str.includes("\n")) {
+              return `"${str.replace(/"/g, '""')}"`;
+            }
+            return str;
+          }).join(",")
+        )
+        .join("\n");
+    }
+
+    function downloadCSV(data, filename) {
+      const csv = arrayToCSV(data);
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+
+
+    function arrayToTable(data, hasHeader = false) {
+      const table = document.createElement('table');
+      
+      if (hasHeader && data.length > 0) {
+        // Create header row
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        
+        data[0].forEach(cell => {
+          const th = document.createElement('th');
+          th.textContent = cell;
+          headerRow.appendChild(th);
+        });
+        
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        // Create body rows (skip first row)
+        const tbody = document.createElement('tbody');
+        data.slice(1).forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell || "0";
+              if (td.textContent == "0") {
+                td.style.color = "lightgray";
+              }
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        
+        table.appendChild(tbody);
+      } else {
+        // No header, treat all rows as body
+        const tbody = document.createElement('tbody');
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+      }
+      
+      return table;
+    }
+
+    function addSumRow(table, tableData, totalIndex = 0){
+      const tfoot = document.createElement("tfoot");
+      const sumRow = document.createElement("tr");
+      const dollar_headers = ["Total", "Donation", "Cost"];
+      const table_total = "$0";
+      
+      // Get dollar indices
+      const dollar_indices = tableData[0]
+        .map((cell, index) => dollar_headers.includes(cell) ? index : null)
+        .filter(index => index !== null);
+      
+      // Initialize totals array with zeros
+      const totals_row = new Array(tableData[0].length).fill(0);
+      
+      // Sum each column (skip header row at index 0)
+      tableData.slice(1).forEach(row => {
+        row.forEach((cell, colIndex) => {
+          if (dollar_indices.includes(colIndex)) {
+            // Parse dollar amounts
+            totals_row[colIndex] += Number(cell.replace(/[$,]/g, "")) || 0;
+          } else if (colIndex > totalIndex) {
+            if (!isNaN(cell)) {
+              // Sum numeric values
+              totals_row[colIndex] += Number(cell) || 0;
+            }
+            else {
+              totals_row[colIndex] = "";
+            }
+
+          }
+          else {
+            totals_row[colIndex] = "";
+          }
+        });
+      });
+
+      dollar_indices.forEach((item3, i3) => {
+        totals_row[item3] = "$" + totals_row[item3].toFixed(2);
+      });
+
+      totals_row.forEach((item4, i4) => {
+        const cell = document.createElement("td");
+        if (i4 == totalIndex) {
+          cell.textContent = "TOTALS";
+          cell.style.fontWeight = "bold";
+          sumRow.appendChild(cell);
+        }
+        else if (i4 == 0){
+          cell.textContent = (tableData.length - 1).toString() + " Orders";
+          sumRow.appendChild(cell);
+        }
+        else {
+          cell.textContent = item4;
+          cell.style.fontWeight = "bold";
+          sumRow.appendChild(cell);
+        }
+      });
+      
+      tfoot.appendChild(sumRow);
+      table.appendChild(tfoot);
+
+      return totals_row[totalIndex+1];
+    }
+
+    function addNote(tableId, tableData){
+      tableData.forEach((item, i) => {
+        if (i == 0) {return;} //skip first row
+        if (item[3] != "" && item[3] != "Door Hanger Order") { //means we got a note attached to this order
+          const cell = document.getElementById(tableId).rows[i].cells[1];
+          cell.style.position = "relative";
+          cell.innerHTML += "<div class='comment_div'></div>";
+          cell.title = item[3];
+          cell.classList.add("table_cell_note");
+          cell.onclick = () => note_popup(item[3]);
+          cell.style.paddingRight = "10px";
+          //cell.textContent += "Note: " + item[3];
+        }
+      });
     }
 
     function findIndexByText(array, text) {
