@@ -754,7 +754,7 @@
       .cust_info_item input {
         width: 100%;
         background-color: whitesmoke;
-        border: 1px solid gray;
+        border: 1px solid lightgray;
         border-radius: 4px;
       }
 
@@ -4195,7 +4195,7 @@
       downloadLink_webform.style.marginLeft = "10px";
       downloadLink_webform.onclick = (e) => {
         e.preventDefault();
-        downloadCSV(webform_filtered, "webform_orders.csv");
+        downloadCSV(webform_filtered, name + "_webform_orders.csv");
       };
 
       const downloadLink_doorhanger = document.createElement("a");
@@ -4204,7 +4204,7 @@
       downloadLink_doorhanger.style.marginLeft = "10px";
       downloadLink_doorhanger.onclick = (e) => {
         e.preventDefault();
-        downloadCSV(doorhanger_filtered, "doorhanger_orders.csv");
+        downloadCSV(doorhanger_filtered, name + "_doorhanger_orders.csv");
       };
 
       const downloadLink_giftshipper = document.createElement("a");
@@ -4213,7 +4213,7 @@
       downloadLink_giftshipper.style.marginLeft = "10px";
       downloadLink_giftshipper.onclick = (e) => {
         e.preventDefault();
-        downloadCSV(giftshipper_filtered, "giftshipper_orders.csv");
+        downloadCSV(giftshipper_filtered, name + "_giftshipper_orders.csv");
       };
 
       webform_caption.appendChild(downloadLink_webform);
