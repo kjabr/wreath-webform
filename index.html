@@ -3480,6 +3480,8 @@
       var timestamp = new Date();
       var curr_timestamp = timestamp.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
 
+      var today_date = new Date();
+
       var range_of_sheets = "";
       sheet_names_orders.forEach((item, i) => {
         range_of_sheets += "&ranges=" + item + "!" + sheet_ranges;
@@ -3500,7 +3502,8 @@
           localStorage.setItem('cached_orders', JSON.stringify(local_orders));
           localStorage.setItem('doorhanger_orders', JSON.stringify(doorhanger_orders));
           localStorage.setItem('all_data_orders', JSON.stringify(all_data_orders));
-          localStorage.setItem('cached_timestamp', curr_timestamp);
+          //localStorage.setItem('cached_timestamp', curr_timestamp);
+          localStorage.setItem('cached_timestamp', today_date.getTime());
           fetch_gift_shipper(order_data_values[giftshipper_sheet_name]);
 	      });
     }
@@ -3518,6 +3521,10 @@
       var my_orders = document.getElementById("my_orders");
       var name = "";
       var today_date = new Date();
+      var pacificTime = today_date.toLocaleString('en-US', { 
+        timeZone: 'America/Los_Angeles' 
+      });
+
       scoutname == "Other" ? name = other_name : name = scoutname;
 
       if (scoutname == "") {
@@ -3534,7 +3541,9 @@
       }
 
       if (order_source == "cached"){
-        if (localStorage.getItem('cached_orders') && (Date.parse(today_date) - Date.parse(localStorage.getItem('cached_timestamp')) < 600000)) {
+        //if (localStorage.getItem('cached_orders') && (Date.parse(pacificTime) - Date.parse(localStorage.getItem('cached_timestamp')) < 600000)) 
+        if (localStorage.getItem('cached_orders') && (today_date.getTime() - parseInt(localStorage.getItem('cached_timestamp')) < 600000))
+        {
           show_orders();
         }
         else {
@@ -3837,9 +3846,15 @@
       all_data_div1.insertAdjacentHTML('beforeend', order_divs.replace(/dddd/g, order_divs_line));
 
       document.getElementById("tbody_data_table").insertAdjacentHTML('beforeend', table_row);
-      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last refresh from server: " + 
-        localStorage.getItem('cached_timestamp')
-            : null;
+
+      if (localStorage.getItem('cached_timestamp')) {
+        var timestamp = parseInt(localStorage.getItem('cached_timestamp'));
+        var date = new Date(timestamp);
+        var displayTime = date.toLocaleString('en-US', { 
+          timeZone: 'America/Los_Angeles' 
+        });
+        cached_timestamp.innerHTML = "Last refresh from server: " + displayTime;
+      }
 
       //Handle Doorhanger Orders
 
@@ -4371,9 +4386,14 @@
         document.getElementById("doorhanger2_span").style.display = "block";
       }
 
-      localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last refresh from server: " + 
-        localStorage.getItem('cached_timestamp')
-            : null;
+      if (localStorage.getItem('cached_timestamp')) {
+        var timestamp = parseInt(localStorage.getItem('cached_timestamp'));
+        var date = new Date(timestamp);
+        var displayTime = date.toLocaleString('en-US', { 
+          timeZone: 'America/Los_Angeles' 
+        });
+        cached_timestamp.innerHTML = "Last refresh from server: " + displayTime;
+      }
 
       if (document.body.clientWidth < 800) {
         console.log(document.body.clientWidth);
