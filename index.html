@@ -250,7 +250,8 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
         border-collapse: collapse;
-        width: 100%;
+        max-width: 100%;
+        min-width: 70%;
         margin-top: 50px;
       }
 
@@ -315,7 +316,7 @@
         background-color: darkorange;
         color: black;
         font-weight: normal;
-        width: auto;
+        width: 40px;
       }
 
       .webform2 td {
@@ -323,17 +324,20 @@
       }
 
       .webform2 td:nth-child(2){
-        width: 200px;
-        min-width: 140px;
+        min-width: 160px;
+        max-width: 300px;
         text-align: start;
         word-break: break-all;
       }
 
       .webform2 td:nth-child(1){
-        max-width: 60px;
+        width: 100px;
         text-align: start;
       }
 
+      .webform2 td:nth-child(3){
+        width: 60px;
+      }
 
       .webform2 tr:hover {background-color: #ddd;}
       .webform2 td:hover {background-color: orange;}
@@ -706,6 +710,11 @@
       .hidden_row {
         display: none;
       }
+
+      .hidden-column {
+        display: none;
+      }
+
 
       .disabled_arrow {
         color: lightgray;
@@ -1761,9 +1770,15 @@
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
             <p id="all_data_info1" class="all_data_info1"></p>
-            <div id="webform2"></div>
-            <div id="doorhanger2"></div>
-            <div id="giftshipper2"></div>
+            <div id="webform2" style="position: relative;">
+              <p id="webform2_p" style="display: none;">**** No Webform Orders ****</p>
+            </div>
+            <div id="doorhanger2" style="position: relative;">
+              <p id="doorhanger2_p" style="display: none;">**** No Doorhanger Orders ****</p>
+            </div>
+            <div id="giftshipper2" style="position: relative;">
+              <p id="giftshipper2_p" style="display: none;">**** No Giftshipper Orders ****</p>
+            </div>
         </div>
       </div>
 
@@ -1968,7 +1983,6 @@
             observer.observe(document.querySelector("#name_email_div_dummy_span"));
             cache_user("load");
           });
-        
 
         getip().then(ip => {
           document.getElementById("yourip").innerText = "Your IP: " + ip;
@@ -4111,11 +4125,26 @@
       var cached_timestamp = document.getElementById('cached_timestamp');
 
       var webform2 = document.getElementById("webform2");
-      webform2.innerHTML = "";
+      var doorhanger2 = document.getElementById("doorhanger2");
+      var giftshipper2 = document.getElementById("giftshipper2");
 
       var webform_total = "$0";
       var doorhanger_total = "$0";
       var giftshipper_total = 0;
+
+      if (document.querySelector("#webform2_table")){
+        document.getElementById("webform2_table").remove();
+        document.getElementById("webform2_span").remove();
+      }
+
+      if (document.querySelector("#doorhanger2_table")){
+        document.getElementById("doorhanger2_table").remove();
+        document.getElementById("doorhanger2_span").remove();
+      }
+
+      if (document.querySelector("#giftshipper2_table")){
+        document.getElementById("giftshipper2_table").remove();
+      }
 
       const columnIndicesToRemove = [1, 3];
 
@@ -4164,7 +4193,7 @@
       giftshipper_combined[0][2] = "Recipient";
 
       var webform_table = arrayToTable(webform_filtered, true);
-      webform_table.id = "webform_table";
+      webform_table.id = "webform2_table";
       webform_table.classList.add("webform2");
       webform2.appendChild(webform_table);
       addNote(webform_table.id, webform_scoutfocused);
@@ -4172,13 +4201,13 @@
       var doorhanger_table = arrayToTable(doorhanger_filtered, true);
       doorhanger_table.id = "doorhanger2_table";
       doorhanger_table.classList.add("webform2");
-      webform2.appendChild(doorhanger_table);
+      doorhanger2.appendChild(doorhanger_table);
       addNote(doorhanger_table.id, doorhanger_scoutfocused);
 
       var giftshipper_table = arrayToTable(giftshipper_combined, true);
       giftshipper_table.id = "giftshipper2_table";
       giftshipper_table.classList.add("giftshipper_table2");
-      webform2.appendChild(giftshipper_table);
+      giftshipper2.appendChild(giftshipper_table);
 
       const webform_caption = document.createElement("caption");
       webform_caption.innerHTML = "Webform Orders";
@@ -4215,6 +4244,54 @@
         e.preventDefault();
         downloadCSV(giftshipper_filtered, name + "_giftshipper_orders.csv");
       };
+
+      //add column toggle checkbox to the webform table
+      const webform_toggle_span = document.createElement('span');
+      //webform_toggle_span.style.marginRight = "auto";
+      //webform_toggle_span.style.position = "absolute";
+      //webform_toggle_span.style.left = "50%";
+      //webform_toggle_span.style.top = "-15px";
+      webform_toggle_span.style.fontSize = "small";
+      webform_toggle_span.id = "webform2_span";
+      //webform_caption.insertBefore(webform_toggle_span, webform_caption.firstChild);
+
+      webform2.appendChild(webform_toggle_span);
+
+      const column_checkbox2 = document.createElement("input");
+      column_checkbox2.type = "checkbox";
+      column_checkbox2.id = "webform2_checkbox";
+      column_checkbox2.style.marginRight = "auto";
+      column_checkbox2.onchange = function() {table_column_toggle(this);};
+      const column_checkbox_label2 = document.createElement("label");
+      column_checkbox_label2.htmlFor = "webform2_checkbox";
+      column_checkbox_label2.textContent = "hide zero columns?";
+
+      webform_toggle_span.insertBefore(column_checkbox2, webform_toggle_span.firstChild);
+      webform_toggle_span.insertBefore(column_checkbox_label2, webform_toggle_span.firstChild);
+
+      //add column toggle checkbox to the doorhanger table
+      const doorhanger_toggle_span = document.createElement('span');
+      //doorhanger_toggle_span.style.marginRight = "auto";
+      //doorhanger_toggle_span.style.position = "absolute";
+      //doorhanger_toggle_span.style.left = "50%";
+      //doorhanger_toggle_span.style.top = "-15px";
+      doorhanger_toggle_span.style.fontSize = "small";
+      doorhanger_toggle_span.id = "doorhanger2_span";
+      //doorhanger_caption.insertBefore(doorhanger_toggle_span, doorhanger_caption.firstChild);
+
+      doorhanger2.appendChild(doorhanger_toggle_span);
+
+      const column_checkbox = document.createElement("input");
+      column_checkbox.type = "checkbox";
+      column_checkbox.id = "doorhanger2_checkbox";
+      column_checkbox.style.marginRight = "auto";
+      column_checkbox.onchange = function() {table_column_toggle(this);};
+      const column_checkbox_label = document.createElement("label");
+      column_checkbox_label.htmlFor = "doorhanger_checkbox";
+      column_checkbox_label.textContent = "hide zero columns?";
+
+      doorhanger_toggle_span.insertBefore(column_checkbox, doorhanger_toggle_span.firstChild);
+      doorhanger_toggle_span.insertBefore(column_checkbox_label, doorhanger_toggle_span.firstChild);
 
       webform_caption.appendChild(downloadLink_webform);
       doorhanger_caption.appendChild(downloadLink_doorhanger);
@@ -4254,28 +4331,48 @@
 
       //if a table has a totals of $0 then replace with some text that it's empty
       if (giftshipper_total == "$0.00"){
-        let paragraph = document.createElement("p"); 
-        paragraph.textContent = "**** No Giftshipper orders";
-        giftshipper_table.replaceWith(paragraph);
+        document.getElementById("giftshipper2_p").style.display = "block";
+        giftshipper_table.style.display = "none";
+      }
+      else if (giftshipper_total !== "$0.00"){
+        document.getElementById("giftshipper2_p").style.display = "none";
+        giftshipper_table.style.display = "block";
       }
 
       if (webform_total == "$0.00"){
-        let paragraph = document.createElement("p"); 
-        paragraph.textContent = "**** No Webform orders";
-        webform_table.replaceWith(paragraph);
+        document.getElementById("webform2_p").style.display = "block";
+        webform_table.style.display = "none";
+        document.getElementById("webform2_span").style.display = "none";
+      }
+      else if (webform_total !== "$0.00"){
+        document.getElementById("webform2_p").style.display = "none";
+        webform_table.style.display = "block";
+        document.getElementById("webform2_span").style.display = "block";
       }
 
       if (doorhanger_total == "$0.00"){
-        let paragraph = document.createElement("p"); 
-        paragraph.textContent = "**** No Doorhanger orders";
-        doorhanger_table.replaceWith(paragraph);
+        document.getElementById("doorhanger2_p").style.display = "block";
+        doorhanger_table.style.display = "none";
+        document.getElementById("doorhanger2_span").style.display = "none";
+      }
+      else if (doorhanger_total !== "$0.00"){
+        document.getElementById("doorhanger2_p").style.display = "none";
+        doorhanger_table.style.display = "block";
+        document.getElementById("doorhanger2_span").style.display = "block";
       }
 
       localStorage.getItem('cached_timestamp') ? cached_timestamp.innerHTML = "Last refresh from server: " + 
         localStorage.getItem('cached_timestamp')
             : null;
 
+      if (document.body.clientWidth < 800) {
+        console.log(document.body.clientWidth);
+        document.getElementById("webform2_checkbox").click();
+        document.getElementById("webform2_checkbox").checked = true;
 
+        document.getElementById("doorhanger2_checkbox").click();
+        document.getElementById("doorhanger2_checkbox").checked = true;
+      }
     }
 
     function arrayToCSV(array) {
@@ -4418,7 +4515,27 @@
       tfoot.appendChild(sumRow);
       table.appendChild(tfoot);
 
+      //table_column_toggle(table, totals_row);
+
       return totals_row[totalIndex+1];
+    }
+
+    function table_column_toggle(toggleId){
+      var table = document.getElementById(toggleId.id.split("_")[0] + "_table");
+      var tfoot = table.getElementsByTagName("tfoot")[0];
+      var cells = tfoot.getElementsByTagName("td");
+
+      var totalsArray = [];
+
+      totalsArray = Object.entries(cells).map(([key, value]) => value.textContent);
+
+      totalsArray.forEach((item, n) => {
+        if (item.toString() == "0" || item.toString() == "$0.00") {
+          for (let i = 0; i < table.rows.length; i++) {
+            table.rows[i].cells[n].classList.toggle('hidden-column');
+          }
+        }
+      });
     }
 
     function addNote(tableId, tableData){
