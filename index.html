@@ -3542,7 +3542,7 @@
 
       if (order_source == "cached"){
         //if (localStorage.getItem('cached_orders') && (Date.parse(pacificTime) - Date.parse(localStorage.getItem('cached_timestamp')) < 600000)) 
-        if (localStorage.getItem('cached_orders') && (today_date.getTime() - parseInt(localStorage.getItem('cached_timestamp')) < 600000))
+        if (localStorage.getItem('cached_orders') && (today_date.getTime() - parseInt(localStorage.getItem('cached_timestamp')) < 1800000))
         {
           show_orders();
         }
