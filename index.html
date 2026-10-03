@@ -4199,8 +4199,8 @@
       const giftshipper_emptyheaders = gift_shipper_orders[0].map((header, index) => header === "" || header === null || header === undefined ? index : -1)
         .filter(index => index !== -1);
 
-
-      const giftshipper_indices_to_remove = [...new Set([...[1], ...giftshipper_emptyheaders])];
+      //removing the part number and scoutname columns
+      const giftshipper_indices_to_remove = [...new Set([...[1,12], ...giftshipper_emptyheaders])];
       const giftshipper_filtered = gift_shipper_orders.filter(row => row[1] == name || row[1] == "Scout/Org").map(row =>
         row.filter((cell, index) => !giftshipper_indices_to_remove.includes(index))
       );
@@ -4336,7 +4336,8 @@
       giftshipper_combined.forEach((item, i) => {
         if (i == 0) {return;} //ignore first row
         //giftshipper_total += Number(item[6].split('$')[1]).toFixed(2);
-        giftshipper_total += Number(item[6].replace(/[$,]/g, "")) || 0
+        //item[5] is the cost column
+        giftshipper_total += Number(item[5].replace(/[$,]/g, "")) || 0
 
       });
 
