@@ -4373,34 +4373,34 @@
 
       //if a table has a totals of $0 then replace with some text that it's empty
       if (giftshipper_total == "$0.00"){
-        document.getElementById("giftshipper2_p").style.display = "block";
+        document.getElementById("giftshipper2_p").style.display = "";
         giftshipper_table.style.display = "none";
       }
       else if (giftshipper_total !== "$0.00"){
         document.getElementById("giftshipper2_p").style.display = "none";
-        giftshipper_table.style.display = "block";
+        giftshipper_table.style.display = "";
       }
 
       if (webform_total == "$0.00"){
-        document.getElementById("webform2_p").style.display = "block";
+        document.getElementById("webform2_p").style.display = "";
         webform_table.style.display = "none";
         document.getElementById("webform2_span").style.display = "none";
       }
       else if (webform_total !== "$0.00"){
         document.getElementById("webform2_p").style.display = "none";
-        webform_table.style.display = "block";
-        document.getElementById("webform2_span").style.display = "block";
+        webform_table.style.display = "";
+        document.getElementById("webform2_span").style.display = "";
       }
 
       if (doorhanger_total == "$0.00"){
-        document.getElementById("doorhanger2_p").style.display = "block";
+        document.getElementById("doorhanger2_p").style.display = "";
         doorhanger_table.style.display = "none";
         document.getElementById("doorhanger2_span").style.display = "none";
       }
       else if (doorhanger_total !== "$0.00"){
         document.getElementById("doorhanger2_p").style.display = "none";
-        doorhanger_table.style.display = "block";
-        document.getElementById("doorhanger2_span").style.display = "block";
+        doorhanger_table.style.display = "";
+        document.getElementById("doorhanger2_span").style.display = "";
       }
 
       if (localStorage.getItem('cached_timestamp')) {
