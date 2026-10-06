@@ -1785,13 +1785,13 @@
             <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
             <p id="all_data_info1" class="all_data_info1"></p>
-            <div id="webform2" style="position: relative; overflow-x: scroll;">
+            <div id="webform2" style="position: relative; overflow-x: scroll; scrollbar-color: gray transparent;">
               <p id="webform2_p" style="display: none;">**** No Webform Orders ****</p>
             </div>
-            <div id="doorhanger2" style="position: relative; overflow-x: scroll;">
+            <div id="doorhanger2" style="position: relative; overflow-x: scroll; scrollbar-color: gray transparent;">
               <p id="doorhanger2_p" style="display: none;">**** No Doorhanger Orders ****</p>
             </div>
-            <div id="giftshipper2" style="position: relative; overflow-x: scroll;">
+            <div id="giftshipper2" style="position: relative; overflow-x: scroll; scrollbar-color: gray transparent;">
               <p id="giftshipper2_p" style="display: none;">**** No Giftshipper Orders ****</p>
             </div>
         </div>
@@ -4327,6 +4327,10 @@
       doorhanger_caption.appendChild(downloadLink_doorhanger);
       giftshipper_caption.appendChild(downloadLink_giftshipper);
 
+      webform_caption.id = "webform2_table_caption";
+      doorhanger_caption.id = "doorhanger2_table_caption";
+      giftshipper_caption.id = "giftshipper2_table_caption";
+
       webform_table.insertBefore(webform_caption, webform_table.firstChild);
       doorhanger_table.insertBefore(doorhanger_caption, doorhanger_table.firstChild);
       giftshipper_table.insertBefore(giftshipper_caption, giftshipper_table.firstChild);
@@ -4492,6 +4496,7 @@
 
     function addSumRow(table, tableData, totalIndex = 0){
       const tfoot = document.createElement("tfoot");
+      tfoot.id = table.id+"_tfoot";
       const sumRow = document.createElement("tr");
       const dollar_headers = ["Total", "Donation", "Cost"];
       const table_total = "$0";
