@@ -295,8 +295,16 @@
         font-weight: normal;
         position: sticky;
         top: 51px;
+      }
+
+      #webform2_table th {
         z-index: 2000;
       }
+
+      #doorhanger2_table th {
+        z-index: 1900;
+      }
+
 
       .giftshipper_table2 th{
         padding-top: 5px;
@@ -306,7 +314,7 @@
         font-weight: normal;
         position: sticky;
         top: 51px;
-        z-index: 2000;
+        z-index: 1800;
       }
 
       .giftshipper_table2 tr:hover {background-color: #ddd;}
@@ -1566,14 +1574,28 @@
           display: none;
         }
 
+        #webform2_table th{
+          z-index: 500;
+        }
+
+        #doorhanger2_table th{
+          z-index: 500;
+        }
+
+        .giftshipper_table2 th{
+          z-index: 500;
+        }
+
         #webform2 {
           overflow-x: auto;
-          z-index: 500;
+        }
+
+        #doorhanger2 {
+          overflow-x: auto;
         }
 
         #giftshipper2 {
           overflow-x: auto;
-          z-index: 500;
         }
 
         .webform2 td:nth-child(2){
