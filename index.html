@@ -1249,7 +1249,6 @@
 
       .multi-table-div {
         width: 100%;
-        overflow-x: scroll;
       }
 
       .multi-table a {
@@ -1287,8 +1286,7 @@
         border: 1px solid #ddd;
       }
 
-      .multi-table tr:first-child th,
-      .multi-table tr:first-child td {
+      .multi-table tr:first-child th {
         writing-mode: vertical-rl;
         text-orientation: mixed;
         white-space: normal;
@@ -1298,9 +1296,13 @@
         background-color: darkorange;
         line-height: 20px;
         text-align: center;
+        position: sticky;
+        top: 51px;
+        z-index: 1000;
+        font-weight: 400;
       }
 
-      .multi-table tr td:first-child
+      .multi-table tr th:first-child, .multi-table tr td:first-child
       {
         background-color: transparent;
         border: none;
@@ -1310,7 +1312,7 @@
         text-align: right;
       }
       
-      .multi-table tr td:last-child {
+      .multi-table tr th:last-child, .multi-table tr td:last-child  {
         background-color: lightblue;
         width: 2em;
       }
@@ -1568,6 +1570,10 @@
 
         .multi-table td {
           padding: 1px;
+        }
+
+        .multi-table-div {
+          overflow-x: auto;
         }
 
         .cust_payment_span {
@@ -1881,7 +1887,7 @@
 
     var form_data;
     var announcement, title, scoutname, description, email_instructions, info_panel, multi_cust_inst, gas_link, id, 
-      url_params, url_name, url_email, tracking_sheet, webform_toggle;
+      url_params, url_name, url_email, tracking_sheet, webform_toggle, version_date;
     var local_catalog = [];
     var wreath_items = [];
 
@@ -2237,7 +2243,7 @@
 
     function multi_table_create(wreath_items){
         //console.log((wreath_items.map(item => item[0])).unshift("apple"));
-        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[0])), "Total"]);
+        addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[0])), "Total"], 'header');
         //addRowToTable('#multi-table', ["", ...(wreath_items.map(item => item[1])), ""]);
         addRowToTable('#multi-table', ["price/item >>>", ...(wreath_items.map(item => { 
           const price = item[1];
@@ -2258,18 +2264,26 @@
 
     }
 
-    function addRowToTable(tableSelector, rowData) {
+    function addRowToTable(tableSelector, rowData, selector) {
       const table = document.querySelector(tableSelector);
       const tbody = table.querySelector('tbody') || table;
-      const newRow = tbody.insertRow();
-  
+      const thead = table.querySelector('thead') || table;
+      const newRow = selector == "header" ? thead.insertRow() : tbody.insertRow();
+
       rowData.forEach(cellContent => {
-        const cell = newRow.insertCell();
+        let cell;
+        if (selector == "header") {
+          cell = document.createElement('th');
+          newRow.appendChild(cell);
+        } else {
+          cell = newRow.insertCell();
+        }
         cell.textContent = cellContent;
       });
-  
+
       return newRow;
     }
+
 
     function createNumberSelector(initialValue = 0) {
       const select = document.createElement('select');
@@ -2610,6 +2624,7 @@
       order['table'] = emailBody;
       order['multi_table_csv'] = multi_csv();
       order['userAgent'] = navigator.userAgent;
+      order['version_date'] = version_date;
 
       document.getElementById("loader").style.display = "block";
       document.getElementById("multi_entry_buttons").style.visibility="hidden";
@@ -2784,6 +2799,7 @@
                         'width: 32px; ' +
                         'background-color: darkorange; ' +
                         'line-height: 20px; ' +
+                        'font-weight: 400; ' +
                         'padding: 5px; ';
         }
 
@@ -2977,6 +2993,7 @@
       my_orders_panel = setup_data[0][8] || "";
       gas_link = setup_data[0][9] || "";
       tracking_sheet = setup_data[0][10] || "";
+      version_date = setup_data[0][11] || "NA";
 
       if (webform_toggle == "no" && url_param_off == "no"){
         webform_toggle = "yes";
@@ -3429,6 +3446,7 @@
         order["ip_addr"] = ip_addr;
         order["order_mode"] = "single";
         order['userAgent'] = navigator.userAgent;
+        order['version_date'] = version_date;
 
         document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
