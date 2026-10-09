@@ -298,11 +298,11 @@
       }
 
       #webform2_table th {
-        z-index: 2000;
+        z-index: 900;
       }
 
       #doorhanger2_table th {
-        z-index: 1900;
+        z-index: 800;
       }
 
 
@@ -314,7 +314,7 @@
         font-weight: normal;
         position: sticky;
         top: 51px;
-        z-index: 1800;
+        z-index: 700;
       }
 
       .giftshipper_table2 tr:hover {background-color: #ddd;}
@@ -774,7 +774,7 @@
         background: #ADD8E6;
         border-radius: 5px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        display: flex;
+        position: relative;
         flex-direction: column;
         gap: 3px
       }
@@ -801,6 +801,27 @@
 
       .cust_info_item button {
         color: black;
+      }
+
+      .freeform_toggle {
+        display: flex;
+        position: absolute;
+        right: 0;
+        top: -20px;
+        font-size: x-small;
+      }
+
+      .freeform_div textarea{
+        width: 98%;
+        height: 100px;
+        background-color: whitesmoke;
+        border-radius: 8px;
+        border: 1px solid gray;
+        resize: none;
+      }
+
+      .freeform_div {
+        display: none;
       }
 
 
@@ -1708,9 +1729,15 @@
         <div id="single_entry_content">
           <p id="single_entry_info" class="tab_info"></p>
           <div class="section_titles">
-            <span>Customer contact info:</span>
+            <span>Customer info:</span>
           </div>
           <div class="cust_info">
+            <div class="freeform_toggle" id="freeform_toggle_div">
+              <label for="freeform_toggle">freeform?</label>
+              <input id="freeform_toggle" name="freeform_toggle" type="checkbox" onchange="freeform_toggle(this)">
+            </div>
+            <div id="freeform_div" class="freeform_div"><textarea id="freeform_data" name="freeform_data" placeholder="required"></textarea></div>
+
             <div class="cust_info_item">
               <label for="cust_name">Name: </label>
               <input id="cust_name" type="text" name="cust_name" placeholder="required">
@@ -1926,6 +1953,8 @@
     var wide_tbl_msg = false;
     var scrollObserver = null;
 
+    var freeform = false;
+
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -2049,6 +2078,13 @@
             observer.observe(document.querySelector("#name_email_div_dummy_span"));
             cache_user("load");
           });
+
+        document.getElementById("freeform_toggle").checked = false;
+        document.getElementById("freeform_data").value = "";
+
+        if (!freeform) {
+          document.getElementById("freeform_toggle_div").style.display = "none";
+        }
 
         getip().then(ip => {
           document.getElementById("yourip").innerText = "Your IP: " + ip;
@@ -3324,6 +3360,8 @@
       var cust_check =  document.getElementById("cust_check").checked;
       var cust_venmo =  document.getElementById("cust_venmo").checked;
       var cust_unpaid =  document.getElementById("cust_unpaid").checked;
+      var freeform_toggle = document.getElementById("freeform_toggle").checked;
+      var freeform_data = document.getElementById("freeform_data").value;
       var cust_payment = "";
 
       var timestamp = new Date();
@@ -3352,30 +3390,41 @@
         }
       }
 
-      if (cust_email !="") {
+      if (cust_email !="" && !freeform_toggle) {
         var emailsArray2 = cust_email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi);
         if (emailsArray2 == null || emailsArray2.length == 0) {
           error_msg += "Customer email address is not valid. Please fix before submitting! <br>";
         }
       }
 
-      cust_name == "" ? error_msg += "The customer name cannot be blank!<br>" : null;
+      if (freeform_toggle & freeform_data == ""){
+        error_msg += "Freeform customer info cannot be empty!<br>";
+      }
+
+      cust_name == "" && !freeform_toggle ? error_msg += "The customer name cannot be blank!<br>" : null;
+
       error_msg == "" && order_total == 0 ? error_msg = "The total cannot be zero!" : null;
 
       error_msg != "" ? (popup_elem.innerHTML = error_msg, toggle_modal()) : null;
 
       if (error_msg == "") {
-        var cust_contact1 = cust_name;
-        var cust_contact2 = "";
-        cust_addr == "" ? cust_contact2 += "": cust_contact2 += " - Address: " + cust_addr;
-        cust_contact1 += cust_contact2;
-        cust_email == "" ? null : cust_contact1 += ". Email: " + cust_email;
-        cust_phone == "" ? null : cust_contact1 += ". Phone: " + cust_phone;
-        cust_cash ? cust_payment += " Cash" : null;
-        cust_check ? cust_payment += " Check" : null;
-        cust_venmo ? cust_payment += " Venmo" : null;
-        cust_unpaid ? cust_payment += " Unpaid" : null;
-        cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact1 += ". Payment:" + cust_payment : cust_contact1;
+        if (!freeform_toggle){
+          var cust_contact1 = cust_name;
+          var cust_contact2 = "";
+          cust_addr == "" ? cust_contact2 += "": cust_contact2 += " - Address: " + cust_addr;
+          cust_contact1 += cust_contact2;
+          cust_email == "" ? null : cust_contact1 += ". Email: " + cust_email;
+          cust_phone == "" ? null : cust_contact1 += ". Phone: " + cust_phone;
+          cust_cash ? cust_payment += " Cash" : null;
+          cust_check ? cust_payment += " Check" : null;
+          cust_venmo ? cust_payment += " Venmo" : null;
+          cust_unpaid ? cust_payment += " Unpaid" : null;
+          cust_cash || cust_check || cust_venmo || cust_unpaid ? cust_contact1 += ". Payment:" + cust_payment : cust_contact1;
+        }
+        else {
+          cust_contact1 = sanitizeTextarea(freeform_data);
+        }
+       
 
         var log_order = [];
 
@@ -3498,7 +3547,7 @@
         input.value = "";
       });
 
-
+      document.getElementById("freeform_data").value = "";
 
     }
 
@@ -5013,6 +5062,32 @@
         }
       }
     }
+
+    function freeform_toggle(elem){
+      if (elem.checked){
+        document.querySelectorAll(".cust_info_item").forEach(el => {
+          el.style.display = "none";
+        });
+
+        document.querySelector(".cust_payment").style.display = "none";
+        document.getElementById("freeform_div").style.display = "block";
+      }
+      else {
+        document.querySelectorAll(".cust_info_item").forEach(el => {
+          el.style.display = "";
+        });
+        document.querySelector(".cust_payment").style.display = "";
+        document.getElementById("freeform_div").style.display = "none";
+      }
+    }
+
+    function sanitizeTextarea(text) {
+      return text
+        .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+        .trim();
+    }
+
+
 
     async function dnsLookup(hostname){
       const url = new URL('https://1.1.1.1/dns-query');
