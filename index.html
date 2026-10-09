@@ -1952,7 +1952,7 @@
     var wide_tbl_msg = false;
     var scrollObserver = null;
 
-    var freeform = false;
+    var freeform = true;
 
     var plus_circle = `
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -4583,7 +4583,7 @@
           const tr = document.createElement('tr');
           row.forEach(cell => {
             const td = document.createElement('td');
-            td.textContent = cell || "0";
+            td.innerHTML = cell || "0";
               if (td.textContent == "0") {
                 td.style.color = "lightgray";
               }
@@ -4699,18 +4699,25 @@
     function addNote(tableId, tableData){
       tableData.forEach((item, i) => {
         if (i == 0) {return;} //skip first row
-        if (item[3] != "" && item[3] != "Door Hanger Order") { //means we got a note attached to this order
+        if (item[3] != "" && item[3] != "Door Hanger Order") {
           const cell = document.getElementById(tableId).rows[i].cells[1];
           cell.style.position = "relative";
           cell.innerHTML += "<div class='comment_div'></div>";
           cell.title = item[3];
           cell.classList.add("table_cell_note");
-          cell.onclick = () => note_popup(item[3]);
           cell.style.paddingRight = "10px";
-          //cell.textContent += "Note: " + item[3];
+          
+          // Use addEventListener instead of onclick
+          cell.addEventListener('click', (event) => {
+            // Only trigger note_popup if the click target is NOT a link
+            if (event.target.tagName !== 'A') {
+              note_popup(item[3]);
+            }
+          });
         }
       });
     }
+
 
     function findIndexByText(array, text) {
       return array.findIndex(element => element.toLowerCase() === text.toLowerCase());
