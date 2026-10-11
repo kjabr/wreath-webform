@@ -3496,6 +3496,7 @@
         order["order_mode"] = "single";
         order['userAgent'] = navigator.userAgent;
         order['version_date'] = version_date;
+        order['freeform'] = freeform_toggle ? "freeform" : "not freeform";
 
         document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
