@@ -1404,6 +1404,22 @@
         }
       }
 
+      @media (max-width: 800px) {
+
+        #webform2 {
+          overflow-x: auto;
+        }
+
+        #doorhanger2 {
+          overflow-x: auto;
+        }
+
+        #giftshipper2 {
+          overflow-x: auto;
+        }
+
+      }
+
       @media (max-width: 700px)  {
 
         body {
@@ -1611,18 +1627,6 @@
 
         .giftshipper_table2 th{
           z-index: 500;
-        }
-
-        #webform2 {
-          overflow-x: auto;
-        }
-
-        #doorhanger2 {
-          overflow-x: auto;
-        }
-
-        #giftshipper2 {
-          overflow-x: auto;
         }
 
         .webform2 td:nth-child(2){
@@ -4525,12 +4529,30 @@
       }
 
       if (document.body.clientWidth < 800) {
-        console.log(document.body.clientWidth);
+        //console.log(document.body.clientWidth);
         document.getElementById("webform2_checkbox").click();
         document.getElementById("webform2_checkbox").checked = true;
 
         document.getElementById("doorhanger2_checkbox").click();
         document.getElementById("doorhanger2_checkbox").checked = true;
+      }
+
+      stickylogic("webform2", "webform2_table");
+      stickylogic("doorhanger2", "doorhanger2_table");
+      stickylogic("giftshipper2", "giftshipper2_table");
+    }
+
+    function stickylogic (divSelector, tableSelector){
+      const document_client_width = document.body.clientWidth;
+      const tableDiv = document.getElementById(divSelector);
+      const table = document.querySelector(`#${tableSelector}`);
+      const rows = table.querySelectorAll('tbody tr').length;
+
+      if (rows < 11) {
+        tableDiv.style.overflowX = "auto";
+      }
+      else {
+        document_client_width < 800 ? tableDiv.style.overflowX = "auto" : tableDiv.style.overflowX = "";
       }
     }
 
