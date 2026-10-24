@@ -2665,6 +2665,7 @@
       order['multi_table_csv'] = multi_csv();
       order['userAgent'] = navigator.userAgent;
       order['version_date'] = version_date;
+      order['viewport'] = `${window.innerWidth}x${window.innerHeight}`;
 
       document.getElementById("loader").style.display = "block";
       document.getElementById("multi_entry_buttons").style.visibility="hidden";
@@ -3501,6 +3502,7 @@
         order['userAgent'] = navigator.userAgent;
         order['version_date'] = version_date;
         order['freeform'] = freeform_toggle ? "freeform" : "not freeform";
+        order['viewport'] = `${window.innerWidth}x${window.innerHeight}`;
 
         document.getElementById("single_entry_buttons").style.visibility="hidden";
         document.getElementById("loader").style.display = "block";
