@@ -23,6 +23,29 @@
         font-size: small;
       }
 
+      .info_sidepanel {
+        display: none;
+        margin-left: 10px;
+        margin-top: 10px;
+        border: 1px dashed lightgray;
+        padding: 10px;
+        max-width: 20%;
+        color: darkgray;
+        max-height: 100vh;
+        overflow-y: auto;
+      }
+
+      .tab_panels {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        max-width: 100%;
+      }
+
+      .left_panel {
+        width: 100%;
+      }
+
       input[type=text] {
         border-radius: 3px;
         border-style: dotted;
@@ -1381,16 +1404,17 @@
         }
       }
 
-      @media (min-width: 1440px){
-        .container{
-          max-width: 1440px;
-          margin: unset;
+      @media (min-width: 1550px){
+        .info_sidepanel {
+          display: unset;
         }
-      }
 
-      @media (min-width: 1080px) {
-        .tab{
-          width: 96%;
+        .tab {
+          width: unset;
+        }
+
+        #info_section_btn {
+          display: none;
         }
       }
 
@@ -1726,176 +1750,180 @@
           <button id="enter_order_button" class="tablinks" onclick="openTab(event, 'single_entry_section')">Single Order</button>
           <button id="multi_order_button" class="tablinks multi_order_btn" onclick="openTab(event, 'multi_order_section')">Multi Order</button>
           <button class="tablinks" onclick="openTab(event, 'my_orders_section')">My Orders</button>
-          <button class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
+          <button id="info_section_btn" class="tablinks" onclick="openTab(event, 'info_section')">Info</button>
         </div>
         <div id="tab_scoutname" class="tab_scoutname">
         </div>
 
       </div>
 
-      <div id="single_entry_section" class="tabcontent">
-        <div id="single_entry_content">
-          <p id="single_entry_info" class="tab_info"></p>
-          <div class="section_titles">
-            <span>Customer info:</span>
-          </div>
-          <div class="cust_info">
-            <div class="freeform_toggle" id="freeform_toggle_div">
-              <label for="freeform_toggle">freeform?</label>
-              <input id="freeform_toggle" name="freeform_toggle" type="checkbox" onchange="freeform_toggle(this)">
-            </div>
-            <div id="freeform_div" class="freeform_div"><textarea id="freeform_data" name="freeform_data" placeholder="required"></textarea></div>
-
-            <div class="cust_info_item">
-              <label for="cust_name">Name: </label>
-              <input id="cust_name" type="text" name="cust_name" placeholder="required">
-            </div>
-
-            <div class="cust_info_item">
-              <label for="cust_addr">Address: </label>
-              <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
-              <button type="button" id="geo_loc" class="btn4" onclick="geo_loc()" name="geo_loc">GPS</button>
-            </div>
-
-            <div class="cust_info_item">
-              <label for="cust_phone">Phone if known: </label>
-              <input id="cust_phone" type="tel" name="cust_phone" style="width: 10em;" onInput="this.value = phoneFormat(this.value)" placeholder="optional">
-            </div>
-
-            <div class="cust_info_item">
-              <label for="cust_email">Email for a receipt: </label>
-              <input id="cust_email" type="text" name="cust_email" placeholder="optional" autocomplete="off">
-            </div>
-
-            <div class="cust_info_item">
-              <label for="cust_note">Add a note? </label>
-              <input id="cust_note" type="text" name="cust_note" placeholder="optional" autocomplete="off">
-              <!-- 
-              <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
-              -->
-            </div>
-            <div class="cust_payment">
-              <span class="cust_payment_span">Payment:  </span>
-              <div class="cust_payment_item">
-                <label for="cust_cash">Cash</label>
-                <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
+      <div class="tab_panels">
+        <div class="left_panel">      
+          <div id="single_entry_section" class="tabcontent">
+            <div id="single_entry_content">
+              <p id="single_entry_info" class="tab_info"></p>
+              <div class="section_titles">
+                <span>Customer info:</span>
               </div>
-              <div class="cust_payment_item">
-                <label for="cust_check">Check</label>
-                <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
-              </div>
-              <div class="cust_payment_item">
-                <label for="cust_venmo">Venmo</label>
-                <span class="clickable_span" onclick="show_venmo_info()">[i]</span>
-                <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
-              </div>
-              <div class="cust_payment_item">
-                <label for="cust_unpaid">Unpaid</label>
-                <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
-              </div>
-            </div>
+              <div class="cust_info">
+                <div class="freeform_toggle" id="freeform_toggle_div">
+                  <label for="freeform_toggle">freeform?</label>
+                  <input id="freeform_toggle" name="freeform_toggle" type="checkbox" onchange="freeform_toggle(this)">
+                </div>
+                <div id="freeform_div" class="freeform_div"><textarea id="freeform_data" name="freeform_data" placeholder="required"></textarea></div>
 
-          </div>
+                <div class="cust_info_item">
+                  <label for="cust_name">Name: </label>
+                  <input id="cust_name" type="text" name="cust_name" placeholder="required">
+                </div>
 
-          <div class="single_entry">
-              <span class="header1">Enter customer order:</span>
-            <div class="single_entry">
-              <div id="wreath_section" class="wreath_section"></div>
-            </div>
-            <div class="single_entry_bottom">
-              <div id="single_entry_buttons" class="single_entry_buttons">
-                <button type="button" id="clear_all" class="btn2" onclick="clear_data()" name="clear_data">Clear All</button>
-                <button type="button" id="save_all" class="btn1" onclick="save_data()" name="Submit_data">Submit</button>
+                <div class="cust_info_item">
+                  <label for="cust_addr">Address: </label>
+                  <input id="cust_addr" type="text" name="cust_addr" placeholder="optional">
+                  <button type="button" id="geo_loc" class="btn4" onclick="geo_loc()" name="geo_loc">GPS</button>
+                </div>
+
+                <div class="cust_info_item">
+                  <label for="cust_phone">Phone if known: </label>
+                  <input id="cust_phone" type="tel" name="cust_phone" style="width: 10em;" onInput="this.value = phoneFormat(this.value)" placeholder="optional">
+                </div>
+
+                <div class="cust_info_item">
+                  <label for="cust_email">Email for a receipt: </label>
+                  <input id="cust_email" type="text" name="cust_email" placeholder="optional" autocomplete="off">
+                </div>
+
+                <div class="cust_info_item">
+                  <label for="cust_note">Add a note? </label>
+                  <input id="cust_note" type="text" name="cust_note" placeholder="optional" autocomplete="off">
+                  <!-- 
+                  <button type="button" id="paid" class="btn4" onclick="paid_button()" name="paid">Paid?</button>
+                  -->
+                </div>
+                <div class="cust_payment">
+                  <span class="cust_payment_span">Payment:  </span>
+                  <div class="cust_payment_item">
+                    <label for="cust_cash">Cash</label>
+                    <input type="checkbox" id="cust_cash" name="cust_cash" value="cust_cash" onchange="toggle_checkbox(this)">
+                  </div>
+                  <div class="cust_payment_item">
+                    <label for="cust_check">Check</label>
+                    <input type="checkbox" id="cust_check" name="cust_check" value="cust_check" onchange="toggle_checkbox(this)">
+                  </div>
+                  <div class="cust_payment_item">
+                    <label for="cust_venmo">Venmo</label>
+                    <span class="clickable_span" onclick="show_venmo_info()">[i]</span>
+                    <input type="checkbox" id="cust_venmo" name="cust_venmo" value="cust_venmo" onchange="toggle_checkbox(this)">
+                  </div>
+                  <div class="cust_payment_item">
+                    <label for="cust_unpaid">Unpaid</label>
+                    <input type="checkbox" id="cust_unpaid" name="cust_unpaid" value="cust_unpaid" onchange="toggle_checkbox(this)">
+                  </div>
+                </div>
+
               </div>
-              <div class="avoidwrap">
-                <strong>Total: </strong> <span id="single_entry_total">$0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="single_entry_section_off" class="" style="display: none;">
-          <div id="single_entry_off" class="single_entry_off">
-            <div id="popup2" class="popup2">
-              <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
-              <div id="popup_content2" class="popup_content"> 
-                <center>Order Entry is Off</center>
+
+              <div class="single_entry">
+                  <span class="header1">Enter customer order:</span>
+                <div class="single_entry">
+                  <div id="wreath_section" class="wreath_section"></div>
+                </div>
+                <div class="single_entry_bottom">
+                  <div id="single_entry_buttons" class="single_entry_buttons">
+                    <button type="button" id="clear_all" class="btn2" onclick="clear_data()" name="clear_data">Clear All</button>
+                    <button type="button" id="save_all" class="btn1" onclick="save_data()" name="Submit_data">Submit</button>
+                  </div>
+                  <div class="avoidwrap">
+                    <strong>Total: </strong> <span id="single_entry_total">$0</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div id="popup_overlay2" class="popup_overlay2"></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="multi_order_section" class="tabcontent">
-        <div id="multi_entry_content">
-          <p id="multi_order_info"></p>
-          <div class="multi-table-div" id="multi-table-div" onscroll="multi_table_scroll()">
-          <table id="multi-table" class="multi-table">
-            <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
-            <tbody id="multi-table-tbody">
-            </tbody>
-          </table>
-          <div id="right-arrow" class="right-arrow"></div>
-          </div>
-          <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
-
-            <div class="multi_entry_bottom">
-              <div id="multi_entry_buttons" class="multi_entry_buttons">
-                <button type="button" id="multi_clear_all" class="btn2" onclick="multi_clear_data()" name="multi_clear_data">Clear All</button>
-                <button type="button" id="multi_save_all" class="btn1" onclick="multi_submit_data()" name="multi_submit_data">Submit</button>
-              </div>
-              <div class="avoidwrap">
-                <strong>Grand Total: </strong> <span id="multi_entry_total">$0</span>
-              </div>
-            </div>
-        </div>
-            <div id="multi_entry_section_off" class="" style="display: none;">
-              <div id="multi_entry_off" class="single_entry_off">
-                <div id="popup3" class="popup2">
+            <div id="single_entry_section_off" class="" style="display: none;">
+              <div id="single_entry_off" class="single_entry_off">
+                <div id="popup2" class="popup2">
                   <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
-                  <div id="popup_content3" class="popup_content"> 
+                  <div id="popup_content2" class="popup_content"> 
                     <center>Order Entry is Off</center>
                   </div>
                 </div>
-                <div id="popup_overlay3" class="popup_overlay2"></div>
+                <div id="popup_overlay2" class="popup_overlay2"></div>
               </div>
             </div>
-        </div>
-
-      <div id="my_orders_section" class="tabcontent">
-        <p id="my_orders_info" class="tab_info"></p>
-        <div id="my_orders">
-          <p id="totals"></p>
-          <div class="render_orders_row">
-            <span id="cached_timestamp"></span>
-            <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
           </div>
-            <p id="all_data_info1" class="all_data_info1"></p>
-            <div id="webform2" style="position: relative;">
-              <p id="webform2_p" style="display: none;">**** No Webform Orders ****</p>
+
+          <div id="multi_order_section" class="tabcontent">
+            <div id="multi_entry_content">
+              <p id="multi_order_info"></p>
+              <div class="multi-table-div" id="multi-table-div" onscroll="multi_table_scroll()">
+              <table id="multi-table" class="multi-table">
+                <caption id="multi_table_caption"><h3>Webform Orders - <a id="multi_table_csv" onclick="multi_csv();">[CSV]</a></h3></caption>
+                <tbody id="multi-table-tbody">
+                </tbody>
+              </table>
+              <div id="right-arrow" class="right-arrow"></div>
+              </div>
+              <div id="multi_plus_icon" class="multi_plus_icon" title="Add a row"></div>
+
+                <div class="multi_entry_bottom">
+                  <div id="multi_entry_buttons" class="multi_entry_buttons">
+                    <button type="button" id="multi_clear_all" class="btn2" onclick="multi_clear_data()" name="multi_clear_data">Clear All</button>
+                    <button type="button" id="multi_save_all" class="btn1" onclick="multi_submit_data()" name="multi_submit_data">Submit</button>
+                  </div>
+                  <div class="avoidwrap">
+                    <strong>Grand Total: </strong> <span id="multi_entry_total">$0</span>
+                  </div>
+                </div>
             </div>
-            <div id="doorhanger2" style="position: relative;">
-              <p id="doorhanger2_p" style="display: none;">**** No Doorhanger Orders ****</p>
+                <div id="multi_entry_section_off" class="" style="display: none;">
+                  <div id="multi_entry_off" class="single_entry_off">
+                    <div id="popup3" class="popup2">
+                      <!--<button class="popup_button" onclick="toggle_modal()">Close</button>-->
+                      <div id="popup_content3" class="popup_content"> 
+                        <center>Order Entry is Off</center>
+                      </div>
+                    </div>
+                    <div id="popup_overlay3" class="popup_overlay2"></div>
+                  </div>
+                </div>
             </div>
-            <div id="giftshipper2" style="position: relative;">
-              <p id="giftshipper2_p" style="display: none;">**** No Giftshipper Orders ****</p>
+
+          <div id="my_orders_section" class="tabcontent">
+            <p id="my_orders_info" class="tab_info"></p>
+            <div id="my_orders">
+              <p id="totals"></p>
+              <div class="render_orders_row">
+                <span id="cached_timestamp"></span>
+                <button type="button" id="show_all" class="btn3" onclick="render_orders('server')" name="clear_data">Refresh</button>
+              </div>
+                <p id="all_data_info1" class="all_data_info1"></p>
+                <div id="webform2" style="position: relative;">
+                  <p id="webform2_p" style="display: none;">**** No Webform Orders ****</p>
+                </div>
+                <div id="doorhanger2" style="position: relative;">
+                  <p id="doorhanger2_p" style="display: none;">**** No Doorhanger Orders ****</p>
+                </div>
+                <div id="giftshipper2" style="position: relative;">
+                  <p id="giftshipper2_p" style="display: none;">**** No Giftshipper Orders ****</p>
+                </div>
             </div>
+          </div>
+
+          <div id="info_section" class="tabcontent">
+            <p id="info_info" class="tab_info"></p>
+          </div>
+
+          <div id="popup" class="popup" style="display: none;">
+            <button class="popup_button" onclick="toggle_modal()">Close</button>
+            <div id="popup_content" class="popup_content">
+            </div>
+          </div>
+          <div id="popup_overlay" class="popup_overlay" style="display: none;" onclick="toggle_modal()"></div>
+          <div class="loader" id="loader"></div>
+          <div class="multi_btn_div_msg" id="multi_btn_div_msg">You want landscape mode!</div>
         </div>
+        <div id="info_sidepanel" class="info_sidepanel"></div>
       </div>
-
-      <div id="info_section" class="tabcontent">
-        <p id="info_info" class="tab_info"></p>
-      </div>
-
-      <div id="popup" class="popup" style="display: none;">
-        <button class="popup_button" onclick="toggle_modal()">Close</button>
-        <div id="popup_content" class="popup_content">
-        </div>
-      </div>
-      <div id="popup_overlay" class="popup_overlay" style="display: none;" onclick="toggle_modal()"></div>
-      <div class="loader" id="loader"></div>
-      <div class="multi_btn_div_msg" id="multi_btn_div_msg">You want landscape mode!</div>
-
     </div>
 
   </body>
@@ -2304,7 +2332,9 @@
 
         document.getElementById("multi_plus_icon").innerHTML = plus_circle;
         document.getElementById("multi_plus_icon").onclick = function() {addRowWithSelectors('#multi-table', Array(wreath_items.length-1).fill(0)); 
-          window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });};
+          //window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+          //window.scrollBy(0,100);
+        };
 
     }
 
@@ -3079,6 +3109,7 @@
       //document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
       document.getElementById('my_orders_info').innerHTML = my_orders_panel;
       document.getElementById('info_info').innerHTML = info_panel;
+      document.getElementById('info_sidepanel').innerHTML = info_panel;
       document.getElementById('email_address').setAttribute('title', email_instructions);
       //document.getElementById('multi_order_info').innerHTML = multi_cust_inst;
       document.getElementById('multi_order_info').innerHTML = description;
